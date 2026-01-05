@@ -1,9 +1,8 @@
-/* THEME */
 .pokedex-theme {
     --text: #EAF0FF;
     color: var(--text);
     position: relative;
-    padding: 8px 0 7rem; /* espacio para la ventana flotante */
+    padding: 8px 0 7rem; 
 }
 
 .pokedex-shell {

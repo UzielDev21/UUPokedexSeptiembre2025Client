@@ -2,7 +2,25 @@
       th:replace="~{layout :: layout('Login', 'login', false, ~{::section})}">
     <section class="login-page">
 
-        
+        <!--
+          ---------------------------------
+
+          - El form hace POST a un endpoint del backend que autentica y crea JWT.
+          - Recomendado: el backend guarda JWT en cookie HttpOnly y redirige (302) a /pokemons.
+          - Si hay error, redirige a /login?error
+          - Si logout, redirige a /login?logout
+    
+          Endpoints esperados (ejemplo):
+          - POST /auth/login        (procesa credenciales)
+          - POST /auth/logout       (borra cookie JWT)
+          - GET  /login?error       (muestra error)
+          - GET  /login?logout      (muestra logout ok)
+    
+          Campos esperados:
+          - username
+          - password
+        -->
+
         <div class="d-lg-none">
             <div class="login-wrap">
                 <div class="pokedex-card">
@@ -18,7 +36,27 @@
 
                     <!-- Mensaje arriba -->
                     <div class="status-area" id="statusAreaMobile">
-                        <div class="status status-info">
+
+                        <!-- error login (depende de backend: /login?error) -->
+                        <div class="status status-danger" th:if="${param.error}">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <div>
+                                <div class="status-title">Credenciales inválidas</div>
+                                <div class="status-msg">Verifica tu usuario y contraseña.</div>
+                            </div>
+                        </div>
+
+                        <!-- logout ok (depende de backend: /login?logout) -->
+                        <div class="status status-success" th:if="${param.logout}">
+                            <i class="bi bi-check-circle"></i>
+                            <div>
+                                <div class="status-title">Sesión cerrada</div>
+                                <div class="status-msg">Has salido correctamente.</div>
+                            </div>
+                        </div>
+
+                        <!-- default -->
+                        <div class="status status-info" th:if="${param.error == null and param.logout == null}">
                             <i class="bi bi-info-circle"></i>
                             <div>
                                 <div class="status-title">Listo para iniciar</div>
@@ -33,18 +71,27 @@
                             <div class="dots"><span></span><span></span><span></span></div>
                         </div>
 
-                        <form action="#" method="post" onsubmit="return false;" class="needs-validation" novalidate>
+                        <!-- ✅ POST al backend JWT -->
+                        <form th:action="@{/auth/login}" method="post" class="needs-validation" novalidate>
+                            
+                            <input type="hidden" th:if="${_csrf != null}"
+                                   th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
                             <div class="field">
                                 <label for="user_m">Usuario</label>
-                                <input id="user_m" name="user" class="form-control form-control-lg" placeholder="ASH_K" autocomplete="username" required>
+                                <input id="user_m" name="username" class="form-control form-control-lg"
+                                       placeholder="ASH_K" autocomplete="username" required>
                                 <div class="invalid-feedback">Escribe tu usuario.</div>
                             </div>
 
                             <div class="field">
                                 <label for="pass_m">Contraseña</label>
                                 <div class="input-group input-group-lg">
-                                    <input id="pass_m" name="pass" type="password" class="form-control" placeholder="••••••••" autocomplete="current-password" required>
-                                    <button class="btn btn-outline-dark btn-icon" type="button" aria-label="Mostrar u ocultar contraseña">
+                                    <input id="pass_m" name="password" type="password" class="form-control"
+                                           placeholder="••••••••" autocomplete="current-password" required>
+
+                                    <button class="btn btn-outline-dark btn-icon" type="button"
+                                            aria-label="Mostrar u ocultar contraseña" disabled>
                                         <i class="bi bi-eye"></i>
                                     </button>
                                     <div class="invalid-feedback">Escribe tu contraseña.</div>
@@ -53,10 +100,11 @@
 
                             <button type="submit" class="btn btn-lg w-100 btn-login">INICIAR SESIÓN</button>
 
-                            <!-- Invitado debajo, sólido -->
+                            <!-- Invitado -->
                             <a th:href="@{/pokemons}" class="btn btn-lg w-100 btn-guest">ENTRAR COMO INVITADO</a>
 
                             <div class="links">
+                                <!-- pendiente servicios de crear y recuperar contraseña -->
                                 <a href="#">Olvidé mi contraseña</a>
                                 <a href="#">Crear cuenta</a>
                             </div>
@@ -67,8 +115,6 @@
             </div>
         </div>
 
-
-        
         <div class="d-none d-lg-block">
             <div class="container" style="max-width: 1100px;">
                 <div class="pokedex border border-white/10 rounded-4 overflow-hidden mx-auto shadow-2xl">
@@ -94,10 +140,13 @@
                                     </div>
                                 </div>
 
-                                <form action="#" method="post" onsubmit="return false;" class="needs-validation" novalidate>
+                                <form th:action="@{/auth/login}" method="post" class="needs-validation" novalidate>
+                                    <input type="hidden" th:if="${_csrf != null}"
+                                           th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
                                     <div class="mb-3">
                                         <label for="user_d" class="form-label text-black/80 mb-1">Usuario</label>
-                                        <input id="user_d" name="user" class="form-control form-control-lg rounded-3"
+                                        <input id="user_d" name="username" class="form-control form-control-lg rounded-3"
                                                placeholder="ASH" autocomplete="username" required>
                                         <div class="invalid-feedback">Escribe tu usuario.</div>
                                     </div>
@@ -105,16 +154,20 @@
                                     <div class="mb-3">
                                         <label for="pass_d" class="form-label text-black/80 mb-1">Contraseña</label>
                                         <div class="input-group input-group-lg">
-                                            <input id="pass_d" name="pass" type="password" class="form-control rounded-start-3"
+                                            <input id="pass_d" name="password" type="password"
+                                                   class="form-control rounded-start-3"
                                                    placeholder="••••••••" autocomplete="current-password" required>
-                                            <button class="btn btn-outline-dark rounded-end-3 btn-icon" type="button" aria-label="Mostrar u ocultar contraseña">
+                                            <button class="btn btn-outline-dark rounded-end-3 btn-icon" type="button"
+                                                    aria-label="Mostrar u ocultar contraseña" disabled>
                                                 <i class="bi bi-eye"></i>
                                             </button>
                                             <div class="invalid-feedback">Escribe tu contraseña.</div>
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-lg w-100 rounded-3 fw-semibold btn-login">INICIAR SESIÓN</button>
+                                    <button type="submit" class="btn btn-lg w-100 rounded-3 fw-semibold btn-login">
+                                        INICIAR SESIÓN
+                                    </button>
 
                                     <div class="d-flex justify-content-between mt-3 small">
                                         <a href="#" class="link-dark link-underline-opacity-0 link-underline-opacity-75-hover">Olvidé mi contraseña</a>
@@ -153,7 +206,24 @@
                                 </div>
 
                                 <div class="mt-3" id="statusAreaDesktop">
-                                    <div class="alert alert-info border-0 rounded-3 mb-0 d-flex gap-2 align-items-start">
+                                    <!-- Mensahe de error de logout -->
+                                    <div class="alert alert-danger border-0 rounded-3 mb-2 d-flex gap-2 align-items-start" th:if="${param.error}">
+                                        <i class="bi bi-exclamation-triangle mt-1"></i>
+                                        <div>
+                                            <div class="fw-semibold">Credenciales inválidas</div>
+                                            <div class="small">Verifica usuario y contraseña.</div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-success border-0 rounded-3 mb-2 d-flex gap-2 align-items-start" th:if="${param.logout}">
+                                        <i class="bi bi-check-circle mt-1"></i>
+                                        <div>
+                                            <div class="fw-semibold">Sesión cerrada</div>
+                                            <div class="small">Has salido correctamente.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="alert alert-info border-0 rounded-3 mb-0 d-flex gap-2 align-items-start"
+                                         th:if="${param.error == null and param.logout == null}">
                                         <i class="bi bi-info-circle mt-1"></i>
                                         <div>
                                             <div class="fw-semibold">Listo para iniciar</div>
@@ -164,6 +234,7 @@
                             </div>
 
                             <div class="d-grid gap-2">
+                                <!--Entra como invitado, consume el servicio get de Pokedex-->
                                 <a th:href="@{/pokemons}" class="btn btn-lg rounded-3 fw-semibold border-0 text-white btn-guest">
                                     ENTRAR COMO INVITADO
                                 </a>

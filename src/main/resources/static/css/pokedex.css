@@ -1,9 +1,157 @@
-/* THEME */
-.pokedex-theme {
+/* =========================================================
+   THEME TOKENS
+   Día  = Equipo Bueno (Ash & Pikachu)
+   Noche= Team Rocket (Jessie, James & Meowth)
+   ========================================================= */
+
+/* DÍA (por defecto) */
+:root{
+    /* Equipo Bueno */
+    --good-red:    #FF0000;
+    --good-blue:   #0050AC;
+    --good-yellow: #F6D02F;
+    --good-green:  #4DAD5B;
+    --good-white:  #FFFFFF;
+
+    /* Texto / UI */
+    --text: #0b1220;
+    --text-soft: rgba(11, 18, 32, .65);
+
+    --border-soft: rgba(11, 18, 32, .12);
+    --border-softer: rgba(11, 18, 32, .08);
+
+    /* Fondo general (DÍA) */
+    --page-bg:
+        radial-gradient(1200px 420px at 18% -10%, rgba(255, 0, 0, .18), transparent 60%),
+        radial-gradient(1000px 360px at 92% 0%, rgba(0, 80, 172, .18), transparent 55%),
+        radial-gradient(900px 320px at 60% 120%, rgba(77, 173, 91, .18), transparent 55%),
+        linear-gradient(180deg, rgba(246, 208, 47, .22), rgba(255, 255, 255, .95));
+
+    /* Glass / panel (DÍA) */
+    --glass-bg:
+        radial-gradient(1200px 380px at 20% -10%, rgba(255, 0, 0, .16), transparent 60%),
+        radial-gradient(900px 300px at 95% 0%, rgba(0, 80, 172, .14), transparent 55%),
+        radial-gradient(900px 280px at 60% 120%, rgba(77, 173, 91, .14), transparent 55%),
+        linear-gradient(180deg, rgba(255, 255, 255, .65), rgba(255, 255, 255, .30));
+
+    --glass-before:
+        radial-gradient(900px 280px at 15% 15%, rgba(246, 208, 47, .18), transparent 60%),
+        radial-gradient(700px 220px at 90% 30%, rgba(0, 80, 172, .12), transparent 55%);
+
+    --shadow-main: 0 18px 55px rgba(11, 18, 32, .18);
+
+    /* Panel/card */
+    --panel-bg: rgba(255, 255, 255, .58);
+    --panel-head-bg: linear-gradient(180deg, rgba(255, 255, 255, .75), rgba(255, 255, 255, .35));
+
+    /* Botones */
+    --btn-bg: rgba(255, 255, 255, .60);
+    --btn-text: rgba(11, 18, 32, .92);
+    --btn-border: rgba(11, 18, 32, .14);
+    --btn-hover-border: rgba(11, 18, 32, .22);
+    --btn-primary-bg: linear-gradient(180deg, rgba(255, 0, 0, .92), rgba(0, 80, 172, .72));
+    --btn-primary-border: rgba(255, 0, 0, .28);
+    --btn-outline-bg: rgba(255, 255, 255, .40);
+
+    /* Chips */
+    --chip-bg: rgba(255, 255, 255, .50);
+    --chip-border: rgba(11, 18, 32, .14);
+    --chip-active-bg: linear-gradient(180deg, rgba(246, 208, 47, .42), rgba(246, 208, 47, .18));
+    --chip-active-border: rgba(246, 208, 47, .45);
+
+    /* Cards Pokémon */
+    --poke-card-bg:
+        radial-gradient(240px 120px at 20% 15%, rgba(0, 80, 172, .14), transparent 60%),
+        radial-gradient(240px 120px at 85% 15%, rgba(255, 0, 0, .12), transparent 60%),
+        linear-gradient(180deg, rgba(255, 255, 255, .70), rgba(255, 255, 255, .34));
+    --poke-card-border: rgba(11, 18, 32, .12);
+    --poke-card-shadow: 0 16px 46px rgba(11, 18, 32, .18);
+
+    /* Modal */
+    --modal-bg:
+        radial-gradient(700px 260px at 15% 0%, rgba(255, 0, 0, .18), transparent 60%),
+        radial-gradient(700px 260px at 90% 10%, rgba(0, 80, 172, .14), transparent 60%),
+        rgba(255, 255, 255, .86);
+}
+
+/* NOCHE (Team Rocket) */
+html.dark{
+    /* Team Rocket */
+    --rocket-bone:   #F2F2F2;
+    --rocket-black:  #222222;
+    --rocket-ruby:   #D9162D;
+    --rocket-magenta:#B91D47;
+    --rocket-lav:    #6376B8;
+    --rocket-cream:  #F5F0C6;
+
     --text: #EAF0FF;
+    --text-soft: rgba(234, 240, 255, .70);
+
+    --border-soft: rgba(255, 255, 255, .10);
+    --border-softer: rgba(255, 255, 255, .08);
+
+    --page-bg:
+        radial-gradient(1200px 420px at 18% -10%, rgba(217, 22, 45, .18), transparent 60%),
+        radial-gradient(1000px 360px at 92% 0%, rgba(185, 29, 71, .16), transparent 55%),
+        radial-gradient(900px 320px at 60% 120%, rgba(99, 118, 184, .14), transparent 55%),
+        linear-gradient(180deg, rgba(34, 34, 34, .92), rgba(34, 34, 34, .78));
+
+    --glass-bg:
+        radial-gradient(1200px 380px at 20% -10%, rgba(217, 22, 45, .15), transparent 60%),
+        radial-gradient(900px 300px at 95% 0%, rgba(185, 29, 71, .14), transparent 55%),
+        radial-gradient(900px 280px at 60% 120%, rgba(99, 118, 184, .12), transparent 55%),
+        linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+
+    --glass-before:
+        radial-gradient(900px 280px at 15% 15%, rgba(245, 240, 198, .10), transparent 60%),
+        radial-gradient(700px 220px at 90% 30%, rgba(99, 118, 184, .12), transparent 55%);
+
+    --shadow-main: 0 18px 55px rgba(0, 0, 0, .55);
+
+    --panel-bg: rgba(0, 0, 0, .18);
+    --panel-head-bg: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03));
+
+    --btn-bg: rgba(255, 255, 255, .06);
+    --btn-text: rgba(234, 240, 255, .92);
+    --btn-border: rgba(255, 255, 255, .14);
+    --btn-hover-border: rgba(255, 255, 255, .20);
+    --btn-primary-bg: linear-gradient(180deg, rgba(217, 22, 45, .92), rgba(185, 29, 71, .75));
+    --btn-primary-border: rgba(217, 22, 45, .35);
+    --btn-outline-bg: rgba(0, 0, 0, .20);
+
+    --chip-bg: rgba(255, 255, 255, .06);
+    --chip-border: rgba(255, 255, 255, .14);
+    --chip-active-bg: linear-gradient(180deg, rgba(245, 240, 198, .18), rgba(245, 240, 198, .08));
+    --chip-active-border: rgba(245, 240, 198, .22);
+
+    --poke-card-bg:
+        radial-gradient(240px 120px at 20% 15%, rgba(99, 118, 184, .12), transparent 60%),
+        radial-gradient(240px 120px at 85% 15%, rgba(185, 29, 71, .12), transparent 60%),
+        linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+    --poke-card-border: rgba(255, 255, 255, .10);
+    --poke-card-shadow: 0 16px 46px rgba(0, 0, 0, .45);
+
+    --modal-bg:
+        radial-gradient(700px 260px at 15% 0%, rgba(217, 22, 45, .16), transparent 60%),
+        radial-gradient(700px 260px at 90% 10%, rgba(185, 29, 71, .14), transparent 60%),
+        rgba(0, 0, 0, .55);
+}
+
+/* =========================================================
+   GLOBAL WRAPPER (por si quieres fondo global desde layout)
+   ========================================================= */
+.app-theme{
+    background: var(--page-bg);
+}
+
+/* =========================================================
+   TU CSS (misma estructura, pero usando variables del tema)
+   ========================================================= */
+
+.pokedex-theme {
     color: var(--text);
     position: relative;
-    padding: 8px 0 7rem; /* espacio para la ventana flotante */
+    padding: 8px 0 7rem;
 }
 
 .pokedex-shell {
@@ -12,14 +160,10 @@
 
 .rocket-glass {
     border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, .10);
-    background:
-        radial-gradient(1200px 380px at 20% -10%, rgba(229, 57, 53, .15), transparent 60%),
-        radial-gradient(900px 300px at 95% 0%, rgba(216, 27, 96, .14), transparent 55%),
-        radial-gradient(900px 280px at 60% 120%, rgba(30, 136, 229, .12), transparent 55%),
-        linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+    border: 1px solid var(--border-soft);
+    background: var(--glass-bg);
     backdrop-filter: blur(16px);
-    box-shadow: 0 18px 55px rgba(0, 0, 0, .55);
+    box-shadow: var(--shadow-main);
     padding: 18px;
     position: relative;
     overflow: hidden;
@@ -29,9 +173,7 @@
     content: "";
     position: absolute;
     inset: -1px;
-    background:
-        radial-gradient(900px 280px at 15% 15%, rgba(253, 216, 53, .10), transparent 60%),
-        radial-gradient(700px 220px at 90% 30%, rgba(106, 27, 154, .12), transparent 55%);
+    background: var(--glass-before);
     opacity: .85;
     pointer-events: none;
 }
@@ -47,72 +189,99 @@
     border-radius: 999px;
     background:
         radial-gradient(circle at 35% 35%, rgba(255, 255, 255, .35), transparent 55%),
-        linear-gradient(180deg, rgba(229, 57, 53, .95), rgba(229, 57, 53, .55));
-    border: 1px solid rgba(255, 255, 255, .18);
-    box-shadow: 0 10px 24px rgba(229, 57, 53, .25);
+        linear-gradient(180deg, rgba(255, 0, 0, .95), rgba(255, 0, 0, .55));
+    border: 1px solid var(--border-soft);
+    box-shadow: 0 10px 24px rgba(255, 0, 0, .18);
+}
+html.dark .brand-mark{
+    background:
+        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, .35), transparent 55%),
+        linear-gradient(180deg, rgba(217, 22, 45, .95), rgba(217, 22, 45, .55));
+    box-shadow: 0 10px 24px rgba(217, 22, 45, .25);
 }
 
 .title-glow {
-    text-shadow: 0 0 24px rgba(253, 216, 53, .22);
+    text-shadow: 0 0 24px rgba(246, 208, 47, .22);
+}
+html.dark .title-glow {
+    text-shadow: 0 0 24px rgba(245, 240, 198, .14);
 }
 .text-muted-soft {
-    color: rgba(234, 240, 255, .70);
+    color: var(--text-soft);
 }
 
 /* BADGES */
 .badge-ash {
-    background: rgba(30, 136, 229, .18);
-    border: 1px solid rgba(30, 136, 229, .32);
-    color: rgba(234, 240, 255, .92);
+    background: rgba(0, 80, 172, .12);
+    border: 1px solid rgba(0, 80, 172, .24);
+    color: rgba(11, 18, 32, .92);
     font-weight: 900;
     letter-spacing: .08em;
 }
-.badge-rocket {
-    background: rgba(216, 27, 96, .18);
-    border: 1px solid rgba(216, 27, 96, .34);
+html.dark .badge-ash{
+    background: rgba(99, 118, 184, .16);
+    border: 1px solid rgba(99, 118, 184, .28);
     color: rgba(234, 240, 255, .92);
+}
+
+.badge-rocket {
+    background: rgba(185, 29, 71, .14);
+    border: 1px solid rgba(185, 29, 71, .26);
+    color: rgba(11, 18, 32, .92);
     font-weight: 900;
     letter-spacing: .08em;
+}
+html.dark .badge-rocket{
+    background: rgba(185, 29, 71, .18);
+    border: 1px solid rgba(185, 29, 71, .34);
+    color: rgba(234, 240, 255, .92);
 }
 
 /* PANELS */
 .panel-card {
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, .10);
-    background: rgba(0, 0, 0, .18);
-    box-shadow: 0 14px 40px rgba(0, 0, 0, .40);
+    border: 1px solid var(--border-soft);
+    background: var(--panel-bg);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, .18);
     overflow: hidden;
+}
+html.dark .panel-card{
+    box-shadow: 0 14px 40px rgba(0, 0, 0, .40);
 }
 .panel-head {
     padding: 12px 14px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03));
-    border-bottom: 1px solid rgba(255, 255, 255, .08);
+    background: var(--panel-head-bg);
+    border-bottom: 1px solid var(--border-softer);
 }
 .panel-body {
     padding: 14px;
 }
 .hr-neo {
-    border-color: rgba(255, 255, 255, .10);
+    border-color: var(--border-softer);
     opacity: 1;
 }
 
 /* BUTTONS */
 .btn-neo {
-    border: 1px solid rgba(255, 255, 255, .14);
+    border: 1px solid var(--btn-border);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .18);
+    color: var(--btn-text);
+    background: var(--btn-bg);
+}
+html.dark .btn-neo{
     box-shadow: 0 10px 28px rgba(0, 0, 0, .30);
-    color: rgba(234, 240, 255, .92);
-    background: rgba(255, 255, 255, .06);
 }
 .btn-neo:hover {
-    color: rgba(234, 240, 255, .98);
-    border-color: rgba(255, 255, 255, .20);
+    color: var(--btn-text);
+    border-color: var(--btn-hover-border);
 }
 .btn-neo-primary {
-    background: linear-gradient(180deg, rgba(229, 57, 53, .92), rgba(216, 27, 96, .75));
-    border-color: rgba(229, 57, 53, .35);
+    background: var(--btn-primary-bg);
+    border-color: var(--btn-primary-border);
+    color: rgba(255,255,255,.95);
 }
 .btn-neo-outline {
-    background: rgba(0, 0, 0, .20);
+    background: var(--btn-outline-bg);
 }
 
 /* INPUTS */
@@ -120,21 +289,39 @@
     border-radius: 12px 0 0 12px;
 }
 .input-neo-addon {
+    background: rgba(255, 255, 255, .55);
+    border: 1px solid var(--border-soft);
+    color: rgba(11, 18, 32, .72);
+}
+html.dark .input-neo-addon{
     background: rgba(255, 255, 255, .06);
     border: 1px solid rgba(255, 255, 255, .12);
     color: rgba(234, 240, 255, .78);
 }
 .input-neo {
     border-radius: 0 12px 12px 0;
-    border: 1px solid rgba(255, 255, 255, .12);
+    border: 1px solid var(--border-soft);
+    background: rgba(255, 255, 255, .55);
+    color: rgba(11, 18, 32, .92);
+}
+html.dark .input-neo{
     background: rgba(0, 0, 0, .20);
+    border: 1px solid rgba(255, 255, 255, .12);
     color: rgba(234, 240, 255, .92);
 }
 .input-neo::placeholder {
+    color: rgba(11, 18, 32, .55);
+}
+html.dark .input-neo::placeholder{
     color: rgba(234, 240, 255, .55);
 }
 .select-neo {
     border-radius: 12px;
+    border: 1px solid var(--border-soft);
+    background: rgba(255, 255, 255, .55);
+    color: rgba(11, 18, 32, .92);
+}
+html.dark .select-neo{
     border: 1px solid rgba(255, 255, 255, .12);
     background: rgba(0, 0, 0, .20);
     color: rgba(234, 240, 255, .92);
@@ -142,9 +329,9 @@
 
 /* CHIPS */
 .chip-neo {
-    border: 1px solid rgba(255, 255, 255, .14);
-    background: rgba(255, 255, 255, .06);
-    color: rgba(234, 240, 255, .92);
+    border: 1px solid var(--chip-border);
+    background: var(--chip-bg);
+    color: var(--btn-text);
     border-radius: 999px;
     padding: 8px 12px;
     font-weight: 900;
@@ -153,8 +340,8 @@
     cursor: pointer;
 }
 .chip-neo-active {
-    background: linear-gradient(180deg, rgba(253, 216, 53, .30), rgba(253, 216, 53, .10));
-    border-color: rgba(253, 216, 53, .35);
+    background: var(--chip-active-bg);
+    border-color: var(--chip-active-border);
 }
 /* ring simple para pills del footer */
 .ring-active {
@@ -163,11 +350,14 @@
 
 /* EMPTY */
 .empty-state {
-    border: 1px dashed rgba(255, 255, 255, .18);
+    border: 1px dashed var(--border-soft);
     border-radius: 18px;
-    background: rgba(255, 255, 255, .04);
+    background: rgba(255, 255, 255, .30);
     padding: 26px;
     text-align: center;
+}
+html.dark .empty-state{
+    background: rgba(255, 255, 255, .04);
 }
 .empty-icon {
     width: 54px;
@@ -176,21 +366,22 @@
     margin: 0 auto 10px;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(255, 255, 255, .14);
+    border: 1px solid var(--border-soft);
+    background: rgba(0, 0, 0, .06);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, .12);
+    font-size: 22px;
+}
+html.dark .empty-icon{
     background: rgba(0, 0, 0, .25);
     box-shadow: 0 14px 40px rgba(0, 0, 0, .35);
-    font-size: 22px;
 }
 
 /* POKEMON CARDS */
 .poke-card {
     border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, .10);
-    background:
-        radial-gradient(240px 120px at 20% 15%, rgba(30, 136, 229, .10), transparent 60%),
-        radial-gradient(240px 120px at 85% 15%, rgba(216, 27, 96, .10), transparent 60%),
-        linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
-    box-shadow: 0 16px 46px rgba(0, 0, 0, .45);
+    border: 1px solid var(--poke-card-border);
+    background: var(--poke-card-bg);
+    box-shadow: var(--poke-card-shadow);
     overflow: hidden;
     position: relative;
     min-height: 240px;
@@ -202,7 +393,7 @@
     font-size: 12px;
     font-weight: 900;
     letter-spacing: .12em;
-    color: rgba(234, 240, 255, .72);
+    color: var(--text-soft);
 }
 .poke-name {
     font-size: 18px;
@@ -222,8 +413,13 @@
     font-size: 12px;
     font-weight: 900;
     letter-spacing: .02em;
-    border: 1px solid rgba(255, 255, 255, .12);
+    border: 1px solid var(--border-soft);
+    background: rgba(255, 255, 255, .45);
+    color: rgba(11, 18, 32, .92);
+}
+html.dark .type{
     background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .12);
     color: rgba(234, 240, 255, .92);
 }
 
@@ -313,10 +509,14 @@
     width: 92px;
     height: 92px;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, .12);
-    background: rgba(0, 0, 0, .18);
+    border: 1px solid var(--border-soft);
+    background: rgba(0, 0, 0, .06);
     display: grid;
     place-items: center;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, .12);
+}
+html.dark .poke-sprite-wrap{
+    background: rgba(0, 0, 0, .18);
     box-shadow: 0 16px 36px rgba(0, 0, 0, .35);
 }
 
@@ -324,6 +524,9 @@
     width: 78px;
     height: 78px;
     image-rendering: pixelated;
+    filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .22));
+}
+html.dark .poke-sprite{
     filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .35));
 }
 
@@ -335,15 +538,19 @@
 }
 
 .stat {
-    border: 1px solid rgba(255, 255, 255, .10);
+    border: 1px solid var(--border-soft);
     border-radius: 14px;
     padding: 10px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: rgba(255, 255, 255, .30);
+}
+html.dark .stat{
+    background: rgba(0, 0, 0, .12);
 }
 .stat span {
-    color: rgba(234, 240, 255, .70);
+    color: var(--text-soft);
     font-size: 12px;
     font-weight: 800;
 }
@@ -361,29 +568,42 @@
 
 /* LIST VIEW */
 .list-row {
-    border: 1px solid rgba(255, 255, 255, .10);
+    border: 1px solid var(--border-soft);
     border-radius: 16px;
-    background: rgba(0, 0, 0, .18);
+    background: rgba(255, 255, 255, .35);
     padding: 12px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, .12);
+}
+html.dark .list-row{
+    background: rgba(0, 0, 0, .18);
     box-shadow: 0 14px 40px rgba(0, 0, 0, .30);
 }
 .list-sprite {
     width: 56px;
     height: 56px;
     border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, .12);
-    background: rgba(0, 0, 0, .20);
+    border: 1px solid var(--border-soft);
+    background: rgba(0, 0, 0, .06);
     display: grid;
     place-items: center;
 }
+html.dark .list-sprite{
+    background: rgba(0, 0, 0, .20);
+    border: 1px solid rgba(255, 255, 255, .12);
+}
 .mini-stat {
-    border: 1px solid rgba(255, 255, 255, .10);
+    border: 1px solid var(--border-soft);
     border-radius: 999px;
     padding: 6px 10px;
-    background: rgba(255, 255, 255, .04);
-    color: rgba(234, 240, 255, .86);
+    background: rgba(255, 255, 255, .28);
+    color: rgba(11, 18, 32, .86);
     font-size: 12px;
     font-weight: 800;
+}
+html.dark .mini-stat{
+    background: rgba(255, 255, 255, .04);
+    color: rgba(234, 240, 255, .86);
+    border: 1px solid rgba(255, 255, 255, .10);
 }
 .mini-stat b {
     font-weight: 900;
@@ -392,52 +612,70 @@
 
 /* PAGINATION */
 .pagination-neo .page-link {
-    border: 1px solid rgba(255, 255, 255, .12);
-    background: rgba(255, 255, 255, .06);
-    color: rgba(234, 240, 255, .90);
+    border: 1px solid var(--border-soft);
+    background: rgba(255, 255, 255, .55);
+    color: rgba(11, 18, 32, .92);
     border-radius: 12px;
     margin: 0 4px;
 }
+html.dark .pagination-neo .page-link{
+    background: rgba(255, 255, 255, .06);
+    color: rgba(234, 240, 255, .90);
+    border: 1px solid rgba(255, 255, 255, .12);
+}
 .pagination-neo .page-item.active .page-link {
-    background: linear-gradient(180deg, rgba(229, 57, 53, .92), rgba(216, 27, 96, .75));
-    border-color: rgba(229, 57, 53, .35);
+    background: var(--btn-primary-bg);
+    border-color: var(--btn-primary-border);
+    color: rgba(255,255,255,.95);
 }
 
 /* MODAL */
 .modal-neo {
     border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, .10);
-    background:
-        radial-gradient(700px 260px at 15% 0%, rgba(229, 57, 53, .16), transparent 60%),
-        radial-gradient(700px 260px at 90% 10%, rgba(216, 27, 96, .14), transparent 60%),
-        rgba(0, 0, 0, .55);
+    border: 1px solid var(--border-soft);
+    background: var(--modal-bg);
     backdrop-filter: blur(14px);
+    color: var(--text);
+    box-shadow: var(--shadow-main);
+}
+html.dark .modal-neo{
     color: rgba(234, 240, 255, .92);
-    box-shadow: 0 18px 55px rgba(0, 0, 0, .65);
 }
 .mini-ball {
     width: 28px;
     height: 28px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,.18);
-    background:
-        linear-gradient(180deg, rgba(229,57,53,.85), rgba(229,57,53,.35));
-    box-shadow: 0 10px 24px rgba(229,57,53,.20);
+    border: 1px solid var(--border-soft);
+    background: linear-gradient(180deg, rgba(255,0,0,.85), rgba(255,0,0,.35));
+    box-shadow: 0 10px 24px rgba(255,0,0,.14);
     display: inline-block;
+}
+html.dark .mini-ball{
+    border: 1px solid rgba(255,255,255,.18);
+    background: linear-gradient(180deg, rgba(217,22,45,.85), rgba(217,22,45,.35));
+    box-shadow: 0 10px 24px rgba(217,22,45,.20);
 }
 .detail-card {
     border-radius: 16px;
-    border: 1px solid rgba(255,255,255,.10);
-    background: rgba(255,255,255,.06);
+    border: 1px solid var(--border-soft);
+    background: rgba(255,255,255,.45);
     padding: 14px;
+}
+html.dark .detail-card{
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
 }
 .detail-sprite {
     border-radius: 16px;
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(0,0,0,.18);
+    border: 1px solid var(--border-soft);
+    background: rgba(0,0,0,.06);
     display: grid;
     place-items: center;
     padding: 12px;
+}
+html.dark .detail-sprite{
+    background: rgba(0,0,0,.18);
+    border: 1px solid rgba(255,255,255,.12);
 }
 #modalSprite {
     max-width: 100%;
@@ -465,4 +703,281 @@
         width: 82px;
         height: 82px;
     }
+}
+
+
+/* Si en algún momento vuelve a existir col-lg-8, no dejes huecos (solo dentro de la Pokédex) */
+@media (min-width: 992px) {
+    .pokedex-theme #pokedexForm .row.g-3 > .col-lg-8 {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Mostrar el equipo según el modo */
+html:not(.dark) .pokedex-theme .badge-rocket {
+    display: none;
+}
+html.dark .pokedex-theme .badge-ash {
+    display: none;
+}
+
+/* Badge contador: en Día no debe ser blanco (mejor contraste) */
+.pokedex-theme #countBadge {
+    background: rgba(11, 18, 32, .06) !important;
+    border-color: rgba(11, 18, 32, .12) !important;
+    color: rgba(11, 18, 32, .75) !important;
+}
+html.dark .pokedex-theme #countBadge {
+    background: rgba(255, 255, 255, .10) !important;
+    border-color: rgba(255, 255, 255, .12) !important;
+    color: rgba(234, 240, 255, .80) !important;
+}
+
+/* Cards: refuerza texto en Día (por si el JS mete text-white en algún lado) */
+html:not(.dark) .pokedex-theme .poke-name {
+    color: rgba(11, 18, 32, .92) !important;
+}
+html:not(.dark) .pokedex-theme .poke-id   {
+    color: rgba(11, 18, 32, .62) !important;
+}
+
+/* Panel head: un poco más “limpio” en Día */
+html:not(.dark) .pokedex-theme .panel-head {
+    border-bottom-color: rgba(11, 18, 32, .08) !important;
+}
+/* =========================================================
+   POKÉMON NAVBAR (Layout)
+   Pegar al FINAL de pokedex.css
+   ========================================================= */
+
+.poke-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    background:
+        radial-gradient(900px 220px at 18% 0%, rgba(255,255,255,.18), transparent 60%),
+        linear-gradient(180deg, #D9162D, #B51224);
+    border-bottom: 4px solid rgba(0,0,0,.25);
+    box-shadow: 0 10px 30px rgba(0,0,0,.22);
+}
+
+.poke-navbar .navbar-brand {
+    text-decoration: none;
+}
+
+.poke-ui-left{
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* esfera azul */
+.poke-avatar{
+    width: 54px;
+    height: 54px;
+    border-radius: 999px;
+    position: relative;
+    display: grid;
+    place-items: center;
+
+    border: 4px solid rgba(255,255,255,.85);
+    background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.45), transparent 55%),
+        radial-gradient(circle at 45% 55%, rgba(125, 211, 252, .65), transparent 62%),
+        linear-gradient(180deg, #2EA8FF, #0B63D1);
+    box-shadow:
+        0 10px 26px rgba(0,0,0,.28),
+        inset 0 0 0 2px rgba(0,0,0,.06);
+}
+
+.poke-avatar-letter{
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: .03em;
+    color: rgba(255,255,255,.95);
+    text-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+
+/* luces */
+.poke-lights{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.poke-light{
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    border: 2px solid rgba(255,255,255,.65);
+    box-shadow: 0 6px 14px rgba(0,0,0,.25);
+}
+
+.poke-light-red{
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.55), transparent 50%), #FF3B30;
+}
+.poke-light-yellow{
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.55), transparent 50%), #FFCC00;
+}
+.poke-light-green{
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.55), transparent 50%), #34C759;
+}
+
+/* marca */
+.poke-brand-title{
+    font-weight: 900;
+    color: rgba(255,255,255,.95);
+    letter-spacing: .02em;
+}
+.poke-brand-sub{
+    font-size: 12px;
+    color: rgba(255,255,255,.75);
+}
+
+/* links */
+.poke-link{
+    color: rgba(255,255,255,.85) !important;
+}
+.poke-link:hover{
+    color: rgba(255,255,255,.95) !important;
+    background: rgba(255,255,255,.10);
+}
+.poke-link.active{
+    background: rgba(255,255,255,.14);
+    color: rgba(255,255,255,.98) !important;
+    border: 1px solid rgba(255,255,255,.18);
+}
+
+/* botones derecha */
+.poke-btn{
+    border: 1px solid rgba(255,255,255,.22) !important;
+    background: rgba(255,255,255,.12) !important;
+    color: rgba(255,255,255,.92) !important;
+    box-shadow: 0 10px 22px rgba(0,0,0,.16);
+}
+.poke-btn:hover{
+    background: rgba(255,255,255,.18) !important;
+    color: rgba(255,255,255,.98) !important;
+}
+
+/* toggler */
+.poke-toggler{
+    border: 1px solid rgba(255,255,255,.25);
+}
+
+/* mini avatar en botón/dropdown */
+.poke-mini-avatar{
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    display: inline-grid;
+    place-items: center;
+
+    border: 2px solid rgba(255,255,255,.85);
+    background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.45), transparent 55%),
+        linear-gradient(180deg, #2EA8FF, #0B63D1);
+
+    font-weight: 900;
+    font-size: 12px;
+    color: rgba(255,255,255,.95);
+    text-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+
+/* dropdown */
+.poke-dropdown{
+    border-radius: 14px;
+    border: 1px solid rgba(15, 23, 42, .10);
+    box-shadow: 0 18px 55px rgba(0,0,0,.18);
+    overflow: hidden;
+}
+.poke-dropdown .dropdown-item{
+    font-weight: 700;
+}
+.poke-dropdown .dropdown-item:active{
+    background: rgba(15, 23, 42, .06);
+    color: inherit;
+}
+
+/* Botón del tema dentro del navbar Pokémon */
+.poke-btn .theme-night {
+    display: none;
+}
+html.dark .poke-btn .theme-night {
+    display: inline-flex;
+}
+html.dark .poke-btn .theme-day {
+    display: none;
+}
+
+/* =========================================================
+   THEME: Día (Equipo Bueno) / Noche (Team Rocket)
+   Pegar al FINAL de pokedex.css
+   ========================================================= */
+
+/* Día (Equipo Bueno) */
+.app-theme{
+    --bg-1: #ffffff;
+    --bg-2: #F6D02F;    /* amarillo eléctrico */
+    --bg-3: #0050AC;    /* azul rey suave en brillos */
+    --text: #0f172a;
+
+    --nav-top: #FF0000; /* rojo intenso */
+    --nav-bot: #D9162D;
+
+    --glass-1: rgba(255,255,255,.72);
+    --glass-2: rgba(255,255,255,.45);
+    --card-border: rgba(15,23,42,.10);
+
+    background:
+        radial-gradient(1200px 380px at 20% -10%, rgba(246, 208, 47, .35), transparent 60%),
+        radial-gradient(900px 320px at 95% 0%, rgba(0, 80, 172, .16), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,1), rgba(245, 240, 198, .75));
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* Noche (Team Rocket) */
+html.dark .app-theme{
+    --bg-1: #222222;    /* negro */
+    --bg-2: #B91D47;    /* magenta */
+    --bg-3: #6376B8;    /* azul lavanda */
+    --text: #F2F2F2;    /* blanco hueso */
+
+    --nav-top: #222222;
+    --nav-bot: #D9162D; /* rojo rubí */
+
+    --glass-1: rgba(255,255,255,.06);
+    --glass-2: rgba(255,255,255,.03);
+    --card-border: rgba(255,255,255,.10);
+
+    background:
+        radial-gradient(1200px 380px at 20% -10%, rgba(217, 22, 45, .22), transparent 60%),
+        radial-gradient(900px 320px at 95% 0%, rgba(185, 29, 71, .18), transparent 55%),
+        radial-gradient(900px 320px at 60% 120%, rgba(99, 118, 184, .18), transparent 55%),
+        linear-gradient(180deg, #111111, #222222);
+    color: var(--text);
+}
+
+/* navbar Pokémon usa variables */
+.poke-navbar{
+    background:
+        radial-gradient(900px 220px at 18% 0%, rgba(255,255,255,.18), transparent 60%),
+        linear-gradient(180deg, var(--nav-top), var(--nav-bot));
+}
+
+/* Botón del tema: muestra texto correcto */
+.poke-btn .theme-night {
+    display: none;
+}
+html.dark .poke-btn .theme-night {
+    display: inline-flex;
+}
+html.dark .poke-btn .theme-day {
+    display: none;
 }

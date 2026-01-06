@@ -14,4 +14,8 @@ public class ViewController {
     public String pokedex() {
         return "pokedex";
     }
+     @GetMapping("/details")
+    public String pokedetails() {
+        return "pokedetails";
+    }
 }

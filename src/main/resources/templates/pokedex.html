@@ -5,7 +5,7 @@
     <section class="py-3 pokedex-theme">
 
         <form id="pokedexForm" class="container-xl pokedex-shell" autocomplete="off">
-            
+
             <input type="hidden" name="type" id="typeInput" value="">
             <input type="hidden" name="view" id="viewInput" value="grid">
             <input type="hidden" name="offset" id="offsetInput" value="0">
@@ -24,127 +24,13 @@
                         </div>
                     </div>
 
-                    <div class="d-flex gap-2 flex-wrap">
-                        <button class="btn btn-neo btn-neo-primary btn-sm rounded-3" type="submit" title="Aplicar">
-                            <i class="bi bi-check2-circle me-1"></i> Aplicar
-                        </button>
-
-                        <button class="btn btn-neo btn-neo-outline btn-sm rounded-3" type="button" id="clearBtn" title="Limpiar">
-                            <i class="bi bi-x-circle me-1"></i> Limpiar
-                        </button>
-
-                        <button class="btn btn-neo btn-neo-outline btn-sm rounded-3" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#sideFilters" aria-expanded="true" aria-controls="sideFilters">
-                            <i class="bi bi-funnel me-1"></i> Filtros
-                        </button>
-                    </div>
                 </div>
 
                 <!-- BODY -->
                 <div class="row g-3">
 
-<!--                     LEFT: FILTROS 
-                    <div class="col-12 col-lg-4">
-                        <div class="panel-card h-100">
-                            <div class="panel-head d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-sliders"></i>
-                                    <span class="fw-bold">Controles</span>
-                                </div>
-                                <span class="badge bg-white/10 border border-white/10 text-white/80">PokeAPI</span>
-                            </div>
-
-                            <div id="sideFilters" class="collapse show">
-                                <div class="panel-body">
-
-                                     BUSQUEDA 
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <span class="fw-bold"><i class="bi bi-search me-1"></i> Buscar</span>
-                                        <span class="small text-muted-soft">q</span>
-                                    </div>
-
-                                    <div class="input-group input-group-neo mb-3">
-                                        <span class="input-group-text input-neo-addon"><i class="bi bi-search"></i></span>
-                                        <input id="qInputMain" class="form-control input-neo"
-                                               placeholder="Nombre o # (ej: pikachu, 25)">
-                                    </div>
-
-                                     TIPOS 
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <span class="fw-bold"><i class="bi bi-tags me-1"></i> Tipo</span>
-                                        <span class="small text-muted-soft">type</span>
-                                    </div>
-
-                                    <div class="d-flex flex-wrap gap-2" id="typeChipsMain">
-                                        <button class="chip chip-neo chip-neo-active" type="button" data-type="">Todos</button>
-                                        <button class="chip chip-neo" type="button" data-type="grass"><i class="bi bi-flower1 me-1"></i>Planta</button>
-                                        <button class="chip chip-neo" type="button" data-type="fire"><i class="bi bi-fire me-1"></i>Fuego</button>
-                                        <button class="chip chip-neo" type="button" data-type="water"><i class="bi bi-droplet me-1"></i>Agua</button>
-                                        <button class="chip chip-neo" type="button" data-type="electric"><i class="bi bi-lightning-charge me-1"></i>Eléctrico</button>
-                                        <button class="chip chip-neo" type="button" data-type="ghost"><i class="bi bi-moon-stars me-1"></i>Fantasma</button>
-                                        <button class="chip chip-neo" type="button" data-type="poison"><i class="bi bi-droplet-half me-1"></i>Veneno</button>
-                                        <button class="chip chip-neo" type="button" data-type="normal"><i class="bi bi-circle me-1"></i>Normal</button>
-                                    </div>
-
-                                    <hr class="hr-neo my-3">
-
-                                     ORDEN 
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <span class="fw-bold"><i class="bi bi-sort-down me-1"></i> Ordenar</span>
-                                        <span class="small text-muted-soft">sort</span>
-                                    </div>
-
-                                    <select class="form-select select-neo" id="sortSelect">
-                                        <option value="id_asc" selected># Ascendente</option>
-                                        <option value="id_desc"># Descendente</option>
-                                        <option value="name_asc">Nombre (A–Z)</option>
-                                        <option value="name_desc">Nombre (Z–A)</option>
-                                    </select>
-
-                                    <hr class="hr-neo my-3">
-
-                                     VISTA 
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <span class="fw-bold"><i class="bi bi-layout-text-window me-1"></i> Vista</span>
-                                        <span class="small text-muted-soft">view</span>
-                                    </div>
-
-                                    <div class="btn-group w-100" role="group" aria-label="Vista">
-                                        <button class="btn btn-neo btn-neo-primary btn-sm" type="button" data-view="grid" id="viewGridBtn">
-                                            <i class="bi bi-grid-3x3-gap"></i>
-                                        </button>
-                                        <button class="btn btn-neo btn-neo-outline btn-sm" type="button" data-view="list" id="viewListBtn">
-                                            <i class="bi bi-list"></i>
-                                        </button>
-                                    </div>
-
-                                    <hr class="hr-neo my-3">
-
-                                     PAGE SIZE 
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <span class="fw-bold"><i class="bi bi-collection me-1"></i> Tamaño</span>
-                                        <span class="small text-muted-soft">limit</span>
-                                    </div>
-
-                                    <select class="form-select select-neo" id="limitSelect">
-                                        <option value="12" selected>12</option>
-                                        <option value="24">24</option>
-                                        <option value="48">48</option>
-                                    </select>
-
-                                    <div class="mt-3 d-grid">
-                                        <button class="btn btn-neo btn-neo-primary rounded-3" type="submit">
-                                            <i class="bi bi-check2 me-1"></i> Aplicar filtros
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
-
                     <!-- RIGHT: LISTADO -->
-                    <div class="col-12 col-lg-8">
+                    <div class="col-12">
                         <div class="panel-card">
                             <div class="panel-head d-flex align-items-center justify-content-between flex-wrap gap-2">
                                 <div class="d-flex align-items-center gap-2">
@@ -196,152 +82,6 @@
                 </div>
             </div>
 
-           
-<!--            <div class="fixed bottom-4 left-0 right-0 z-40 flex justify-center px-3 pointer-events-none">
-                <div class="w-full max-w-5xl pointer-events-auto">
-                    <div class="relative overflow-hidden rounded-4 border border-white/10 bg-black/40 backdrop-blur-xl shadow-2xl">
-
-                         Decor Pokébola 
-                        <div class="absolute -right-24 -bottom-28 h-72 w-72 rounded-full border border-white/10 bg-white/5"></div>
-                        <div class="absolute -right-12 -bottom-16 h-48 w-48 rounded-full border border-white/10 bg-white/5"></div>
-                        <div class="absolute -right-10 -bottom-10 h-40 w-40 rounded-full overflow-hidden">
-                            <div class="h-1/2 w-full bg-red-500/25"></div>
-                            <div class="h-[6px] w-full bg-white/10"></div>
-                            <div class="h-1/2 w-full bg-white/10"></div>
-                            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-14 rounded-full border border-white/20 bg-black/30"></div>
-                            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 rounded-full border border-white/35 bg-white/10"></div>
-                        </div>
-
-                        <div class="relative">
-                            <div class="d-flex align-items-center justify-content-between gap-2 px-3 py-2">
-                                <button class="btn btn-neo btn-neo-primary btn-sm rounded-pill d-inline-flex align-items-center gap-2"
-                                        type="button" data-bs-toggle="collapse" data-bs-target="#pokePalette"
-                                        aria-expanded="true" aria-controls="pokePalette">
-
-                                    <span class="relative inline-flex h-8 w-8 rounded-full overflow-hidden border border-white/30 shadow">
-                                        <span class="absolute inset-0">
-                                            <span class="absolute inset-x-0 top-0 h-1/2 bg-red-500/70"></span>
-                                            <span class="absolute inset-x-0 top-1/2 h-[5px] -translate-y-1/2 bg-black/60"></span>
-                                            <span class="absolute inset-x-0 bottom-0 h-1/2 bg-white/70"></span>
-                                            <span class="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/80"></span>
-                                            <span class="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70"></span>
-                                        </span>
-                                    </span>
-
-                                    Paleta Pokédex
-                                    <span class="badge bg-white/10 border border-white/10 text-white/80">atajos</span>
-                                </button>
-
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="small text-muted-soft d-none d-md-inline">Filtra sin perder la vista</span>
-                                    <button class="btn btn-neo btn-neo-outline btn-sm rounded-pill" type="submit">
-                                        <i class="bi bi-check2 me-1"></i> Aplicar
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div id="pokePalette" class="collapse show">
-                                <div class="px-3 pb-3">
-                                    <div class="row g-2 align-items-stretch">
-
-                                         búsqueda rápida 
-                                        <div class="col-12 col-lg-5">
-                                            <div class="h-100 rounded-4 border border-white/10 bg-white/5 p-3">
-                                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                                    <div class="fw-bold">Búsqueda rápida</div>
-                                                    <span class="small text-muted-soft">q</span>
-                                                </div>
-
-                                                <div class="input-group input-group-neo">
-                                                    <span class="input-group-text input-neo-addon"><i class="bi bi-search"></i></span>
-                                                    <input id="qInputPalette" class="form-control input-neo" placeholder="Ej: gengar, 94">
-                                                </div>
-
-                                                <div class="d-flex flex-wrap gap-2 mt-3">
-                                                    <button class="btn btn-neo btn-neo-outline btn-sm rounded-pill" type="button" disabled>
-                                                        <i class="bi bi-stars me-1"></i> Favoritos (pendiente)
-                                                    </button>
-                                                    <button class="btn btn-neo btn-neo-outline btn-sm rounded-pill" type="button" disabled>
-                                                        <i class="bi bi-hourglass-split me-1"></i> Gen 1 (pendiente)
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                         paleta tipos 
-                                        <div class="col-12 col-lg-5">
-                                            <div class="h-100 rounded-4 border border-white/10 bg-white/5 p-3">
-                                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                                    <div class="fw-bold">Paleta de tipos</div>
-                                                    <span class="small text-muted-soft">type</span>
-                                                </div>
-
-                                                <div class="d-flex flex-wrap gap-2" id="typeChipsPalette">
-                                                    <button class="px-3 py-1.5 rounded-pill text-sm font-black border border-white/15 bg-white/10 text-white/90"
-                                                            type="button" data-type="">Todos</button>
-
-                                                    <button class="px-3 py-1.5 rounded-pill text-sm font-black border border-emerald-400/30 bg-emerald-500/20 text-emerald-100"
-                                                            type="button" data-type="grass">Planta</button>
-
-                                                    <button class="px-3 py-1.5 rounded-pill text-sm font-black border border-red-400/30 bg-red-500/20 text-red-100"
-                                                            type="button" data-type="fire">Fuego</button>
-
-                                                    <button class="px-3 py-1.5 rounded-pill text-sm font-black border border-blue-400/30 bg-blue-500/20 text-blue-100"
-                                                            type="button" data-type="water">Agua</button>
-
-                                                    <button class="px-3 py-1.5 rounded-pill text-sm font-black border border-yellow-300/30 bg-yellow-400/20 text-yellow-100"
-                                                            type="button" data-type="electric">Eléctrico</button>
-
-                                                    <button class="px-3 py-1.5 rounded-pill text-sm font-black border border-indigo-400/30 bg-indigo-500/20 text-indigo-100"
-                                                            type="button" data-type="ghost">Fantasma</button>
-
-                                                    <button class="px-3 py-1.5 rounded-pill text-sm font-black border border-fuchsia-400/30 bg-fuchsia-500/20 text-fuchsia-100"
-                                                            type="button" data-type="poison">Veneno</button>
-
-                                                    <button class="px-3 py-1.5 rounded-pill text-sm font-black border border-slate-300/30 bg-slate-400/20 text-slate-100"
-                                                            type="button" data-type="normal">Normal</button>
-                                                </div>
-
-                                                <div class="mt-3 d-flex flex-wrap gap-2">
-                                                    <span class="badge bg-white/10 border border-white/10 text-white/80">chips</span>
-                                                    <span class="badge bg-white/10 border border-white/10 text-white/80">glass</span>
-                                                    <span class="badge bg-white/10 border border-white/10 text-white/80">ready</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                         vista / orden 
-                                        <div class="col-12 col-lg-2">
-                                            <div class="h-100 rounded-4 border border-white/10 bg-white/5 p-3">
-                                                <div class="fw-bold mb-2">Vista</div>
-                                                <div class="btn-group w-100" role="group" aria-label="Vista">
-                                                    <button class="btn btn-neo btn-neo-primary btn-sm" type="button" data-view="grid">
-                                                        <i class="bi bi-grid-3x3-gap"></i>
-                                                    </button>
-                                                    <button class="btn btn-neo btn-neo-outline btn-sm" type="button" data-view="list">
-                                                        <i class="bi bi-list"></i>
-                                                    </button>
-                                                </div>
-
-                                                <div class="fw-bold mt-3 mb-2">Orden</div>
-                                                <select class="form-select select-neo" id="sortSelectPalette">
-                                                    <option value="id_asc" selected># Asc</option>
-                                                    <option value="id_desc"># Desc</option>
-                                                    <option value="name_asc">A–Z</option>
-                                                    <option value="name_desc">Z–A</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>-->
-
         </form>
 
         <!-- Modal detalle -->
@@ -390,9 +130,7 @@
             </div>
         </div>
 
-        
         <script src="/js/pokedex.js"></script>
-
 
     </section>
 </html>

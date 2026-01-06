@@ -73,11 +73,7 @@
 
                         <!-- ✅ POST al backend JWT -->
                         <form th:action="@{/auth/login}" method="post" class="needs-validation" novalidate>
-                            <!--
-                              CSRF:
-                              - Si mantienes CSRF habilitado en Spring Security, este input es necesario.
-                              - Si tu /auth/login está excluido de CSRF (common en JWT), no hace daño dejarlo.
-                            -->
+                            
                             <input type="hidden" th:if="${_csrf != null}"
                                    th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
@@ -93,7 +89,7 @@
                                 <div class="input-group input-group-lg">
                                     <input id="pass_m" name="password" type="password" class="form-control"
                                            placeholder="••••••••" autocomplete="current-password" required>
-                                    <!-- Sin JS, este botón es solo decorativo -->
+
                                     <button class="btn btn-outline-dark btn-icon" type="button"
                                             aria-label="Mostrar u ocultar contraseña" disabled>
                                         <i class="bi bi-eye"></i>

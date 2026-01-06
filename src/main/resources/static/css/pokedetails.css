@@ -1,0 +1,141 @@
+/* =========================================================
+   THEME TOKENS
+   Día  = Equipo Bueno (Ash & Pikachu)
+   Noche= Team Rocket (Jessie, James & Meowth)
+   ========================================================= */
+
+/* DÍA (por defecto) */
+:root{
+    /* Equipo Bueno */
+    --good-red:    #FF0000;
+    --good-blue:   #0050AC;
+    --good-yellow: #F6D02F;
+    --good-green:  #4DAD5B;
+    --good-white:  #FFFFFF;
+
+    /* Texto / UI */
+    --text: #0b1220;
+    --text-soft: rgba(11, 18, 32, .65);
+
+    --border-soft: rgba(11, 18, 32, .12);
+    --border-softer: rgba(11, 18, 32, .08);
+
+    /* Fondo general (DÍA) */
+    --page-bg:
+        radial-gradient(1200px 420px at 18% -10%, rgba(255, 0, 0, .18), transparent 60%),
+        radial-gradient(1000px 360px at 92% 0%, rgba(0, 80, 172, .18), transparent 55%),
+        radial-gradient(900px 320px at 60% 120%, rgba(77, 173, 91, .18), transparent 55%),
+        linear-gradient(180deg, rgba(246, 208, 47, .22), rgba(255, 255, 255, .95));
+
+    /* Glass / panel (DÍA) */
+    --glass-bg:
+        radial-gradient(1200px 380px at 20% -10%, rgba(255, 0, 0, .16), transparent 60%),
+        radial-gradient(900px 300px at 95% 0%, rgba(0, 80, 172, .14), transparent 55%),
+        radial-gradient(900px 280px at 60% 120%, rgba(77, 173, 91, .14), transparent 55%),
+        linear-gradient(180deg, rgba(255, 255, 255, .65), rgba(255, 255, 255, .30));
+
+    --glass-before:
+        radial-gradient(900px 280px at 15% 15%, rgba(246, 208, 47, .18), transparent 60%),
+        radial-gradient(700px 220px at 90% 30%, rgba(0, 80, 172, .12), transparent 55%);
+
+    --shadow-main: 0 18px 55px rgba(11, 18, 32, .18);
+
+    /* Panel/card */
+    --panel-bg: rgba(255, 255, 255, .58);
+    --panel-head-bg: linear-gradient(180deg, rgba(255, 255, 255, .75), rgba(255, 255, 255, .35));
+
+    /* Botones */
+    --btn-bg: rgba(255, 255, 255, .60);
+    --btn-text: rgba(11, 18, 32, .92);
+    --btn-border: rgba(11, 18, 32, .14);
+    --btn-hover-border: rgba(11, 18, 32, .22);
+    --btn-primary-bg: linear-gradient(180deg, rgba(255, 0, 0, .92), rgba(0, 80, 172, .72));
+    --btn-primary-border: rgba(255, 0, 0, .28);
+    --btn-outline-bg: rgba(255, 255, 255, .40);
+
+    /* Chips */
+    --chip-bg: rgba(255, 255, 255, .50);
+    --chip-border: rgba(11, 18, 32, .14);
+    --chip-active-bg: linear-gradient(180deg, rgba(246, 208, 47, .42), rgba(246, 208, 47, .18));
+    --chip-active-border: rgba(246, 208, 47, .45);
+
+    /* Cards Pokémon */
+    --poke-card-bg:
+        radial-gradient(240px 120px at 20% 15%, rgba(0, 80, 172, .14), transparent 60%),
+        radial-gradient(240px 120px at 85% 15%, rgba(255, 0, 0, .12), transparent 60%),
+        linear-gradient(180deg, rgba(255, 255, 255, .70), rgba(255, 255, 255, .34));
+    --poke-card-border: rgba(11, 18, 32, .12);
+    --poke-card-shadow: 0 16px 46px rgba(11, 18, 32, .18);
+
+    /* Modal */
+    --modal-bg:
+        radial-gradient(700px 260px at 15% 0%, rgba(255, 0, 0, .18), transparent 60%),
+        radial-gradient(700px 260px at 90% 10%, rgba(0, 80, 172, .14), transparent 60%),
+        rgba(255, 255, 255, .86);
+}
+
+/* NOCHE (Team Rocket) */
+html.dark{
+    /* Team Rocket */
+    --rocket-bone:   #F2F2F2;
+    --rocket-black:  #222222;
+    --rocket-ruby:   #D9162D;
+    --rocket-magenta:#B91D47;
+    --rocket-lav:    #6376B8;
+    --rocket-cream:  #F5F0C6;
+
+    --text: #EAF0FF;
+    --text-soft: rgba(234, 240, 255, .70);
+
+    --border-soft: rgba(255, 255, 255, .10);
+    --border-softer: rgba(255, 255, 255, .08);
+
+    --page-bg:
+        radial-gradient(1200px 420px at 18% -10%, rgba(217, 22, 45, .18), transparent 60%),
+        radial-gradient(1000px 360px at 92% 0%, rgba(185, 29, 71, .16), transparent 55%),
+        radial-gradient(900px 320px at 60% 120%, rgba(99, 118, 184, .14), transparent 55%),
+        linear-gradient(180deg, rgba(34, 34, 34, .92), rgba(34, 34, 34, .78));
+
+    --glass-bg:
+        radial-gradient(1200px 380px at 20% -10%, rgba(217, 22, 45, .15), transparent 60%),
+        radial-gradient(900px 300px at 95% 0%, rgba(185, 29, 71, .14), transparent 55%),
+        radial-gradient(900px 280px at 60% 120%, rgba(99, 118, 184, .12), transparent 55%),
+        linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+
+    --glass-before:
+        radial-gradient(900px 280px at 15% 15%, rgba(245, 240, 198, .10), transparent 60%),
+        radial-gradient(700px 220px at 90% 30%, rgba(99, 118, 184, .12), transparent 55%);
+
+    --shadow-main: 0 18px 55px rgba(0, 0, 0, .55);
+
+    --panel-bg: rgba(0, 0, 0, .18);
+    --panel-head-bg: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03));
+
+    --btn-bg: rgba(255, 255, 255, .06);
+    --btn-text: rgba(234, 240, 255, .92);
+    --btn-border: rgba(255, 255, 255, .14);
+    --btn-hover-border: rgba(255, 255, 255, .20);
+    --btn-primary-bg: linear-gradient(180deg, rgba(217, 22, 45, .92), rgba(185, 29, 71, .75));
+    --btn-primary-border: rgba(217, 22, 45, .35);
+    --btn-outline-bg: rgba(0, 0, 0, .20);
+
+    --chip-bg: rgba(255, 255, 255, .06);
+    --chip-border: rgba(255, 255, 255, .14);
+    --chip-active-bg: linear-gradient(180deg, rgba(245, 240, 198, .18), rgba(245, 240, 198, .08));
+    --chip-active-border: rgba(245, 240, 198, .22);
+
+    --poke-card-bg:
+        radial-gradient(240px 120px at 20% 15%, rgba(99, 118, 184, .12), transparent 60%),
+        radial-gradient(240px 120px at 85% 15%, rgba(185, 29, 71, .12), transparent 60%),
+        linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+    --poke-card-border: rgba(255, 255, 255, .10);
+    --poke-card-shadow: 0 16px 46px rgba(0, 0, 0, .45);
+
+    --modal-bg:
+        radial-gradient(700px 260px at 15% 0%, rgba(217, 22, 45, .16), transparent 60%),
+        radial-gradient(700px 260px at 90% 10%, rgba(185, 29, 71, .14), transparent 60%),
+        rgba(0, 0, 0, .55);
+}
+
+
+

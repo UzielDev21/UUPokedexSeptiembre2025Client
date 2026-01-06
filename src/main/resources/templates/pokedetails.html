@@ -1,8 +1,116 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
       th:replace="~{layout :: layout('Detalles', 'Detalles', true, ~{::section})}">
-    
-    <section>
-        
+
+    <section class="border pokedex-theme">
+        <!-- Contenedor total -->
+        <div class="row">
+            <!-- Pokemon foto -->
+            <div class="col">
+                <button><i class="bi bi-arrow-left"></i> Pokedex</button>
+                <div class="d-flex align-items-center justify-content-around">
+                    <div class="poke-name">Charmander</div>
+                    <div class="poke-id">#004</div>
+                </div>
+                <div class="poke-types">
+                    <span class="type type-fire">Fuego</span>
+                </div>
+                <div class="background-fire">
+                    <img style="width: 250px; height: 250px;"  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="alt"/>
+                </div>
+                <div>
+                    <p>Evoluciones</p>
+                    <div class="container d-flex justify-content-center mt-5">
+                        <div class="text-center">
+                            <div class="rounded-circle border border-warning border-3 d-flex 
+                                 align-items-center justify-content-center mx-auto"
+                                 style="width: 80px; height: 80px;">
+                                <img
+                                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
+                                    alt="Charmander"
+                                    class="img-fluid"
+                                    style="max-width: 90px;"
+                                    >
+                            </div>
+                            <h6 class="mt-3 mb-1 fw-semibold">
+                                Charmander <span class="text-muted">#004</span>
+                            </h6>
+                            <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
+                                Fire
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pokemon info -->
+            <div class="col">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info" type="button" role="tab" aria-controls="nav-info" aria-selected="true">Info</button>
+                        <button class="nav-link" id="nav-moves-tab" data-bs-toggle="tab" data-bs-target="#nav-moves" type="button" role="tab" aria-controls="nav-moves" aria-selected="false">Movimientos</button>
+                        <button class="nav-link" id="nav-graps-tab" data-bs-toggle="tab" data-bs-target="#nav-graps" type="button" role="tab" aria-controls="nav-graps" aria-selected="false">Graficos</button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab" tabindex="0">
+                        <span class="class">Debilidades</span>
+                        <div class="poke-types">
+                            <span class="type type-fire">Fuego</span>
+                            <span class="type type-water">Agua</span>
+                            <span class="type type-poison">Veneno</span>
+                        </div>
+                        <div>
+                            <span class="fw-bold">Historia</span>
+                            <p>orem Ipsum is simply dummy text of the printing and typesetting 
+                                industry. Lorem Ipsum has been the industry's standard dummy 
+                                text ever since the 1500s, when an unknown printer took a galley
+                                of type and scrambled it to make a type specimen book. 
+                            </p>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <p class="card-text fw-bold">Altura</p>
+                                        <p class="card-text">0.6m</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <p class="card-text fw-bold">Categoría</p>
+                                        <p class="card-text">Lagarto</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <p class="card-text fw-bold">Peso</p>
+                                        <p class="card-text">8.5kg</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <p class="card-text fw-bold">Habilidades</p>
+                                        <p class="card-text">Blaze</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="#nav-moves" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">...</div>
+                        <div class="tab-pane fade" id="nav-graps" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">...</div>
+                    </div>
+                </div>
+            </div>
     </section>
 </html>

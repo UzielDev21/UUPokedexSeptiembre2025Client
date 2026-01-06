@@ -5,15 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ViewController {
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
+  
     @GetMapping("/pokedex")
     public String pokedex() {
         return "pokedex";
     }
+  
      @GetMapping("/details")
     public String pokedetails() {
         return "pokedetails";

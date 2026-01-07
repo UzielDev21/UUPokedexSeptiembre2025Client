@@ -1,33 +1,23 @@
-/* =========================================================
-   THEME TOKENS
-   Día  = Equipo Bueno (Ash & Pikachu)
-   Noche= Team Rocket (Jessie, James & Meowth)
-   ========================================================= */
-
-/* DÍA (por defecto) */
-:root{
-    /* Equipo Bueno */
-    --good-red:    #FF0000;
-    --good-blue:   #0050AC;
+/* /static/css/pokedex.css */
+:root {
+    /* Day (Ash) */
+    --good-red: #FF0000;
+    --good-blue: #0050AC;
     --good-yellow: #F6D02F;
-    --good-green:  #4DAD5B;
-    --good-white:  #FFFFFF;
+    --good-green: #4DAD5B;
 
-    /* Texto / UI */
     --text: #0b1220;
     --text-soft: rgba(11, 18, 32, .65);
 
     --border-soft: rgba(11, 18, 32, .12);
     --border-softer: rgba(11, 18, 32, .08);
 
-    /* Fondo general (DÍA) */
     --page-bg:
         radial-gradient(1200px 420px at 18% -10%, rgba(255, 0, 0, .18), transparent 60%),
         radial-gradient(1000px 360px at 92% 0%, rgba(0, 80, 172, .18), transparent 55%),
         radial-gradient(900px 320px at 60% 120%, rgba(77, 173, 91, .18), transparent 55%),
         linear-gradient(180deg, rgba(246, 208, 47, .22), rgba(255, 255, 255, .95));
 
-    /* Glass / panel (DÍA) */
     --glass-bg:
         radial-gradient(1200px 380px at 20% -10%, rgba(255, 0, 0, .16), transparent 60%),
         radial-gradient(900px 300px at 95% 0%, rgba(0, 80, 172, .14), transparent 55%),
@@ -40,11 +30,9 @@
 
     --shadow-main: 0 18px 55px rgba(11, 18, 32, .18);
 
-    /* Panel/card */
     --panel-bg: rgba(255, 255, 255, .58);
     --panel-head-bg: linear-gradient(180deg, rgba(255, 255, 255, .75), rgba(255, 255, 255, .35));
 
-    /* Botones */
     --btn-bg: rgba(255, 255, 255, .60);
     --btn-text: rgba(11, 18, 32, .92);
     --btn-border: rgba(11, 18, 32, .14);
@@ -53,36 +41,31 @@
     --btn-primary-border: rgba(255, 0, 0, .28);
     --btn-outline-bg: rgba(255, 255, 255, .40);
 
-    /* Chips */
-    --chip-bg: rgba(255, 255, 255, .50);
-    --chip-border: rgba(11, 18, 32, .14);
-    --chip-active-bg: linear-gradient(180deg, rgba(246, 208, 47, .42), rgba(246, 208, 47, .18));
-    --chip-active-border: rgba(246, 208, 47, .45);
+    /* TCG surface */
+    --tcg-bg: rgba(255, 255, 255, .92);
+    --tcg-border: rgba(15, 23, 42, .10);
+    --tcg-line: rgba(15, 23, 42, .10);
+    --tcg-shadow: 0 18px 55px rgba(11, 18, 32, .14);
+    --tcg-muted: rgba(11, 18, 32, .58);
 
-    /* Cards Pokémon */
-    --poke-card-bg:
-        radial-gradient(240px 120px at 20% 15%, rgba(0, 80, 172, .14), transparent 60%),
-        radial-gradient(240px 120px at 85% 15%, rgba(255, 0, 0, .12), transparent 60%),
-        linear-gradient(180deg, rgba(255, 255, 255, .70), rgba(255, 255, 255, .34));
-    --poke-card-border: rgba(11, 18, 32, .12);
-    --poke-card-shadow: 0 16px 46px rgba(11, 18, 32, .18);
+    --tcg-art-bg:
+        radial-gradient(240px 120px at 15% 10%, rgba(0, 80, 172, .10), transparent 60%),
+        radial-gradient(240px 120px at 85% 10%, rgba(255, 0, 0, .10), transparent 60%),
+        linear-gradient(180deg, rgba(255, 255, 255, .90), rgba(255, 255, 255, .55));
 
-    /* Modal */
-    --modal-bg:
-        radial-gradient(700px 260px at 15% 0%, rgba(255, 0, 0, .18), transparent 60%),
-        radial-gradient(700px 260px at 90% 10%, rgba(0, 80, 172, .14), transparent 60%),
-        rgba(255, 255, 255, .86);
+    /* compat (usado por el back mini-panel nuevo) */
+    --tcg-ink: var(--text);
+    --tcg-ink-soft: var(--tcg-muted);
 }
 
-/* NOCHE (Team Rocket) */
-html.dark{
-    /* Team Rocket */
-    --rocket-bone:   #F2F2F2;
-    --rocket-black:  #222222;
-    --rocket-ruby:   #D9162D;
-    --rocket-magenta:#B91D47;
-    --rocket-lav:    #6376B8;
-    --rocket-cream:  #F5F0C6;
+/* Night (Rocket) */
+html.dark {
+    --rocket-bone: #F2F2F2;
+    --rocket-black: #222222;
+    --rocket-ruby: #D9162D;
+    --rocket-magenta: #B91D47;
+    --rocket-lav: #6376B8;
+    --rocket-cream: #F5F0C6;
 
     --text: #EAF0FF;
     --text-soft: rgba(234, 240, 255, .70);
@@ -119,35 +102,30 @@ html.dark{
     --btn-primary-border: rgba(217, 22, 45, .35);
     --btn-outline-bg: rgba(0, 0, 0, .20);
 
-    --chip-bg: rgba(255, 255, 255, .06);
-    --chip-border: rgba(255, 255, 255, .14);
-    --chip-active-bg: linear-gradient(180deg, rgba(245, 240, 198, .18), rgba(245, 240, 198, .08));
-    --chip-active-border: rgba(245, 240, 198, .22);
+    --tcg-bg: rgba(255, 255, 255, .06);
+    --tcg-border: rgba(255, 255, 255, .12);
+    --tcg-line: rgba(255, 255, 255, .12);
+    --tcg-shadow: 0 18px 55px rgba(0, 0, 0, .50);
+    --tcg-muted: rgba(234, 240, 255, .62);
 
-    --poke-card-bg:
-        radial-gradient(240px 120px at 20% 15%, rgba(99, 118, 184, .12), transparent 60%),
-        radial-gradient(240px 120px at 85% 15%, rgba(185, 29, 71, .12), transparent 60%),
+    --tcg-art-bg:
+        radial-gradient(240px 120px at 15% 10%, rgba(99, 118, 184, .14), transparent 60%),
+        radial-gradient(240px 120px at 85% 10%, rgba(185, 29, 71, .12), transparent 60%),
         linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
-    --poke-card-border: rgba(255, 255, 255, .10);
-    --poke-card-shadow: 0 16px 46px rgba(0, 0, 0, .45);
 
-    --modal-bg:
-        radial-gradient(700px 260px at 15% 0%, rgba(217, 22, 45, .16), transparent 60%),
-        radial-gradient(700px 260px at 90% 10%, rgba(185, 29, 71, .14), transparent 60%),
-        rgba(0, 0, 0, .55);
+    /* compat (back mini-panel) */
+    --tcg-ink: var(--text);
+    --tcg-ink-soft: var(--tcg-muted);
 }
 
-/* =========================================================
-   GLOBAL WRAPPER (por si quieres fondo global desde layout)
-   ========================================================= */
-.app-theme{
+/* Global wrapper from layout */
+.app-theme {
     background: var(--page-bg);
+    color: var(--text);
+    min-height: 100vh;
 }
 
-/* =========================================================
-   TU CSS (misma estructura, pero usando variables del tema)
-   ========================================================= */
-
+/* Page */
 .pokedex-theme {
     color: var(--text);
     position: relative;
@@ -158,6 +136,7 @@ html.dark{
     position: relative;
 }
 
+/* Glass panel */
 .rocket-glass {
     border-radius: 18px;
     border: 1px solid var(--border-soft);
@@ -167,6 +146,7 @@ html.dark{
     padding: 18px;
     position: relative;
     overflow: hidden;
+    isolation: isolate;
 }
 
 .rocket-glass::before {
@@ -176,11 +156,6 @@ html.dark{
     background: var(--glass-before);
     opacity: .85;
     pointer-events: none;
-}
-
-.floating-panel {
-    position: relative;
-    isolation: isolate;
 }
 
 .brand-mark {
@@ -193,7 +168,8 @@ html.dark{
     border: 1px solid var(--border-soft);
     box-shadow: 0 10px 24px rgba(255, 0, 0, .18);
 }
-html.dark .brand-mark{
+
+html.dark .brand-mark {
     background:
         radial-gradient(circle at 35% 35%, rgba(255, 255, 255, .35), transparent 55%),
         linear-gradient(180deg, rgba(217, 22, 45, .95), rgba(217, 22, 45, .55));
@@ -203,14 +179,16 @@ html.dark .brand-mark{
 .title-glow {
     text-shadow: 0 0 24px rgba(246, 208, 47, .22);
 }
+
 html.dark .title-glow {
     text-shadow: 0 0 24px rgba(245, 240, 198, .14);
 }
+
 .text-muted-soft {
     color: var(--text-soft);
 }
 
-/* BADGES */
+/* Badges */
 .badge-ash {
     background: rgba(0, 80, 172, .12);
     border: 1px solid rgba(0, 80, 172, .24);
@@ -218,7 +196,8 @@ html.dark .title-glow {
     font-weight: 900;
     letter-spacing: .08em;
 }
-html.dark .badge-ash{
+
+html.dark .badge-ash {
     background: rgba(99, 118, 184, .16);
     border: 1px solid rgba(99, 118, 184, .28);
     color: rgba(234, 240, 255, .92);
@@ -231,13 +210,35 @@ html.dark .badge-ash{
     font-weight: 900;
     letter-spacing: .08em;
 }
-html.dark .badge-rocket{
+
+html.dark .badge-rocket {
     background: rgba(185, 29, 71, .18);
     border: 1px solid rgba(185, 29, 71, .34);
     color: rgba(234, 240, 255, .92);
 }
 
-/* PANELS */
+/* Show team by theme */
+html:not(.dark) .pokedex-theme .badge-rocket {
+    display: none;
+}
+
+html.dark .pokedex-theme .badge-ash {
+    display: none;
+}
+
+.pokedex-theme #countBadge {
+    background: rgba(11, 18, 32, .06) !important;
+    border-color: rgba(11, 18, 32, .12) !important;
+    color: rgba(11, 18, 32, .75) !important;
+}
+
+html.dark .pokedex-theme #countBadge {
+    background: rgba(255, 255, 255, .10) !important;
+    border-color: rgba(255, 255, 255, .12) !important;
+    color: rgba(234, 240, 255, .80) !important;
+}
+
+/* Panels */
 .panel-card {
     border-radius: 16px;
     border: 1px solid var(--border-soft);
@@ -245,110 +246,54 @@ html.dark .badge-rocket{
     box-shadow: 0 14px 40px rgba(0, 0, 0, .18);
     overflow: hidden;
 }
-html.dark .panel-card{
+
+html.dark .panel-card {
     box-shadow: 0 14px 40px rgba(0, 0, 0, .40);
 }
+
 .panel-head {
     padding: 12px 14px;
     background: var(--panel-head-bg);
     border-bottom: 1px solid var(--border-softer);
 }
+
 .panel-body {
     padding: 14px;
 }
+
 .hr-neo {
     border-color: var(--border-softer);
     opacity: 1;
 }
 
-/* BUTTONS */
+/* Buttons */
 .btn-neo {
     border: 1px solid var(--btn-border);
     box-shadow: 0 10px 28px rgba(0, 0, 0, .18);
     color: var(--btn-text);
     background: var(--btn-bg);
 }
-html.dark .btn-neo{
+
+html.dark .btn-neo {
     box-shadow: 0 10px 28px rgba(0, 0, 0, .30);
 }
+
 .btn-neo:hover {
     color: var(--btn-text);
     border-color: var(--btn-hover-border);
 }
+
 .btn-neo-primary {
     background: var(--btn-primary-bg);
     border-color: var(--btn-primary-border);
-    color: rgba(255,255,255,.95);
+    color: rgba(255, 255, 255, .95);
 }
+
 .btn-neo-outline {
     background: var(--btn-outline-bg);
 }
 
-/* INPUTS */
-.input-group-neo .input-group-text {
-    border-radius: 12px 0 0 12px;
-}
-.input-neo-addon {
-    background: rgba(255, 255, 255, .55);
-    border: 1px solid var(--border-soft);
-    color: rgba(11, 18, 32, .72);
-}
-html.dark .input-neo-addon{
-    background: rgba(255, 255, 255, .06);
-    border: 1px solid rgba(255, 255, 255, .12);
-    color: rgba(234, 240, 255, .78);
-}
-.input-neo {
-    border-radius: 0 12px 12px 0;
-    border: 1px solid var(--border-soft);
-    background: rgba(255, 255, 255, .55);
-    color: rgba(11, 18, 32, .92);
-}
-html.dark .input-neo{
-    background: rgba(0, 0, 0, .20);
-    border: 1px solid rgba(255, 255, 255, .12);
-    color: rgba(234, 240, 255, .92);
-}
-.input-neo::placeholder {
-    color: rgba(11, 18, 32, .55);
-}
-html.dark .input-neo::placeholder{
-    color: rgba(234, 240, 255, .55);
-}
-.select-neo {
-    border-radius: 12px;
-    border: 1px solid var(--border-soft);
-    background: rgba(255, 255, 255, .55);
-    color: rgba(11, 18, 32, .92);
-}
-html.dark .select-neo{
-    border: 1px solid rgba(255, 255, 255, .12);
-    background: rgba(0, 0, 0, .20);
-    color: rgba(234, 240, 255, .92);
-}
-
-/* CHIPS */
-.chip-neo {
-    border: 1px solid var(--chip-border);
-    background: var(--chip-bg);
-    color: var(--btn-text);
-    border-radius: 999px;
-    padding: 8px 12px;
-    font-weight: 900;
-    font-size: 12px;
-    letter-spacing: .02em;
-    cursor: pointer;
-}
-.chip-neo-active {
-    background: var(--chip-active-bg);
-    border-color: var(--chip-active-border);
-}
-/* ring simple para pills del footer */
-.ring-active {
-    outline: 1px solid rgba(255,255,255,.30);
-}
-
-/* EMPTY */
+/* Empty */
 .empty-state {
     border: 1px dashed var(--border-soft);
     border-radius: 18px;
@@ -356,9 +301,11 @@ html.dark .select-neo{
     padding: 26px;
     text-align: center;
 }
-html.dark .empty-state{
+
+html.dark .empty-state {
     background: rgba(255, 255, 255, .04);
 }
+
 .empty-icon {
     width: 54px;
     height: 54px;
@@ -371,246 +318,13 @@ html.dark .empty-state{
     box-shadow: 0 14px 40px rgba(0, 0, 0, .12);
     font-size: 22px;
 }
-html.dark .empty-icon{
+
+html.dark .empty-icon {
     background: rgba(0, 0, 0, .25);
     box-shadow: 0 14px 40px rgba(0, 0, 0, .35);
 }
 
-/* POKEMON CARDS */
-.poke-card {
-    border-radius: 18px;
-    border: 1px solid var(--poke-card-border);
-    background: var(--poke-card-bg);
-    box-shadow: var(--poke-card-shadow);
-    overflow: hidden;
-    position: relative;
-    min-height: 240px;
-}
-.poke-card-top {
-    padding: 12px 12px 0 12px;
-}
-.poke-id {
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: .12em;
-    color: var(--text-soft);
-}
-.poke-name {
-    font-size: 18px;
-    font-weight: 900;
-    margin-top: 3px;
-}
-.poke-types {
-    margin-top: 8px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.type {
-    border-radius: 999px;
-    padding: 6px 10px;
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: .02em;
-    border: 1px solid var(--border-soft);
-    background: rgba(255, 255, 255, .45);
-    color: rgba(11, 18, 32, .92);
-}
-html.dark .type{
-    background: rgba(255, 255, 255, .06);
-    border: 1px solid rgba(255, 255, 255, .12);
-    color: rgba(234, 240, 255, .92);
-}
-
-/* Tipos (ampliado) */
-.type-grass    {
-    border-color: rgba(16, 185, 129, .35);
-    background: rgba(16, 185, 129, .16);
-}
-.type-poison   {
-    border-color: rgba(217, 70, 239, .35);
-    background: rgba(217, 70, 239, .14);
-}
-.type-fire     {
-    border-color: rgba(239, 68, 68, .35);
-    background: rgba(239, 68, 68, .14);
-}
-.type-water    {
-    border-color: rgba(59, 130, 246, .35);
-    background: rgba(59, 130, 246, .14);
-}
-.type-electric {
-    border-color: rgba(253, 216, 53, .40);
-    background: rgba(253, 216, 53, .18);
-}
-.type-ghost    {
-    border-color: rgba(99, 102, 241, .35);
-    background: rgba(99, 102, 241, .14);
-}
-.type-normal   {
-    border-color: rgba(203, 213, 225, .25);
-    background: rgba(203, 213, 225, .10);
-}
-.type-ice      {
-    border-color: rgba(56, 189, 248, .35);
-    background: rgba(56, 189, 248, .12);
-}
-.type-fighting {
-    border-color: rgba(249, 115, 22, .35);
-    background: rgba(249, 115, 22, .14);
-}
-.type-ground   {
-    border-color: rgba(180, 83, 9, .35);
-    background: rgba(180, 83, 9, .12);
-}
-.type-flying   {
-    border-color: rgba(147, 197, 253, .35);
-    background: rgba(147, 197, 253, .12);
-}
-.type-psychic  {
-    border-color: rgba(244, 114, 182, .35);
-    background: rgba(244, 114, 182, .14);
-}
-.type-bug      {
-    border-color: rgba(132, 204, 22, .35);
-    background: rgba(132, 204, 22, .12);
-}
-.type-rock     {
-    border-color: rgba(168, 162, 158, .35);
-    background: rgba(168, 162, 158, .12);
-}
-.type-dragon   {
-    border-color: rgba(37, 99, 235, .35);
-    background: rgba(37, 99, 235, .12);
-}
-.type-dark     {
-    border-color: rgba(148, 163, 184, .35);
-    background: rgba(148, 163, 184, .12);
-}
-.type-steel    {
-    border-color: rgba(203, 213, 225, .35);
-    background: rgba(203, 213, 225, .12);
-}
-.type-fairy    {
-    border-color: rgba(236, 72, 153, .35);
-    background: rgba(236, 72, 153, .14);
-}
-
-.poke-card-mid {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 12px 0 12px;
-}
-
-.poke-sprite-wrap {
-    width: 92px;
-    height: 92px;
-    border-radius: 16px;
-    border: 1px solid var(--border-soft);
-    background: rgba(0, 0, 0, .06);
-    display: grid;
-    place-items: center;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, .12);
-}
-html.dark .poke-sprite-wrap{
-    background: rgba(0, 0, 0, .18);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, .35);
-}
-
-.poke-sprite {
-    width: 78px;
-    height: 78px;
-    image-rendering: pixelated;
-    filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .22));
-}
-html.dark .poke-sprite{
-    filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .35));
-}
-
-.poke-stats {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 8px;
-    width: 55%;
-}
-
-.stat {
-    border: 1px solid var(--border-soft);
-    border-radius: 14px;
-    padding: 10px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(255, 255, 255, .30);
-}
-html.dark .stat{
-    background: rgba(0, 0, 0, .12);
-}
-.stat span {
-    color: var(--text-soft);
-    font-size: 12px;
-    font-weight: 800;
-}
-.stat b {
-    font-weight: 900;
-}
-
-.poke-card-actions {
-    padding: 12px;
-    display: grid;
-    grid-template-columns: 1fr 44px;
-    gap: 10px;
-    align-items: center;
-}
-
-/* LIST VIEW */
-.list-row {
-    border: 1px solid var(--border-soft);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, .35);
-    padding: 12px;
-    box-shadow: 0 14px 40px rgba(0, 0, 0, .12);
-}
-html.dark .list-row{
-    background: rgba(0, 0, 0, .18);
-    box-shadow: 0 14px 40px rgba(0, 0, 0, .30);
-}
-.list-sprite {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    border: 1px solid var(--border-soft);
-    background: rgba(0, 0, 0, .06);
-    display: grid;
-    place-items: center;
-}
-html.dark .list-sprite{
-    background: rgba(0, 0, 0, .20);
-    border: 1px solid rgba(255, 255, 255, .12);
-}
-.mini-stat {
-    border: 1px solid var(--border-soft);
-    border-radius: 999px;
-    padding: 6px 10px;
-    background: rgba(255, 255, 255, .28);
-    color: rgba(11, 18, 32, .86);
-    font-size: 12px;
-    font-weight: 800;
-}
-html.dark .mini-stat{
-    background: rgba(255, 255, 255, .04);
-    color: rgba(234, 240, 255, .86);
-    border: 1px solid rgba(255, 255, 255, .10);
-}
-.mini-stat b {
-    font-weight: 900;
-    margin-right: 6px;
-}
-
-/* PAGINATION */
+/* Pagination */
 .pagination-neo .page-link {
     border: 1px solid var(--border-soft);
     background: rgba(255, 255, 255, .55);
@@ -618,366 +332,1413 @@ html.dark .mini-stat{
     border-radius: 12px;
     margin: 0 4px;
 }
-html.dark .pagination-neo .page-link{
+
+html.dark .pagination-neo .page-link {
     background: rgba(255, 255, 255, .06);
     color: rgba(234, 240, 255, .90);
     border: 1px solid rgba(255, 255, 255, .12);
 }
+
 .pagination-neo .page-item.active .page-link {
     background: var(--btn-primary-bg);
     border-color: var(--btn-primary-border);
-    color: rgba(255,255,255,.95);
+    color: rgba(255, 255, 255, .95);
 }
 
-/* MODAL */
+/* Modal (legacy) */
 .modal-neo {
     border-radius: 18px;
     border: 1px solid var(--border-soft);
-    background: var(--modal-bg);
+    background:
+        radial-gradient(700px 260px at 15% 0%, rgba(255, 0, 0, .18), transparent 60%),
+        radial-gradient(700px 260px at 90% 10%, rgba(0, 80, 172, .14), transparent 60%),
+        rgba(255, 255, 255, .86);
     backdrop-filter: blur(14px);
     color: var(--text);
     box-shadow: var(--shadow-main);
 }
-html.dark .modal-neo{
+
+html.dark .modal-neo {
+    background:
+        radial-gradient(700px 260px at 15% 0%, rgba(217, 22, 45, .16), transparent 60%),
+        radial-gradient(700px 260px at 90% 10%, rgba(185, 29, 71, .14), transparent 60%),
+        rgba(0, 0, 0, .55);
     color: rgba(234, 240, 255, .92);
 }
+
 .mini-ball {
     width: 28px;
     height: 28px;
     border-radius: 999px;
     border: 1px solid var(--border-soft);
-    background: linear-gradient(180deg, rgba(255,0,0,.85), rgba(255,0,0,.35));
-    box-shadow: 0 10px 24px rgba(255,0,0,.14);
+    background: linear-gradient(180deg, rgba(255, 0, 0, .85), rgba(255, 0, 0, .35));
+    box-shadow: 0 10px 24px rgba(255, 0, 0, .14);
     display: inline-block;
 }
-html.dark .mini-ball{
-    border: 1px solid rgba(255,255,255,.18);
-    background: linear-gradient(180deg, rgba(217,22,45,.85), rgba(217,22,45,.35));
-    box-shadow: 0 10px 24px rgba(217,22,45,.20);
+
+html.dark .mini-ball {
+    border: 1px solid rgba(255, 255, 255, .18);
+    background: linear-gradient(180deg, rgba(217, 22, 45, .85), rgba(217, 22, 45, .35));
+    box-shadow: 0 10px 24px rgba(217, 22, 45, .20);
 }
+
 .detail-card {
     border-radius: 16px;
     border: 1px solid var(--border-soft);
-    background: rgba(255,255,255,.45);
+    background: rgba(255, 255, 255, .45);
     padding: 14px;
 }
-html.dark .detail-card{
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.10);
+
+html.dark .detail-card {
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .10);
 }
+
 .detail-sprite {
     border-radius: 16px;
     border: 1px solid var(--border-soft);
-    background: rgba(0,0,0,.06);
+    background: rgba(0, 0, 0, .06);
     display: grid;
     place-items: center;
     padding: 12px;
 }
-html.dark .detail-sprite{
-    background: rgba(0,0,0,.18);
-    border: 1px solid rgba(255,255,255,.12);
+
+html.dark .detail-sprite {
+    background: rgba(0, 0, 0, .18);
+    border: 1px solid rgba(255, 255, 255, .12);
 }
+
 #modalSprite {
     max-width: 100%;
     height: auto;
 }
 
-/* RESPONSIVE */
-@media (max-width: 992px) {
-    .rocket-glass {
-        padding: 14px;
-    }
-    .poke-stats {
-        width: 60%;
-    }
-}
-@media (max-width: 576px) {
-    .poke-card {
-        min-height: 220px;
-    }
-    .poke-sprite-wrap {
-        width: 96px;
-        height: 96px;
-    }
-    .poke-sprite {
-        width: 82px;
-        height: 82px;
-    }
-}
-
-
-/* Si en algún momento vuelve a existir col-lg-8, no dejes huecos (solo dentro de la Pokédex) */
-@media (min-width: 992px) {
-    .pokedex-theme #pokedexForm .row.g-3 > .col-lg-8 {
-        width: 100% !important;
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-    }
-}
-
-/* Mostrar el equipo según el modo */
-html:not(.dark) .pokedex-theme .badge-rocket {
-    display: none;
-}
-html.dark .pokedex-theme .badge-ash {
-    display: none;
-}
-
-/* Badge contador: en Día no debe ser blanco (mejor contraste) */
-.pokedex-theme #countBadge {
-    background: rgba(11, 18, 32, .06) !important;
-    border-color: rgba(11, 18, 32, .12) !important;
-    color: rgba(11, 18, 32, .75) !important;
-}
-html.dark .pokedex-theme #countBadge {
-    background: rgba(255, 255, 255, .10) !important;
-    border-color: rgba(255, 255, 255, .12) !important;
-    color: rgba(234, 240, 255, .80) !important;
-}
-
-/* Cards: refuerza texto en Día (por si el JS mete text-white en algún lado) */
-html:not(.dark) .pokedex-theme .poke-name {
-    color: rgba(11, 18, 32, .92) !important;
-}
-html:not(.dark) .pokedex-theme .poke-id   {
-    color: rgba(11, 18, 32, .62) !important;
-}
-
-/* Panel head: un poco más “limpio” en Día */
-html:not(.dark) .pokedex-theme .panel-head {
-    border-bottom-color: rgba(11, 18, 32, .08) !important;
-}
-/* =========================================================
-   POKÉMON NAVBAR (Layout)
-   Pegar al FINAL de pokedex.css
-   ========================================================= */
-
+/* Navbar (layout) */
 .poke-navbar {
     position: sticky;
     top: 0;
     z-index: 1030;
     padding-top: 10px;
     padding-bottom: 10px;
-
     background:
-        radial-gradient(900px 220px at 18% 0%, rgba(255,255,255,.18), transparent 60%),
+        radial-gradient(900px 220px at 18% 0%, rgba(255, 255, 255, .18), transparent 60%),
         linear-gradient(180deg, #D9162D, #B51224);
-    border-bottom: 4px solid rgba(0,0,0,.25);
-    box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    border-bottom: 4px solid rgba(0, 0, 0, .25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
 }
 
-.poke-navbar .navbar-brand {
-    text-decoration: none;
-}
-
-.poke-ui-left{
+.poke-ui-left {
     display: inline-flex;
     align-items: center;
     gap: 14px;
 }
 
-/* esfera azul */
-.poke-avatar{
+.poke-avatar {
     width: 54px;
     height: 54px;
     border-radius: 999px;
-    position: relative;
     display: grid;
     place-items: center;
-
-    border: 4px solid rgba(255,255,255,.85);
+    border: 4px solid rgba(255, 255, 255, .85);
     background:
-        radial-gradient(circle at 35% 30%, rgba(255,255,255,.45), transparent 55%),
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .45), transparent 55%),
         radial-gradient(circle at 45% 55%, rgba(125, 211, 252, .65), transparent 62%),
         linear-gradient(180deg, #2EA8FF, #0B63D1);
-    box-shadow:
-        0 10px 26px rgba(0,0,0,.28),
-        inset 0 0 0 2px rgba(0,0,0,.06);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, .28), inset 0 0 0 2px rgba(0, 0, 0, .06);
 }
 
-.poke-avatar-letter{
+.poke-avatar-letter {
     font-weight: 900;
     font-size: 20px;
     letter-spacing: .03em;
-    color: rgba(255,255,255,.95);
-    text-shadow: 0 2px 10px rgba(0,0,0,.35);
+    color: rgba(255, 255, 255, .95);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, .35);
 }
 
-/* luces */
-.poke-lights{
+.poke-lights {
     display: inline-flex;
     align-items: center;
     gap: 10px;
 }
 
-.poke-light{
+.poke-light {
     width: 14px;
     height: 14px;
     border-radius: 999px;
-    border: 2px solid rgba(255,255,255,.65);
-    box-shadow: 0 6px 14px rgba(0,0,0,.25);
+    border: 2px solid rgba(255, 255, 255, .65);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .25);
 }
 
-.poke-light-red{
-    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.55), transparent 50%), #FF3B30;
-}
-.poke-light-yellow{
-    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.55), transparent 50%), #FFCC00;
-}
-.poke-light-green{
-    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.55), transparent 50%), #34C759;
+.poke-light-red {
+    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, .55), transparent 50%), #FF3B30;
 }
 
-/* marca */
-.poke-brand-title{
+.poke-light-yellow {
+    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, .55), transparent 50%), #FFCC00;
+}
+
+.poke-light-green {
+    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, .55), transparent 50%), #34C759;
+}
+
+.poke-brand-title {
     font-weight: 900;
-    color: rgba(255,255,255,.95);
+    color: rgba(255, 255, 255, .95);
     letter-spacing: .02em;
 }
-.poke-brand-sub{
+
+.poke-brand-sub {
     font-size: 12px;
-    color: rgba(255,255,255,.75);
+    color: rgba(255, 255, 255, .75);
 }
 
-/* links */
-.poke-link{
-    color: rgba(255,255,255,.85) !important;
-}
-.poke-link:hover{
-    color: rgba(255,255,255,.95) !important;
-    background: rgba(255,255,255,.10);
-}
-.poke-link.active{
-    background: rgba(255,255,255,.14);
-    color: rgba(255,255,255,.98) !important;
-    border: 1px solid rgba(255,255,255,.18);
+.poke-link {
+    color: rgba(255, 255, 255, .85) !important;
 }
 
-/* botones derecha */
-.poke-btn{
-    border: 1px solid rgba(255,255,255,.22) !important;
-    background: rgba(255,255,255,.12) !important;
-    color: rgba(255,255,255,.92) !important;
-    box-shadow: 0 10px 22px rgba(0,0,0,.16);
-}
-.poke-btn:hover{
-    background: rgba(255,255,255,.18) !important;
-    color: rgba(255,255,255,.98) !important;
+.poke-link:hover {
+    color: rgba(255, 255, 255, .95) !important;
+    background: rgba(255, 255, 255, .10);
 }
 
-/* toggler */
-.poke-toggler{
-    border: 1px solid rgba(255,255,255,.25);
+.poke-link.active {
+    background: rgba(255, 255, 255, .14);
+    color: rgba(255, 255, 255, .98) !important;
+    border: 1px solid rgba(255, 255, 255, .18);
 }
 
-/* mini avatar en botón/dropdown */
-.poke-mini-avatar{
+.poke-btn {
+    border: 1px solid rgba(255, 255, 255, .22) !important;
+    background: rgba(255, 255, 255, .12) !important;
+    color: rgba(255, 255, 255, .92) !important;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, .16);
+}
+
+.poke-btn:hover {
+    background: rgba(255, 255, 255, .18) !important;
+    color: rgba(255, 255, 255, .98) !important;
+}
+
+.poke-toggler {
+    border: 1px solid rgba(255, 255, 255, .25);
+}
+
+.poke-mini-avatar {
     width: 26px;
     height: 26px;
     border-radius: 999px;
     display: inline-grid;
     place-items: center;
-
-    border: 2px solid rgba(255,255,255,.85);
-    background:
-        radial-gradient(circle at 35% 30%, rgba(255,255,255,.45), transparent 55%),
+    border: 2px solid rgba(255, 255, 255, .85);
+    background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .45), transparent 55%),
         linear-gradient(180deg, #2EA8FF, #0B63D1);
-
     font-weight: 900;
     font-size: 12px;
-    color: rgba(255,255,255,.95);
-    text-shadow: 0 2px 10px rgba(0,0,0,.25);
+    color: rgba(255, 255, 255, .95);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, .25);
 }
 
-/* dropdown */
-.poke-dropdown{
+.poke-dropdown {
     border-radius: 14px;
     border: 1px solid rgba(15, 23, 42, .10);
-    box-shadow: 0 18px 55px rgba(0,0,0,.18);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, .18);
     overflow: hidden;
 }
-.poke-dropdown .dropdown-item{
+
+.poke-dropdown .dropdown-item {
     font-weight: 700;
 }
-.poke-dropdown .dropdown-item:active{
+
+.poke-dropdown .dropdown-item:active {
     background: rgba(15, 23, 42, .06);
     color: inherit;
 }
 
-/* Botón del tema dentro del navbar Pokémon */
 .poke-btn .theme-night {
     display: none;
 }
+
 html.dark .poke-btn .theme-night {
     display: inline-flex;
 }
+
 html.dark .poke-btn .theme-day {
     display: none;
 }
 
 /* =========================================================
-   THEME: Día (Equipo Bueno) / Noche (Team Rocket)
-   Pegar al FINAL de pokedex.css
+   ✅ TYPE CHIPS (arreglado: colores bien marcados por tipo)
+   ========================================================= */
+.type {
+    --t-bg: rgba(255, 255, 255, .45);
+    --t-br: var(--border-soft);
+    --t-tx: rgba(11, 18, 32, .92);
+
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .02em;
+
+    border: 1px solid var(--t-br);
+    background: var(--t-bg);
+    color: var(--t-tx);
+}
+
+html.dark .type {
+    /* mantiene el color por tipo y asegura legibilidad */
+    border: 1px solid var(--t-br);
+    background: var(--t-bg);
+    color: rgba(234, 240, 255, .92);
+}
+
+/* Normal (neutro) */
+.type-normal {
+    --t-bg: rgba(148, 163, 184, .18);
+    --t-br: rgba(100, 116, 139, .28);
+    --t-tx: rgba(30, 41, 59, .92);
+}
+
+/* Fuego */
+.type-fire {
+    --t-bg: rgba(239, 68, 68, .16);
+    --t-br: rgba(239, 68, 68, .34);
+    --t-tx: rgba(153, 27, 27, .95);
+}
+
+/* Agua */
+.type-water {
+    --t-bg: rgba(59, 130, 246, .16);
+    --t-br: rgba(59, 130, 246, .34);
+    --t-tx: rgba(30, 64, 175, .95);
+}
+
+/* Planta */
+.type-grass {
+    --t-bg: rgba(34, 197, 94, .16);
+    --t-br: rgba(34, 197, 94, .34);
+    --t-tx: rgba(20, 83, 45, .95);
+}
+
+/* Eléctrico */
+.type-electric {
+    --t-bg: rgba(250, 204, 21, .22);
+    --t-br: rgba(234, 179, 8, .40);
+    --t-tx: rgba(133, 77, 14, .95);
+}
+
+/* Hielo */
+.type-ice {
+    --t-bg: rgba(56, 189, 248, .16);
+    --t-br: rgba(56, 189, 248, .34);
+    --t-tx: rgba(12, 74, 110, .95);
+}
+
+/* Lucha */
+.type-fighting {
+    --t-bg: rgba(249, 115, 22, .16);
+    --t-br: rgba(249, 115, 22, .34);
+    --t-tx: rgba(124, 45, 18, .95);
+}
+
+/* Veneno (morado) */
+.type-poison {
+    --t-bg: rgba(168, 85, 247, .18);
+    --t-br: rgba(168, 85, 247, .36);
+    --t-tx: rgba(88, 28, 135, .95);
+}
+
+/* Tierra */
+.type-ground {
+    --t-bg: rgba(245, 158, 11, .18);
+    --t-br: rgba(245, 158, 11, .36);
+    --t-tx: rgba(120, 53, 15, .95);
+}
+
+/* Volador */
+.type-flying {
+    --t-bg: rgba(147, 197, 253, .18);
+    --t-br: rgba(59, 130, 246, .28);
+    --t-tx: rgba(30, 64, 175, .92);
+}
+
+/* Psíquico */
+.type-psychic {
+    --t-bg: rgba(244, 114, 182, .18);
+    --t-br: rgba(244, 114, 182, .36);
+    --t-tx: rgba(157, 23, 77, .95);
+}
+
+/* Bicho (NO blanco) */
+.type-bug {
+    --t-bg: rgba(132, 204, 22, .18);
+    --t-br: rgba(132, 204, 22, .38);
+    --t-tx: rgba(54, 83, 20, .95);
+}
+
+/* Roca */
+.type-rock {
+    --t-bg: rgba(168, 162, 158, .18);
+    --t-br: rgba(120, 113, 108, .34);
+    --t-tx: rgba(68, 64, 60, .95);
+}
+
+/* Fantasma */
+.type-ghost {
+    --t-bg: rgba(99, 102, 241, .18);
+    --t-br: rgba(99, 102, 241, .36);
+    --t-tx: rgba(49, 46, 129, .95);
+}
+
+/* Dragón */
+.type-dragon {
+    --t-bg: rgba(37, 99, 235, .16);
+    --t-br: rgba(37, 99, 235, .34);
+    --t-tx: rgba(30, 58, 138, .95);
+}
+
+/* Siniestro */
+.type-dark {
+    --t-bg: rgba(71, 85, 105, .22);
+    --t-br: rgba(51, 65, 85, .40);
+    --t-tx: rgba(15, 23, 42, .95);
+}
+
+/* Acero */
+.type-steel {
+    --t-bg: rgba(203, 213, 225, .22);
+    --t-br: rgba(148, 163, 184, .40);
+    --t-tx: rgba(30, 41, 59, .92);
+}
+
+/* Hada */
+.type-fairy {
+    --t-bg: rgba(236, 72, 153, .18);
+    --t-br: rgba(236, 72, 153, .36);
+    --t-tx: rgba(131, 24, 67, .95);
+}
+
+/* =========================================================
+   TCG FLIP CARD (Front: image + name + types + id)
+   ========================================================= */
+.tcg-card {
+    perspective: 1200px;
+    user-select: none;
+    outline: none;
+}
+
+.tcg-card-inner {
+    position: relative;
+    width: 100%;
+    min-height: 420px;
+    transform-style: preserve-3d;
+    transition: transform .65s cubic-bezier(.2, .8, .2, 1);
+}
+
+.tcg-card.is-flipped .tcg-card-inner {
+    transform: rotateY(180deg);
+}
+
+.tcg-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    border: 1px solid var(--tcg-border);
+    background: var(--tcg-bg);
+    box-shadow: var(--tcg-shadow);
+    overflow: hidden;
+    backface-visibility: hidden;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    color: var(--text);
+}
+
+.tcg-face::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background:
+        radial-gradient(520px 160px at 10% 0%, rgba(255, 255, 255, .35), transparent 60%),
+        radial-gradient(420px 160px at 95% 10%, rgba(255, 255, 255, .22), transparent 55%);
+    opacity: .9;
+}
+
+html.dark .tcg-face::before {
+    background:
+        radial-gradient(520px 160px at 10% 0%, rgba(245, 240, 198, .08), transparent 60%),
+        radial-gradient(420px 160px at 95% 10%, rgba(99, 118, 184, .10), transparent 55%);
+    opacity: 1;
+}
+
+.tcg-front {
+    transform: rotateY(0deg);
+}
+
+.tcg-back {
+    transform: rotateY(180deg);
+}
+
+.tcg-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.tcg-name {
+    font-weight: 950;
+    font-size: 20px;
+    letter-spacing: .01em;
+    line-height: 1.1;
+}
+
+.tcg-id {
+    font-weight: 900;
+    letter-spacing: .12em;
+    color: var(--tcg-muted);
+    font-size: 12px;
+    margin-top: 2px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.tcg-sub {
+    margin-top: 2px;
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--tcg-muted);
+}
+
+.tcg-art {
+    margin-top: 12px;
+    border-radius: 18px;
+    border: 1px solid var(--tcg-line);
+    background: var(--tcg-art-type-bg, var(--tcg-art-bg));
+    height: 240px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+}
+
+/* textura “watercolor” encima del color */
+.tcg-art::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: .55;
+    background:
+        radial-gradient(140px 110px at 20% 20%, rgba(255, 255, 255, .55), transparent 60%),
+        radial-gradient(180px 140px at 75% 35%, rgba(255, 255, 255, .35), transparent 60%),
+        radial-gradient(220px 160px at 35% 80%, rgba(0, 0, 0, .08), transparent 62%),
+        radial-gradient(240px 180px at 85% 80%, rgba(0, 0, 0, .06), transparent 62%);
+    filter: blur(0.2px);
+}
+
+html.dark .tcg-art::before {
+    opacity: .45;
+    background:
+        radial-gradient(140px 110px at 20% 20%, rgba(255, 255, 255, .18), transparent 60%),
+        radial-gradient(180px 140px at 75% 35%, rgba(255, 255, 255, .12), transparent 60%),
+        radial-gradient(220px 160px at 35% 80%, rgba(0, 0, 0, .22), transparent 62%),
+        radial-gradient(240px 180px at 85% 80%, rgba(0, 0, 0, .18), transparent 62%);
+}
+
+/* figura grande tipo “TCG” (droplet/flame/leaf/etc) */
+.tcg-art::after {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    z-index: 2;
+    pointer-events: none;
+    opacity: .24;
+
+    background: var(--tcg-art-wm-color, rgba(0, 0, 0, .12));
+
+    -webkit-mask-image: var(--tcg-art-icon, none);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: 85% 30%;
+    -webkit-mask-size: 82% 82%;
+
+    mask-image: var(--tcg-art-icon, none);
+    mask-repeat: no-repeat;
+    mask-position: 85% 30%;
+    mask-size: 82% 82%;
+
+    transform: rotate(-8deg);
+}
+
+html.dark .tcg-art::after {
+    opacity: .20;
+    background: var(--tcg-art-wm-color, rgba(255, 255, 255, .14));
+}
+
+.tcg-art-img {
+    width: 92%;
+    height: 92%;
+    object-fit: contain;
+    filter: drop-shadow(0 18px 22px rgba(0, 0, 0, .20));
+    position: relative;
+    z-index: 3;
+}
+
+html.dark .tcg-art-img {
+    filter: drop-shadow(0 18px 22px rgba(0, 0, 0, .45));
+}
+
+.tcg-types {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.tcg-actions {
+    margin-top: auto;
+    padding-top: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+/* BACK content */
+.tcg-back-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.tcg-back-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* ===== Back: panel mini info (versión pro, sin vars rotas) ===== */
+.tcg-panel {
+    margin-top: 12px;
+    border-radius: 18px;
+    border: 1px solid var(--tcg-line);
+    background: rgba(255, 255, 255, .40);
+    padding: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+html.dark .tcg-panel {
+    background: rgba(0, 0, 0, .14);
+}
+
+.tcg-section-title {
+    font-weight: 950;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--tcg-muted);
+    margin: 2px 2px 8px;
+    text-transform: uppercase;
+}
+
+.tcg-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.tcg-chip {
+    border: 1px solid var(--tcg-line);
+    background: rgba(255, 255, 255, .42);
+    border-radius: 999px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+html.dark .tcg-chip {
+    background: rgba(255, 255, 255, .05);
+}
+
+.tcg-chip span {
+    font-weight: 900;
+    font-size: 12px;
+    color: var(--tcg-muted);
+    letter-spacing: .02em;
+}
+
+.tcg-chip b {
+    font-weight: 950;
+    font-size: 12px;
+    color: var(--text);
+}
+
+.tcg-divider {
+    height: 1px;
+    background: var(--tcg-line);
+    margin: 12px 2px;
+    border-radius: 999px;
+    opacity: .95;
+}
+
+.tcg-rel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.tcg-rel .type {
+    font-size: 11px;
+    padding: 5px 9px;
+}
+
+.tcg-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 950;
+    letter-spacing: .02em;
+    color: var(--text);
+    background: rgba(255, 255, 255, .30);
+    border: 1px solid var(--tcg-line);
+}
+
+html.dark .tcg-tag {
+    background: rgba(0, 0, 0, .12);
+}
+
+.tcg-tag-dashed {
+    border-style: dashed;
+    color: var(--tcg-muted);
+}
+
+.tcg-more {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 950;
+    letter-spacing: .02em;
+    text-decoration: none;
+
+    border: 1px dashed var(--tcg-line);
+    background: rgba(255, 255, 255, .32);
+    color: var(--text);
+}
+
+html.dark .tcg-more {
+    background: rgba(0, 0, 0, .16);
+}
+
+.tcg-more:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.tcg-footnote {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--tcg-muted);
+}
+
+/* Energy colors (use type name class) */
+.tcg-energy.energy-normal {
+    background: linear-gradient(180deg, #e2e8f0, #cbd5e1);
+}
+
+.tcg-energy.energy-fire {
+    background: linear-gradient(180deg, #ff6b6b, #ef4444);
+}
+
+.tcg-energy.energy-water {
+    background: linear-gradient(180deg, #60a5fa, #2563eb);
+}
+
+.tcg-energy.energy-electric {
+    background: linear-gradient(180deg, #fde047, #f59e0b);
+}
+
+.tcg-energy.energy-grass {
+    background: linear-gradient(180deg, #86efac, #16a34a);
+}
+
+.tcg-energy.energy-ice {
+    background: linear-gradient(180deg, #7dd3fc, #38bdf8);
+}
+
+.tcg-energy.energy-fighting {
+    background: linear-gradient(180deg, #fdba74, #f97316);
+}
+
+.tcg-energy.energy-poison {
+    background: linear-gradient(180deg, #e879f9, #a855f7);
+}
+
+.tcg-energy.energy-ground {
+    background: linear-gradient(180deg, #fbbf24, #b45309);
+}
+
+.tcg-energy.energy-flying {
+    background: linear-gradient(180deg, #bfdbfe, #60a5fa);
+}
+
+.tcg-energy.energy-psychic {
+    background: linear-gradient(180deg, #f9a8d4, #f472b6);
+}
+
+.tcg-energy.energy-bug {
+    background: linear-gradient(180deg, #bef264, #84cc16);
+}
+
+.tcg-energy.energy-rock {
+    background: linear-gradient(180deg, #d6d3d1, #a8a29e);
+}
+
+.tcg-energy.energy-ghost {
+    background: linear-gradient(180deg, #a5b4fc, #6366f1);
+}
+
+.tcg-energy.energy-dragon {
+    background: linear-gradient(180deg, #93c5fd, #2563eb);
+}
+
+.tcg-energy.energy-dark {
+    background: linear-gradient(180deg, #94a3b8, #334155);
+}
+
+.tcg-energy.energy-steel {
+    background: linear-gradient(180deg, #e5e7eb, #cbd5e1);
+}
+
+.tcg-energy.energy-fairy {
+    background: linear-gradient(180deg, #fbcfe8, #ec4899);
+}
+
+/* Responsive */
+@media (max-width:576px) {
+    .tcg-card-inner {
+        min-height: 405px;
+    }
+
+    .tcg-art {
+        height: 220px;
+    }
+
+    .tcg-name {
+        font-size: 18px;
+    }
+}
+
+/* =========================================
+   ICONS (SVG DATA URI)
+   ========================================= */
+:root {
+    --icon-water: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2C22 16 12 26 12 40a20 20 0 1040 0C52 26 42 16 32 2z'/%3E%3C/svg%3E");
+    --icon-fire: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M35 2c2 10-6 14-3 24 3 9 14 9 14 22 0 10-8 14-16 14S14 57 14 46c0-12 10-16 15-26 2-4 2-10 6-18z'/%3E%3C/svg%3E");
+    --icon-grass: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M54 10C34 10 22 22 22 42c0 8 3 12 6 12 3 0 4-4 4-10 8 0 18-8 22-34z'/%3E%3Cpath d='M10 22c18 0 26 10 26 30 0 8-3 10-6 10s-4-4-4-10c-8 0-14-6-16-30z'/%3E%3C/svg%3E");
+    --icon-electric: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M36 2L12 36h16l-4 26 28-38H36z'/%3E%3C/svg%3E");
+    --icon-ice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2l6 12 14-2-8 12 8 12-14-2-6 12-6-12-14 2 8-12-8-12 14 2 6-12z'/%3E%3C/svg%3E");
+    --icon-normal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22'/%3E%3C/svg%3E");
+    --icon-fighting: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M18 38c0-8 6-14 14-14h8v8h6c4 0 6 3 6 7 0 7-6 13-14 13H26c-5 0-8-3-8-7z'/%3E%3C/svg%3E");
+    --icon-poison: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M20 20c0-8 6-14 12-14s12 6 12 14-6 14-12 14-12-6-12-14z'/%3E%3Cpath d='M14 44c0-9 8-16 18-16s18 7 18 16-8 16-18 16-18-7-18-16z'/%3E%3C/svg%3E");
+    --icon-ground: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 46l14-20 10 12 10-16 14 24H8z'/%3E%3C/svg%3E");
+    --icon-flying: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M6 34c18-18 38-18 52 0-10-4-18-3-26 4-8-7-16-8-26-4z'/%3E%3C/svg%3E");
+    --icon-psychic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 10c10 0 18 8 18 18S42 46 32 46 14 38 14 28s8-18 18-18zm0 10c-4 0-8 4-8 8s4 8 8 8 8-4 8-8-4-8-8-8z'/%3E%3C/svg%3E");
+    --icon-bug: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 10c6 0 10 6 10 14v18c0 8-4 14-10 14s-10-6-10-14V24c0-8 4-14 10-14z'/%3E%3Cpath d='M12 26h10M42 26h10M14 40h8M42 40h8' stroke='black' stroke-width='6' fill='none'/%3E%3C/svg%3E");
+    --icon-rock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M18 50l-6-16 10-14h20l10 14-6 16H18z'/%3E%3C/svg%3E");
+    --icon-ghost: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 8c10 0 18 8 18 18v26l-6-4-6 4-6-4-6 4-6-4-6 4V26c0-10 8-18 18-18z'/%3E%3C/svg%3E");
+    --icon-dragon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M50 16c-10 0-18 8-18 18 0 8 6 14 14 14 6 0 10-4 10-10 0-6-4-10-10-10-6 0-10 4-10 10 0 2 1 4 2 6-8-2-14-10-14-18 0-12 10-22 22-22-2 2-4 6-4 12z'/%3E%3C/svg%3E");
+    --icon-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M44 10c-10 2-18 12-18 24 0 10 6 18 14 20-14 2-26-8-26-22 0-12 8-22 20-24 4-1 8 0 10 2z'/%3E%3C/svg%3E");
+    --icon-steel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 10l18 10v24L32 54 14 44V20L32 10z'/%3E%3C/svg%3E");
+    --icon-fairy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 8l6 14 16 2-12 10 4 16-14-8-14 8 4-16-12-10 16-2 6-14z'/%3E%3C/svg%3E");
+}
+
+/* =========================================
+   TCG ART BACKGROUND BY TYPE (TEXTURA + FIGURA)
+   ========================================= */
+.tcg-art--water {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(59, 130, 246, .62), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(14, 165, 233, .34), transparent 58%),
+        linear-gradient(180deg, rgba(96, 165, 250, .26), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-water);
+    --tcg-art-wm-color: rgba(11, 120, 255, .22);
+}
+
+.tcg-art--fire {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(249, 115, 22, .66), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(239, 68, 68, .34), transparent 58%),
+        linear-gradient(180deg, rgba(251, 146, 60, .24), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-fire);
+    --tcg-art-wm-color: rgba(255, 72, 0, .22);
+}
+
+.tcg-art--grass {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(34, 197, 94, .62), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(132, 204, 22, .32), transparent 58%),
+        linear-gradient(180deg, rgba(74, 222, 128, .22), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-grass);
+    --tcg-art-wm-color: rgba(16, 185, 129, .22);
+}
+
+.tcg-art--electric {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(250, 204, 21, .72), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(234, 179, 8, .36), transparent 58%),
+        linear-gradient(180deg, rgba(253, 224, 71, .22), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-electric);
+    --tcg-art-wm-color: rgba(245, 158, 11, .20);
+}
+
+.tcg-art--ice {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(56, 189, 248, .60), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(125, 211, 252, .34), transparent 58%),
+        linear-gradient(180deg, rgba(186, 230, 253, .20), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-ice);
+    --tcg-art-wm-color: rgba(14, 116, 144, .18);
+}
+
+.tcg-art--normal {
+    --tcg-art-icon: var(--icon-normal);
+    --tcg-art-wm-color: rgba(0, 0, 0, .10);
+}
+
+.tcg-art--fighting {
+    --tcg-art-icon: var(--icon-fighting);
+    --tcg-art-wm-color: rgba(153, 27, 27, .16);
+}
+
+.tcg-art--poison {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(168, 85, 247, .58), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(217, 70, 239, .30), transparent 58%),
+        linear-gradient(180deg, rgba(233, 213, 255, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-poison);
+    --tcg-art-wm-color: rgba(126, 34, 206, .16);
+}
+
+.tcg-art--ground {
+    --tcg-art-icon: var(--icon-ground);
+    --tcg-art-wm-color: rgba(180, 83, 9, .14);
+}
+
+.tcg-art--flying {
+    --tcg-art-icon: var(--icon-flying);
+    --tcg-art-wm-color: rgba(37, 99, 235, .12);
+}
+
+.tcg-art--psychic {
+    --tcg-art-icon: var(--icon-psychic);
+    --tcg-art-wm-color: rgba(219, 39, 119, .14);
+}
+
+.tcg-art--bug {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(132, 204, 22, .62), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(34, 197, 94, .26), transparent 58%),
+        linear-gradient(180deg, rgba(190, 242, 100, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-bug);
+    --tcg-art-wm-color: rgba(101, 163, 13, .14);
+}
+
+.tcg-art--rock {
+    --tcg-art-icon: var(--icon-rock);
+    --tcg-art-wm-color: rgba(120, 113, 108, .14);
+}
+
+.tcg-art--ghost {
+    --tcg-art-icon: var(--icon-ghost);
+    --tcg-art-wm-color: rgba(79, 70, 229, .14);
+}
+
+.tcg-art--dragon {
+    --tcg-art-icon: var(--icon-dragon);
+    --tcg-art-wm-color: rgba(37, 99, 235, .14);
+}
+
+.tcg-art--dark {
+    --tcg-art-icon: var(--icon-dark);
+    --tcg-art-wm-color: rgba(15, 23, 42, .14);
+}
+
+.tcg-art--steel {
+    --tcg-art-icon: var(--icon-steel);
+    --tcg-art-wm-color: rgba(71, 85, 105, .12);
+}
+
+.tcg-art--fairy {
+    --tcg-art-icon: var(--icon-fairy);
+    --tcg-art-wm-color: rgba(236, 72, 153, .14);
+}
+
+/* si el navegador no soporta mask-image bien, al menos no rompas */
+@supports not (mask-image: url("")) {
+    .tcg-art::after {
+        display: none;
+    }
+}
+
+/* =========================================================
+   ✅ COLORES POR TIPO (18/18) — CHIPS + ART BACKGROUND
+   Pega al FINAL de pokedex.css
    ========================================================= */
 
-/* Día (Equipo Bueno) */
-.app-theme{
-    --bg-1: #ffffff;
-    --bg-2: #F6D02F;    /* amarillo eléctrico */
-    --bg-3: #0050AC;    /* azul rey suave en brillos */
-    --text: #0f172a;
+/* ---------- TYPE CHIPS: base (usa variables) ---------- */
+.type {
+    --t-bg: rgba(255, 255, 255, .45);
+    --t-br: rgba(15, 23, 42, .14);
+    --t-tx: rgba(11, 18, 32, .92);
 
-    --nav-top: #FF0000; /* rojo intenso */
-    --nav-bot: #D9162D;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .02em;
 
-    --glass-1: rgba(255,255,255,.72);
-    --glass-2: rgba(255,255,255,.45);
-    --card-border: rgba(15,23,42,.10);
+    border: 1px solid var(--t-br);
+    background: var(--t-bg);
+    color: var(--t-tx);
+}
 
+html.dark .type {
+    /* en dark, mantenemos el color de fondo/borde por tipo, pero aseguramos texto legible */
+    color: var(--t-tx-dark, rgba(234, 240, 255, .92));
+    border-color: var(--t-br);
+    background: var(--t-bg);
+}
+
+/* ---------- TYPE CHIPS: 18 tipos ---------- */
+/* Normal (neutro) */
+.type-normal {
+    --t-bg: rgba(148, 163, 184, .22);
+    --t-br: rgba(100, 116, 139, .34);
+    --t-tx: rgba(30, 41, 59, .92);
+    --t-tx-dark: rgba(234, 240, 255, .92);
+}
+
+/* Fuego */
+.type-fire {
+    --t-bg: rgba(239, 68, 68, .18);
+    --t-br: rgba(239, 68, 68, .40);
+    --t-tx: rgba(153, 27, 27, .95);
+    --t-tx-dark: rgba(255, 245, 245, .92);
+}
+
+/* Agua */
+.type-water {
+    --t-bg: rgba(59, 130, 246, .18);
+    --t-br: rgba(59, 130, 246, .40);
+    --t-tx: rgba(30, 64, 175, .95);
+    --t-tx-dark: rgba(235, 245, 255, .92);
+}
+
+/* Planta */
+.type-grass {
+    --t-bg: rgba(34, 197, 94, .18);
+    --t-br: rgba(34, 197, 94, .40);
+    --t-tx: rgba(20, 83, 45, .95);
+    --t-tx-dark: rgba(235, 255, 244, .92);
+}
+
+/* Eléctrico */
+.type-electric {
+    --t-bg: rgba(250, 204, 21, .26);
+    --t-br: rgba(234, 179, 8, .46);
+    --t-tx: rgba(133, 77, 14, .95);
+    --t-tx-dark: rgba(255, 250, 230, .92);
+}
+
+/* Hielo */
+.type-ice {
+    --t-bg: rgba(56, 189, 248, .18);
+    --t-br: rgba(56, 189, 248, .40);
+    --t-tx: rgba(12, 74, 110, .95);
+    --t-tx-dark: rgba(235, 252, 255, .92);
+}
+
+/* Lucha */
+.type-fighting {
+    --t-bg: rgba(249, 115, 22, .18);
+    --t-br: rgba(249, 115, 22, .40);
+    --t-tx: rgba(124, 45, 18, .95);
+    --t-tx-dark: rgba(255, 245, 235, .92);
+}
+
+/* Veneno (morado) */
+.type-poison {
+    --t-bg: rgba(168, 85, 247, .20);
+    --t-br: rgba(168, 85, 247, .44);
+    --t-tx: rgba(88, 28, 135, .95);
+    --t-tx-dark: rgba(248, 240, 255, .92);
+}
+
+/* Tierra (arena) */
+.type-ground {
+    --t-bg: rgba(245, 158, 11, .20);
+    --t-br: rgba(245, 158, 11, .44);
+    --t-tx: rgba(120, 53, 15, .95);
+    --t-tx-dark: rgba(255, 246, 235, .92);
+}
+
+/* Volador (cielo) */
+.type-flying {
+    --t-bg: rgba(147, 197, 253, .22);
+    --t-br: rgba(59, 130, 246, .34);
+    --t-tx: rgba(30, 64, 175, .92);
+    --t-tx-dark: rgba(235, 245, 255, .92);
+}
+
+/* Psíquico (rosa) */
+.type-psychic {
+    --t-bg: rgba(244, 114, 182, .20);
+    --t-br: rgba(244, 114, 182, .44);
+    --t-tx: rgba(157, 23, 77, .95);
+    --t-tx-dark: rgba(255, 235, 245, .92);
+}
+
+/* Bicho (verde lima, NO blanco) */
+.type-bug {
+    --t-bg: rgba(132, 204, 22, .20);
+    --t-br: rgba(132, 204, 22, .46);
+    --t-tx: rgba(54, 83, 20, .95);
+    --t-tx-dark: rgba(245, 255, 235, .92);
+}
+
+/* Roca (piedra) */
+.type-rock {
+    --t-bg: rgba(168, 162, 158, .22);
+    --t-br: rgba(120, 113, 108, .38);
+    --t-tx: rgba(68, 64, 60, .95);
+    --t-tx-dark: rgba(245, 245, 245, .92);
+}
+
+/* Fantasma (indigo) */
+.type-ghost {
+    --t-bg: rgba(99, 102, 241, .20);
+    --t-br: rgba(99, 102, 241, .44);
+    --t-tx: rgba(49, 46, 129, .95);
+    --t-tx-dark: rgba(240, 242, 255, .92);
+}
+
+/* Dragón (azul profundo) */
+.type-dragon {
+    --t-bg: rgba(37, 99, 235, .18);
+    --t-br: rgba(37, 99, 235, .42);
+    --t-tx: rgba(30, 58, 138, .95);
+    --t-tx-dark: rgba(235, 245, 255, .92);
+}
+
+/* Siniestro (carbón) */
+.type-dark {
+    --t-bg: rgba(51, 65, 85, .26);
+    --t-br: rgba(30, 41, 59, .46);
+    --t-tx: rgba(15, 23, 42, .95);
+    --t-tx-dark: rgba(234, 240, 255, .92);
+}
+
+/* Acero (metal) */
+.type-steel {
+    --t-bg: rgba(203, 213, 225, .26);
+    --t-br: rgba(148, 163, 184, .46);
+    --t-tx: rgba(30, 41, 59, .92);
+    --t-tx-dark: rgba(234, 240, 255, .92);
+}
+
+/* Hada (magenta) */
+.type-fairy {
+    --t-bg: rgba(236, 72, 153, .20);
+    --t-br: rgba(236, 72, 153, .44);
+    --t-tx: rgba(131, 24, 67, .95);
+    --t-tx-dark: rgba(255, 235, 245, .92);
+}
+
+
+/* =========================================================
+   ✅ TCG ART: textura + figura (usa --tcg-art-type-bg y mask)
+   Nota: tu div debe ser: <div class="tcg-art tcg-art--fire">...</div>
+   ========================================================= */
+.tcg-art {
+    position: relative;
+    background: var(--tcg-art-type-bg, var(--tcg-art-bg));
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* textura tipo acuarela */
+.tcg-art::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: .55;
     background:
-        radial-gradient(1200px 380px at 20% -10%, rgba(246, 208, 47, .35), transparent 60%),
-        radial-gradient(900px 320px at 95% 0%, rgba(0, 80, 172, .16), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,1), rgba(245, 240, 198, .75));
-    color: var(--text);
-    min-height: 100vh;
+        radial-gradient(140px 110px at 20% 20%, rgba(255, 255, 255, .55), transparent 60%),
+        radial-gradient(180px 140px at 75% 35%, rgba(255, 255, 255, .35), transparent 60%),
+        radial-gradient(220px 160px at 35% 80%, rgba(0, 0, 0, .08), transparent 62%),
+        radial-gradient(240px 180px at 85% 80%, rgba(0, 0, 0, .06), transparent 62%);
+    filter: blur(.2px);
 }
 
-/* Noche (Team Rocket) */
-html.dark .app-theme{
-    --bg-1: #222222;    /* negro */
-    --bg-2: #B91D47;    /* magenta */
-    --bg-3: #6376B8;    /* azul lavanda */
-    --text: #F2F2F2;    /* blanco hueso */
-
-    --nav-top: #222222;
-    --nav-bot: #D9162D; /* rojo rubí */
-
-    --glass-1: rgba(255,255,255,.06);
-    --glass-2: rgba(255,255,255,.03);
-    --card-border: rgba(255,255,255,.10);
-
+html.dark .tcg-art::before {
+    opacity: .45;
     background:
-        radial-gradient(1200px 380px at 20% -10%, rgba(217, 22, 45, .22), transparent 60%),
-        radial-gradient(900px 320px at 95% 0%, rgba(185, 29, 71, .18), transparent 55%),
-        radial-gradient(900px 320px at 60% 120%, rgba(99, 118, 184, .18), transparent 55%),
-        linear-gradient(180deg, #111111, #222222);
-    color: var(--text);
+        radial-gradient(140px 110px at 20% 20%, rgba(255, 255, 255, .18), transparent 60%),
+        radial-gradient(180px 140px at 75% 35%, rgba(255, 255, 255, .12), transparent 60%),
+        radial-gradient(220px 160px at 35% 80%, rgba(0, 0, 0, .22), transparent 62%),
+        radial-gradient(240px 180px at 85% 80%, rgba(0, 0, 0, .18), transparent 62%);
 }
 
-/* navbar Pokémon usa variables */
-.poke-navbar{
-    background:
-        radial-gradient(900px 220px at 18% 0%, rgba(255,255,255,.18), transparent 60%),
-        linear-gradient(180deg, var(--nav-top), var(--nav-bot));
+/* figura grande tipo TCG */
+.tcg-art::after {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    z-index: 2;
+    pointer-events: none;
+    opacity: .24;
+
+    background: var(--tcg-art-wm-color, rgba(0, 0, 0, .12));
+
+    -webkit-mask-image: var(--tcg-art-icon, none);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: 85% 30%;
+    -webkit-mask-size: 82% 82%;
+
+    mask-image: var(--tcg-art-icon, none);
+    mask-repeat: no-repeat;
+    mask-position: 85% 30%;
+    mask-size: 82% 82%;
+
+    transform: rotate(-8deg);
 }
 
-/* Botón del tema: muestra texto correcto */
-.poke-btn .theme-night {
-    display: none;
+html.dark .tcg-art::after {
+    opacity: .20;
+    background: var(--tcg-art-wm-color, rgba(255, 255, 255, .14));
 }
-html.dark .poke-btn .theme-night {
-    display: inline-flex;
+
+.tcg-art .tcg-art-img {
+    position: relative;
+    z-index: 3;
 }
-html.dark .poke-btn .theme-day {
-    display: none;
+
+/* ---------- ICONS (SVG DATA URI) ---------- */
+:root {
+    --icon-water: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2C22 16 12 26 12 40a20 20 0 1040 0C52 26 42 16 32 2z'/%3E%3C/svg%3E");
+    --icon-fire: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M35 2c2 10-6 14-3 24 3 9 14 9 14 22 0 10-8 14-16 14S14 57 14 46c0-12 10-16 15-26 2-4 2-10 6-18z'/%3E%3C/svg%3E");
+    --icon-grass: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M54 10C34 10 22 22 22 42c0 8 3 12 6 12 3 0 4-4 4-10 8 0 18-8 22-34z'/%3E%3Cpath d='M10 22c18 0 26 10 26 30 0 8-3 10-6 10s-4-4-4-10c-8 0-14-6-16-30z'/%3E%3C/svg%3E");
+    --icon-electric: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M36 2L12 36h16l-4 26 28-38H36z'/%3E%3C/svg%3E");
+    --icon-ice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2l6 12 14-2-8 12 8 12-14-2-6 12-6-12-14 2 8-12-8-12 14 2 6-12z'/%3E%3C/svg%3E");
+    --icon-normal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22'/%3E%3C/svg%3E");
+    --icon-fighting: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M18 38c0-8 6-14 14-14h8v8h6c4 0 6 3 6 7 0 7-6 13-14 13H26c-5 0-8-3-8-7z'/%3E%3C/svg%3E");
+    --icon-poison: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M20 20c0-8 6-14 12-14s12 6 12 14-6 14-12 14-12-6-12-14z'/%3E%3Cpath d='M14 44c0-9 8-16 18-16s18 7 18 16-8 16-18 16-18-7-18-16z'/%3E%3C/svg%3E");
+    --icon-ground: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 46l14-20 10 12 10-16 14 24H8z'/%3E%3C/svg%3E");
+    --icon-flying: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M6 34c18-18 38-18 52 0-10-4-18-3-26 4-8-7-16-8-26-4z'/%3E%3C/svg%3E");
+    --icon-psychic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 10c10 0 18 8 18 18S42 46 32 46 14 38 14 28s8-18 18-18zm0 10c-4 0-8 4-8 8s4 8 8 8 8-4 8-8-4-8-8-8z'/%3E%3C/svg%3E");
+    --icon-bug: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 10c6 0 10 6 10 14v18c0 8-4 14-10 14s-10-6-10-14V24c0-8 4-14 10-14z'/%3E%3Cpath d='M12 26h10M42 26h10M14 40h8M42 40h8' stroke='black' stroke-width='6' fill='none'/%3E%3C/svg%3E");
+    --icon-rock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M18 50l-6-16 10-14h20l10 14-6 16H18z'/%3E%3C/svg%3E");
+    --icon-ghost: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 8c10 0 18 8 18 18v26l-6-4-6 4-6-4-6 4-6-4-6 4V26c0-10 8-18 18-18z'/%3E%3C/svg%3E");
+    --icon-dragon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M50 16c-10 0-18 8-18 18 0 8 6 14 14 14 6 0 10-4 10-10 0-6-4-10-10-10-6 0-10 4-10 10 0 2 1 4 2 6-8-2-14-10-14-18 0-12 10-22 22-22-2 2-4 6-4 12z'/%3E%3C/svg%3E");
+    --icon-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M44 10c-10 2-18 12-18 24 0 10 6 18 14 20-14 2-26-8-26-22 0-12 8-22 20-24 4-1 8 0 10 2z'/%3E%3C/svg%3E");
+    --icon-steel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 10l18 10v24L32 54 14 44V20L32 10z'/%3E%3C/svg%3E");
+    --icon-fairy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 8l6 14 16 2-12 10 4 16-14-8-14 8 4-16-12-10 16-2 6-14z'/%3E%3C/svg%3E");
+}
+
+/* ---------- ART BACKGROUNDS: 18 tipos ---------- */
+.tcg-art--normal {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(148, 163, 184, .55), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(203, 213, 225, .30), transparent 58%),
+        linear-gradient(180deg, rgba(226, 232, 240, .22), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-normal);
+    --tcg-art-wm-color: rgba(71, 85, 105, .16);
+}
+
+.tcg-art--fire {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(249, 115, 22, .66), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(239, 68, 68, .34), transparent 58%),
+        linear-gradient(180deg, rgba(251, 146, 60, .24), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-fire);
+    --tcg-art-wm-color: rgba(255, 72, 0, .22);
+}
+
+.tcg-art--water {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(59, 130, 246, .62), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(14, 165, 233, .34), transparent 58%),
+        linear-gradient(180deg, rgba(96, 165, 250, .26), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-water);
+    --tcg-art-wm-color: rgba(11, 120, 255, .22);
+}
+
+.tcg-art--grass {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(34, 197, 94, .62), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(132, 204, 22, .32), transparent 58%),
+        linear-gradient(180deg, rgba(74, 222, 128, .22), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-grass);
+    --tcg-art-wm-color: rgba(16, 185, 129, .22);
+}
+
+.tcg-art--electric {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(250, 204, 21, .72), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(234, 179, 8, .36), transparent 58%),
+        linear-gradient(180deg, rgba(253, 224, 71, .22), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-electric);
+    --tcg-art-wm-color: rgba(245, 158, 11, .20);
+}
+
+.tcg-art--ice {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(56, 189, 248, .60), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(125, 211, 252, .34), transparent 58%),
+        linear-gradient(180deg, rgba(186, 230, 253, .20), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-ice);
+    --tcg-art-wm-color: rgba(14, 116, 144, .18);
+}
+
+.tcg-art--fighting {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(249, 115, 22, .62), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(234, 88, 12, .34), transparent 58%),
+        linear-gradient(180deg, rgba(253, 186, 116, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-fighting);
+    --tcg-art-wm-color: rgba(124, 45, 18, .18);
+}
+
+.tcg-art--poison {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(168, 85, 247, .58), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(217, 70, 239, .30), transparent 58%),
+        linear-gradient(180deg, rgba(233, 213, 255, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-poison);
+    --tcg-art-wm-color: rgba(126, 34, 206, .18);
+}
+
+.tcg-art--ground {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(245, 158, 11, .60), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(180, 83, 9, .28), transparent 58%),
+        linear-gradient(180deg, rgba(254, 215, 170, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-ground);
+    --tcg-art-wm-color: rgba(120, 53, 15, .16);
+}
+
+.tcg-art--flying {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(147, 197, 253, .62), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(59, 130, 246, .26), transparent 58%),
+        linear-gradient(180deg, rgba(219, 234, 254, .20), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-flying);
+    --tcg-art-wm-color: rgba(37, 99, 235, .12);
+}
+
+.tcg-art--psychic {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(244, 114, 182, .60), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(236, 72, 153, .28), transparent 58%),
+        linear-gradient(180deg, rgba(251, 207, 232, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-psychic);
+    --tcg-art-wm-color: rgba(219, 39, 119, .14);
+}
+
+.tcg-art--bug {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(132, 204, 22, .62), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(34, 197, 94, .22), transparent 58%),
+        linear-gradient(180deg, rgba(190, 242, 100, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-bug);
+    --tcg-art-wm-color: rgba(101, 163, 13, .14);
+}
+
+.tcg-art--rock {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(168, 162, 158, .55), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(120, 113, 108, .28), transparent 58%),
+        linear-gradient(180deg, rgba(231, 229, 228, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-rock);
+    --tcg-art-wm-color: rgba(87, 83, 78, .14);
+}
+
+.tcg-art--ghost {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(99, 102, 241, .56), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(79, 70, 229, .26), transparent 58%),
+        linear-gradient(180deg, rgba(224, 231, 255, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-ghost);
+    --tcg-art-wm-color: rgba(79, 70, 229, .16);
+}
+
+.tcg-art--dragon {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(37, 99, 235, .58), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(14, 165, 233, .22), transparent 58%),
+        linear-gradient(180deg, rgba(191, 219, 254, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-dragon);
+    --tcg-art-wm-color: rgba(37, 99, 235, .16);
+}
+
+.tcg-art--dark {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(51, 65, 85, .58), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(15, 23, 42, .26), transparent 58%),
+        linear-gradient(180deg, rgba(148, 163, 184, .14), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-dark);
+    --tcg-art-wm-color: rgba(15, 23, 42, .16);
+}
+
+.tcg-art--steel {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(203, 213, 225, .66), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(148, 163, 184, .30), transparent 58%),
+        linear-gradient(180deg, rgba(241, 245, 249, .20), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-steel);
+    --tcg-art-wm-color: rgba(71, 85, 105, .12);
+}
+
+.tcg-art--fairy {
+    --tcg-art-type-bg:
+        radial-gradient(120% 100% at 25% 15%, rgba(236, 72, 153, .56), transparent 60%),
+        radial-gradient(120% 100% at 85% 20%, rgba(244, 114, 182, .26), transparent 58%),
+        linear-gradient(180deg, rgba(251, 207, 232, .18), rgba(255, 255, 255, .56));
+    --tcg-art-icon: var(--icon-fairy);
+    --tcg-art-wm-color: rgba(236, 72, 153, .16);
+}
+
+/* fallback si mask-image no se soporta bien */
+@supports not (mask-image: url("")) {
+    .tcg-art::after {
+        display: none;
+    }
 }

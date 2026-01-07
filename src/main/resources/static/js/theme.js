@@ -9,17 +9,14 @@
 
     function updateButton() {
         const btn = document.getElementById("themeToggle");
-        if (!btn)
-            return;
+        if (!btn) return;
 
         const isNight = document.documentElement.classList.contains("dark");
         const day = btn.querySelector(".theme-day");
         const night = btn.querySelector(".theme-night");
 
-        if (day)
-            day.style.display = isNight ? "none" : "inline-flex";
-        if (night)
-            night.style.display = isNight ? "inline-flex" : "none";
+        if (day) day.style.display = isNight ? "none" : "inline-flex";
+        if (night) night.style.display = isNight ? "inline-flex" : "none";
     }
 
     function setTheme(isNight) {
@@ -28,21 +25,17 @@
         updateButton();
     }
 
-    // Inicializa al cargar
     document.addEventListener("DOMContentLoaded", () => {
-        // asegura consistencia con lo aplicado en <head>
         setTheme(getIsNight());
 
         const btn = document.getElementById("themeToggle");
-        if (!btn)
-            return;
+        if (!btn) return;
 
         btn.addEventListener("click", () => {
             const isNight = document.documentElement.classList.contains("dark");
             setTheme(!isNight);
         });
 
-        // por si alguien cambia la clase dark desde otro lado
         new MutationObserver(updateButton).observe(document.documentElement, {
             attributes: true,
             attributeFilter: ["class"]

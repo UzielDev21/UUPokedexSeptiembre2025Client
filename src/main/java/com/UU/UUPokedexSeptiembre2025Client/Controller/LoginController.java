@@ -1,6 +1,7 @@
 package com.UU.UUPokedexSeptiembre2025Client.Controller;
 
 import com.UU.UUPokedexSeptiembre2025Client.ML.Result;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,25 +17,42 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("api")
 public class LoginController {
 
+    /*
+        *Url del Backend Real
+     */
     private static final String urlBase = "http://localhost:8080";
 
+    /*
+        *Metodo implementado con GetMappin para el renderizado general del login
+     */
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
+    /*
+        *aunque este metodo se llame igual que el metodo anterior
+        *No afecta por el manejo diferente de la anotació
+    ---------------------------------------------------------------
+        *Manejo Post en formulario para validar el usuario y password
+     */
     @PostMapping("/login")
-    public String login(@RequestParam("userName") String userName,
+    public String login(
+            @RequestParam("userName") String userName,
             @RequestParam("password_Hash") String password_Hash,
-            Model model, HttpSession session) {
+            Model model,
+            HttpSession session) {
 
-   
+        // Construcción del JSON para enviar al backend
         Map<String, String> datos = new HashMap<>();
         datos.put("userName", userName);
         datos.put("password_Hash", password_Hash);
@@ -42,8 +60,10 @@ public class LoginController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
+        HttpEntity<Map<String, String>> requestEntity
+                = new HttpEntity<>(datos, headers);
+
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(datos, headers);
 
         try {
 
@@ -54,88 +74,100 @@ public class LoginController {
                     new ParameterizedTypeReference<Result<String>>() {
             });
 
-            int status = responseEntity.getStatusCode().value();
+            Result<String> result = responseEntity.getBody();
 
-            if (status == 200) {
+            if (result != null && Boolean.TRUE.equals(result.correct)) {
 
-                Result<String> result = responseEntity.getBody();
+                String jwt = result.object;
+                session.setAttribute("jwtToken", jwt);
+                session.setAttribute("loggedUsername", userName);
 
-                if (result != null && Boolean.TRUE.equals(result.correct)) {
-                    String jwt = result.object;
+                Map<String, Object> claims = decodeJwt(jwt);
 
-                    session.setAttribute("jwtToken", jwt);
-                    session.setAttribute("loggedUsername", userName);
-
-                    Map<String, Object> claims = decodeJwt(jwt);
-
-                    if (claims != null) {
-
-                        String rol = (String) claims.get("rol");
-                        Integer user_Id = null;
-                        Object idObject = claims.get("user_Id");
-
-                        if (idObject instanceof Integer) {
-
-                            user_Id = (Integer) idObject;
-
-                        } else if (idObject instanceof Number) {
-
-                            user_Id = ((Number) (idObject)).intValue();
-                        }
-
-                        session.setAttribute("rol", rol);
-                        session.setAttribute("user_Id", user_Id);
-
-                        if ("Profesor".equalsIgnoreCase(rol)
-                                || "Entrenador".equalsIgnoreCase(rol)) {
-
-                            return "redirect:/pokedex";
-                        }
-
-                    } else {
-                        model.addAttribute("error", "No se pudo leer el token correctamente");
-                        return "login";
-                    }
-
-                } else {
-                    String msgError;
-
-                    if (result != null && result.errorMessage != null) {
-
-                        msgError = result.errorMessage;
-
-                    } else {
-                        msgError = "Error al iniciar la sesión";
-                    }
-                    model.addAttribute("error", msgError);
+                if (claims == null) {
+                    model.addAttribute(
+                            "loginErrorMessage",
+                            "No se pudo procesar el token de autenticación"
+                    );
                     return "login";
                 }
 
-            } else if (status == 401) {
-                Result<String> result = responseEntity.getBody();
-                String msgError;
-
-                if (result != null && result.errorMessage != null) {
-
-                    msgError = result.errorMessage;
-
-                } else {
-                    msgError = "Credenciales invalidas";
-
+                String rol = (String) claims.get("rol");
+                Object idObject = claims.get("user_Id");
+                Integer user_Id = null;
+                
+                if (idObject instanceof Number) {
+                    user_Id = ((Number) idObject).intValue();
                 }
-                model.addAttribute("error", msgError);
-                return "login";
 
-            } else {
-                String msgError = "Error al comunicarse al servidor. (" + status + ")";
-                model.addAttribute("error", msgError);
+                session.setAttribute("rol", rol);
+                session.setAttribute("user_Id", user_Id);
+
+                // Redireccionamientos
+                if ("Profesor".equalsIgnoreCase(rol)
+                        || "Entrenador".equalsIgnoreCase(rol)) {
+
+                    return "redirect:/pokedex";
+                }
+
+                // Rol inesperado
+                model.addAttribute(
+                        "loginErrorMessage",
+                        "No tienes permisos para acceder"
+                );
                 return "login";
             }
+
+            model.addAttribute(
+                    "loginErrorMessage",
+                    "Error al iniciar sesión, intenta nuevamente"
+            );
+            return "login";
+
+        } // ERROR 401 (credenciales incorrectas o usuario inexistente)
+        catch (HttpClientErrorException ex) {
+            
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                Result<?> result = mapper.readValue(
+                        ex.getResponseBodyAsString(),
+                        Result.class
+                );
+
+                model.addAttribute(
+                        "loginErrorMessage",
+                        result.errorMessage
+                );
+
+            } catch (Exception e) {
+                model.addAttribute(
+                        "loginErrorMessage",
+                        "Error al iniciar sesión"
+                );
+            }
+            return "login";
+            
+        } // ERROR 500 DEL BACKEND
+        catch (HttpServerErrorException ex) {
+            model.addAttribute(
+                    "loginErrorMessage",
+                    "El servicio no está disponible, intenta más tarde"
+            );
+            return "login";
+        } // Error de TIMEOUT
+        catch (ResourceAccessException ex) {
+            model.addAttribute(
+                    "loginErrorMessage",
+                    "No se pudo conectar con el servidor de autenticación"
+            );
+            return "login";
         } catch (Exception ex) {
-            String msgError = "Error al comunicarse al servidor: " + ex.getLocalizedMessage();
-            model.addAttribute("error", msgError);
+            model.addAttribute(
+                    "loginErrorMessage",
+                    "Error inesperado al iniciar sesión"
+            );
+            return "login";
         }
-        return "login";
     }
 
     private Map<String, Object> decodeJwt(String jwt) {

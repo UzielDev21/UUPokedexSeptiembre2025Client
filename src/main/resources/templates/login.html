@@ -140,21 +140,19 @@
                                     </div>
                                 </div>
 
-                                <form th:action="@{/auth/login}" method="post" class="needs-validation" novalidate>
-                                    <input type="hidden" th:if="${_csrf != null}"
-                                           th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <form th:action="@{/api/login}" method="POST" class="needs-validation" novalidate>
 
                                     <div class="mb-3">
                                         <label for="user_d" class="form-label text-black/80 mb-1">Usuario</label>
-                                        <input id="user_d" name="username" class="form-control form-control-lg rounded-3"
-                                               placeholder="ASH" autocomplete="username" required>
+                                        <input id="user_d" name="userName" class="form-control form-control-lg rounded-3"
+                                               placeholder="ASH" autocomplete="userName" required>
                                         <div class="invalid-feedback">Escribe tu usuario.</div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="pass_d" class="form-label text-black/80 mb-1">Contraseña</label>
                                         <div class="input-group input-group-lg">
-                                            <input id="pass_d" name="password" type="password"
+                                            <input id="pass_d" name="password_Hasg" type="password"
                                                    class="form-control rounded-start-3"
                                                    placeholder="••••••••" autocomplete="current-password" required>
                                             <button class="btn btn-outline-dark rounded-end-3 btn-icon" type="button"

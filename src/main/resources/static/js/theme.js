@@ -1,6 +1,5 @@
-// /static/js/theme.js
 (function () {
-    const KEY = "uu_theme"; // "day" | "night"
+    const KEY = "uu_theme";
 
     function getIsNight() {
         const saved = localStorage.getItem(KEY);

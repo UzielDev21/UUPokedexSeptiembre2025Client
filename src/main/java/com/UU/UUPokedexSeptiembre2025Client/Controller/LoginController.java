@@ -23,7 +23,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 @Controller
-@RequestMapping("api")
+@RequestMapping("auth")
 public class LoginController {
 
     /*
@@ -52,7 +52,9 @@ public class LoginController {
             Model model,
             HttpSession session) {
 
-        // Construcción del JSON para enviar al backend
+        // =========================
+        // Construir JSON a enviar
+        // =========================
         Map<String, String> datos = new HashMap<>();
         datos.put("userName", userName);
         datos.put("password_Hash", password_Hash);
@@ -66,24 +68,33 @@ public class LoginController {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-
-            ResponseEntity<Result<String>> responseEntity = restTemplate.exchange(
-                    urlBase + "/api/login",
-                    HttpMethod.POST,
-                    requestEntity,
-                    new ParameterizedTypeReference<Result<String>>() {
-            });
+            // =========================
+            // Llamada al backend JWT
+            // =========================
+            ResponseEntity<Result<String>> responseEntity
+                    = restTemplate.exchange(
+                            urlBase + "/api/login",
+                            HttpMethod.POST,
+                            requestEntity,
+                            new ParameterizedTypeReference<Result<String>>() {
+                    }
+                    );
 
             Result<String> result = responseEntity.getBody();
 
+            // =========================
+            // Login correcto
+            // =========================
             if (result != null && Boolean.TRUE.equals(result.correct)) {
 
                 String jwt = result.object;
+
+                // Guardar token y usuario en sesión
                 session.setAttribute("jwtToken", jwt);
                 session.setAttribute("loggedUsername", userName);
 
+                // Decodificar JWT
                 Map<String, Object> claims = decodeJwt(jwt);
-
                 if (claims == null) {
                     model.addAttribute(
                             "loginErrorMessage",
@@ -95,7 +106,7 @@ public class LoginController {
                 String rol = (String) claims.get("rol");
                 Object idObject = claims.get("user_Id");
                 Integer user_Id = null;
-                
+
                 if (idObject instanceof Number) {
                     user_Id = ((Number) idObject).intValue();
                 }
@@ -103,14 +114,15 @@ public class LoginController {
                 session.setAttribute("rol", rol);
                 session.setAttribute("user_Id", user_Id);
 
-                // Redireccionamientos
+                // =========================
+                // Redirección por rol
+                // =========================
                 if ("Profesor".equalsIgnoreCase(rol)
                         || "Entrenador".equalsIgnoreCase(rol)) {
-
                     return "redirect:/pokedex";
                 }
 
-                // Rol inesperado
+                // Rol no permitido
                 model.addAttribute(
                         "loginErrorMessage",
                         "No tienes permisos para acceder"
@@ -118,50 +130,90 @@ public class LoginController {
                 return "login";
             }
 
+            // Caso raro: 200 pero correct=false
             model.addAttribute(
                     "loginErrorMessage",
                     "Error al iniciar sesión, intenta nuevamente"
             );
             return "login";
 
-        } // ERROR 401 (credenciales incorrectas o usuario inexistente)
+        } 
+        // =========================
+        // Errores 401 y 403
+        // =========================
         catch (HttpClientErrorException ex) {
-            
-            try {
-                ObjectMapper mapper = new ObjectMapper();
-                Result<?> result = mapper.readValue(
-                        ex.getResponseBodyAsString(),
-                        Result.class
-                );
 
+            int status = ex.getStatusCode().value();
+            String body = ex.getResponseBodyAsString();
+
+            if (status == 403) {
                 model.addAttribute(
                         "loginErrorMessage",
-                        result.errorMessage
+                        "Acceso denegado"
                 );
-
-            } catch (Exception e) {
-                model.addAttribute(
-                        "loginErrorMessage",
-                        "Error al iniciar sesión"
-                );
+                return "login";
             }
+
+            if (status == 401) {
+
+                if (body != null && !body.isBlank()) {
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        Result<?> result = mapper.readValue(body, Result.class);
+
+                        if (result != null
+                                && result.errorMessage != null
+                                && !result.errorMessage.isBlank()) {
+
+                            model.addAttribute(
+                                    "loginErrorMessage",
+                                    result.errorMessage
+                            );
+                            return "login";
+                        }
+                    } catch (Exception ignored) {
+                        
+                    }
+                }
+
+                model.addAttribute(
+                        "loginErrorMessage",
+                        "Credenciales incorrectas. Verifica tu usuario y contraseña."
+                );
+                return "login";
+            }
+
+            // Otros 40x
+            model.addAttribute(
+                    "loginErrorMessage",
+                    "Error al iniciar sesión (" + status + ")"
+            );
             return "login";
-            
-        } // ERROR 500 DEL BACKEND
+        } 
+        // =========================
+        // Error 5xx backend
+        // =========================
         catch (HttpServerErrorException ex) {
             model.addAttribute(
                     "loginErrorMessage",
                     "El servicio no está disponible, intenta más tarde"
             );
             return "login";
-        } // Error de TIMEOUT
+        } 
+        // =========================
+        // Error de conexión o timeout
+        // =========================
         catch (ResourceAccessException ex) {
             model.addAttribute(
                     "loginErrorMessage",
                     "No se pudo conectar con el servidor de autenticación"
             );
             return "login";
-        } catch (Exception ex) {
+        } 
+        // =========================
+        // Error inesperado
+        // =========================
+        catch (Exception ex) {
             model.addAttribute(
                     "loginErrorMessage",
                     "Error inesperado al iniciar sesión"

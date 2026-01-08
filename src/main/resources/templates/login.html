@@ -79,7 +79,7 @@
 
                             <div class="field">
                                 <label for="user_m">Usuario</label>
-                                <input id="user_m" name="username" class="form-control form-control-lg"
+                                <input id="user_m" name="userName" class="form-control form-control-lg"
                                        placeholder="ASH_K" autocomplete="username" required>
                                 <div class="invalid-feedback">Escribe tu usuario.</div>
                             </div>
@@ -87,7 +87,7 @@
                             <div class="field">
                                 <label for="pass_m">Contraseña</label>
                                 <div class="input-group input-group-lg">
-                                    <input id="pass_m" name="password" type="password" class="form-control"
+                                    <input id="pass_m" name="password_Hash" type="password" class="form-control"
                                            placeholder="••••••••" autocomplete="current-password" required>
 
                                     <button class="btn btn-outline-dark btn-icon" type="button"
@@ -101,7 +101,7 @@
                             <button type="submit" class="btn btn-lg w-100 btn-login">INICIAR SESIÓN</button>
 
                             <!-- Invitado -->
-                            <a th:href="@{/pokemons}" class="btn btn-lg w-100 btn-guest">ENTRAR COMO INVITADO</a>
+                            <a th:href="@{/pokedex}" class="btn btn-lg w-100 btn-guest">ENTRAR COMO INVITADO</a>
 
                             <div class="links">
                                 <!-- pendiente servicios de crear y recuperar contraseña -->
@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
 
-                                <form th:action="@{/api/login}" method="POST" class="needs-validation" novalidate>
+                                <form th:action="@{/auth/login}" method="POST" class="needs-validation" novalidate>
 
                                     <div class="mb-3">
                                         <label for="user_d" class="form-label text-black/80 mb-1">Usuario</label>

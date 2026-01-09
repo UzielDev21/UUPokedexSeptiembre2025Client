@@ -21,6 +21,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("auth")
@@ -137,8 +138,7 @@ public class LoginController {
             );
             return "login";
 
-        } 
-        // =========================
+        } // =========================
         // Errores 401 y 403
         // =========================
         catch (HttpClientErrorException ex) {
@@ -172,7 +172,7 @@ public class LoginController {
                             return "login";
                         }
                     } catch (Exception ignored) {
-                        
+
                     }
                 }
 
@@ -189,8 +189,7 @@ public class LoginController {
                     "Error al iniciar sesión (" + status + ")"
             );
             return "login";
-        } 
-        // =========================
+        } // =========================
         // Error 5xx backend
         // =========================
         catch (HttpServerErrorException ex) {
@@ -199,8 +198,7 @@ public class LoginController {
                     "El servicio no está disponible, intenta más tarde"
             );
             return "login";
-        } 
-        // =========================
+        } // =========================
         // Error de conexión o timeout
         // =========================
         catch (ResourceAccessException ex) {
@@ -209,8 +207,7 @@ public class LoginController {
                     "No se pudo conectar con el servidor de autenticación"
             );
             return "login";
-        } 
-        // =========================
+        } // =========================
         // Error inesperado
         // =========================
         catch (Exception ex) {
@@ -220,6 +217,53 @@ public class LoginController {
             );
             return "login";
         }
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String token = (String) session.getAttribute("jwtToken");
+
+        if (token == null) {
+            redirectAttributes.addFlashAttribute("error", "No hay sesión activa");
+            return "redirect: /login";
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+
+            ResponseEntity<Result<String>> responseEntity = restTemplate.exchange(
+                    urlBase + "/api/logout",
+                    HttpMethod.POST,
+                    entity,
+                    new ParameterizedTypeReference<Result<String>>() {
+            });
+
+            if (responseEntity.getStatusCode().value() == 200) {
+
+                Result<String> result = responseEntity.getBody();
+
+                if (result != null && Boolean.TRUE.equals(result.correct)) {
+
+                    session.invalidate();
+                    redirectAttributes.addFlashAttribute("msgLogout", "Sesión cerrada");
+
+                    return "redirect; /login";
+                }
+            }
+
+            redirectAttributes.addFlashAttribute("msgError", "No se pudo cerrar sesión");
+
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("msgError", "Error logout; " + ex.getLocalizedMessage());
+        }
+        return "redirect: /login";
     }
 
     private Map<String, Object> decodeJwt(String jwt) {

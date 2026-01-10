@@ -865,7 +865,7 @@
         if (!url.search) {
             setUrlState({ q: "", type: "", view: "grid", sort: "id_asc", limit: 12, offset: 0 }, { replace: true });
         }
-
+s
         syncDomFromState(getUrlState());
         load();
     })();

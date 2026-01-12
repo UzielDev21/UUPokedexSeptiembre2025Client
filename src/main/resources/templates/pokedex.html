@@ -1,3 +1,4 @@
+<!-- Holaaaa-->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout :: layout('Pokémons', 'pokemons', true, ~{::section})}">
@@ -20,16 +21,10 @@
                             <span class="badge badge-ash">ASH</span>
                             <span class="badge badge-rocket">TEAM ROCKET</span>
                         </div>
-                        <div class="text-muted-soft mt-1">
-                        </div>
                     </div>
-
                 </div>
 
-                <!-- BODY -->
                 <div class="row g-3">
-
-                    <!-- RIGHT: LISTADO -->
                     <div class="col-12">
                         <div class="panel-card">
                             <div class="panel-head d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -39,13 +34,9 @@
                                     <span class="badge bg-white/10 border border-white/10 text-white/80" id="countBadge">0</span>
                                 </div>
 
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="small text-muted-soft" id="metaLine">limit=12 • offset=0</span>
-                                </div>
                             </div>
 
                             <div class="panel-body">
-
                                 <div id="loadingState" class="empty-state" hidden>
                                     <div class="empty-icon"><i class="bi bi-arrow-repeat"></i></div>
                                     <div class="fw-bold">Cargando Pokémons…</div>
@@ -60,7 +51,10 @@
                                     <div class="text-muted-soft small mt-1">Prueba otra búsqueda o tipo.</div>
                                 </div>
 
+                                <!-- GRID TCG -->
                                 <div id="pokeGrid" class="row g-4"></div>
+
+                                <!-- LIST (si algún día la reactivas) -->
                                 <div id="pokeList" class="d-flex flex-column gap-2" hidden></div>
 
                                 <div class="mt-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -78,13 +72,11 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
 
+            </div>
         </form>
 
-        <!-- Modal detalle -->
         <div class="modal fade" id="pokemonModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content modal-neo">
@@ -122,15 +114,12 @@
                         </div>
                     </div>
                     <div class="modal-footer border-0">
-                        <button class="btn btn-neo btn-neo-outline rounded-3" data-bs-dismiss="modal" type="button">
-                            Cerrar
-                        </button>
+                        <button class="btn btn-neo btn-neo-outline rounded-3" data-bs-dismiss="modal" type="button">Cerrar</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <script src="/js/pokedex.js"></script>
-
     </section>
 </html>

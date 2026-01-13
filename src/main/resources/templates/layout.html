@@ -158,8 +158,8 @@
                                 
                                 <!--Usuario Loggeado-->
                                 <li th:if="${UsuarioLogueado != null}">
-                                    <form method="POST" th:action="@{/Login/Logout}" class="px-2">
-                                        <button class="dropdown-item text-danger d-flex align-items-center" type="submit">
+                                    <form method="POST" th:action="@{/auth/ogout}" class="px-2">
+                                        <button class="dropdown-item text-danger dl-flex align-items-center" type="submit">
                                             <i class="bi bi-box-arrow-right me-2"></i> Salir
                                         </button>
                                     </form>

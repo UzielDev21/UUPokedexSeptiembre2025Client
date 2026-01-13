@@ -37,18 +37,13 @@ public class PokedexController {
             HttpSession session
     ) {
 
-        // 1) Normalización / validación
         sear = (sear == null) ? "" : sear.trim();
         type = (type == null) ? "" : type.trim();
 
-        // limit 1..48
         limit = Math.max(1, Math.min(48, limit));
-        // offset >= 0
         offset = Math.max(0, offset);
-        // sort válido
         sort = normalizeSort(sort);
 
-        // 2) Construir URL hacia el Service
         String url = UriComponentsBuilder
                 .fromUriString(serviceBaseUrl + "/api/pokedex")
                 .queryParam("sear", sear)
@@ -58,7 +53,6 @@ public class PokedexController {
                 .queryParam("sort", sort)
                 .toUriString();
 
-        // 3) Headers (JSON + Bearer si existe)
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
@@ -80,7 +74,6 @@ public class PokedexController {
             if (resp.getStatusCode().is2xxSuccessful() && resp.getBody() != null) {
                 PokedexResponseDTO data = resp.getBody();
 
-                // 4) Pasar datos a la vista
                 model.addAttribute("pokes", data.pokes());
                 model.addAttribute("count", data.count());
                 model.addAttribute("hasNext", data.hasNext());
@@ -95,7 +88,7 @@ public class PokedexController {
             }
 
         } catch (RestClientResponseException ex) {
-            // Error HTTP del Service (400/401/500, etc.)
+            
             model.addAttribute("pokes", List.of());
             model.addAttribute("count", 0);
             model.addAttribute("hasNext", false);
@@ -103,7 +96,6 @@ public class PokedexController {
             model.addAttribute("errorMessage",
                     "Error del Service (" + ex.getLocalizedMessage()+ "): " + ex.getStatusText());
         } catch (Exception ex) {
-            // Error general (conexión, parsing, etc.)
             model.addAttribute("pokes", List.of());
             model.addAttribute("count", 0);
             model.addAttribute("hasNext", false);
@@ -112,7 +104,6 @@ public class PokedexController {
                     "No se pudo consultar el Service: " + ex.getMessage());
         }
 
-        // 5) Mantener parámetros en la vista (para paginación / filtros)
         model.addAttribute("sear", sear);
         model.addAttribute("type", type);
         model.addAttribute("limit", limit);

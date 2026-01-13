@@ -1,133 +1,95 @@
-<!-- Holaaaa-->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout :: layout('Pokémons', 'pokemons', true, ~{::section})}">
 
-<section class="py-3 pokedex-theme">
+    <section class="py-3 pokedex-theme">
 
-    <!-- IMPORTANTE: action y method -->
-    <form id="pokedexForm"
-          class="container-xl pokedex-shell"
-          autocomplete="off"
-          th:action="@{/pokedex}"
-          method="get">
+        <form id="pokedexForm"
+              class="container-xl pokedex-shell"
+              autocomplete="off"
+              th:action="@{/pokedex}"
+              method="get">
 
-        <!-- Mantén/manda parámetros -->
-        <input type="hidden" name="type" id="typeInput" th:value="${type}">
-        <input type="hidden" name="view" id="viewInput" th:value="${view != null ? view : 'grid'}">
-        <input type="hidden" name="offset" id="offsetInput" th:value="${offset}">
-        <input type="hidden" name="limit" th:value="${limit}">
-        <input type="hidden" name="sort" th:value="${sort}">
-        <input type="hidden" name="sear" th:value="${sear}">
+            <input type="hidden" name="type" id="typeInput" th:value="${type}">
+            <input type="hidden" name="view" id="viewInput" th:value="${view != null ? view : 'grid'}">
+            <input type="hidden" name="offset" id="offsetInput" th:value="${offset}">
+            <input type="hidden" name="limit" th:value="${limit}">
+            <input type="hidden" name="sort" th:value="${sort}">
+            <input type="hidden" name="sear" th:value="${sear}">
 
-        <div class="floating-panel rocket-glass">
+            <div class="floating-panel rocket-glass">
 
-            <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-3">
-                <div>
-                    <div class="d-flex flex-wrap align-items-center gap-2">
-                        <span class="brand-mark" aria-hidden="true"></span>
-                        <h1 class="h3 mb-0 fw-bold title-glow">Pokédex</h1>
-                        <span class="badge badge-ash">ASH</span>
-                        <span class="badge badge-rocket">TEAM ROCKET</span>
+                <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-3">
+                    <div>
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                            <span class="brand-mark" aria-hidden="true"></span>
+                            <h1 class="h3 mb-0 fw-bold title-glow">Pokédex</h1>
+                            <span class="badge badge-ash">ASH</span>
+                            <span class="badge badge-rocket">TEAM ROCKET</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row g-3">
-                <div class="col-12">
-                    <div class="panel-card">
-                        <div class="panel-head d-flex align-items-center justify-content-between flex-wrap gap-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-grid"></i>
-                                <span class="fw-bold">Listado</span>
-                                <span class="badge bg-white/10 border border-white/10 text-white/80"
-                                      id="countBadge"
-                                      th:text="${count != null ? count : 0}">
-                                    0
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <!-- Error desde el controller (model.addAttribute("errorMessage", ...)) -->
-                            <div id="errorState"
-                                 class="alert alert-danger border-0 bg-danger/10 text-white"
-                                 th:if="${errorMessage != null}"
-                                 th:text="${errorMessage}">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="panel-card">
+                            <div class="panel-head d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-grid"></i>
+                                    <span class="fw-bold">Listado</span>
+                                    <span class="badge bg-white/10 border border-white/10 text-white/80"
+                                          id="countBadge"
+                                          th:text="${count != null ? count : 0}">
+                                        0
+                                    </span>
+                                </div>
                             </div>
 
-                            <!-- Empty state si no hay pokes -->
-                            <div id="emptyState" class="empty-state"
-                                 th:if="${pokes == null || #lists.isEmpty(pokes)}">
-                                <div class="empty-icon"><i class="bi bi-inboxes"></i></div>
-                                <div class="fw-bold">Sin resultados</div>
-                                <div class="text-muted-soft small mt-1">Prueba otra búsqueda o tipo.</div>
-                            </div>
+                            <div class="panel-body">
 
-                            <!-- GRID TCG (SSR) -->
-                            <div id="pokeGrid" class="row g-4" th:if="${pokes != null && !#lists.isEmpty(pokes)}">
+                                <div id="errorState"
+                                     class="alert alert-danger border-0 bg-danger/10 text-white"
+                                     th:if="${errorMessage != null}"
+                                     th:text="${errorMessage}">
+                                </div>
 
-                                <div class="col-12 col-md-6 col-xl-4" th:each="p : ${pokes}">
-                                    <div class="tcg-card" role="button" tabindex="0"
-                                         th:attr="data-id=${p.id}">
-                                        <div class="tcg-card-inner">
+                                <div id="emptyState" class="empty-state"
+                                     th:if="${pokes == null || #lists.isEmpty(pokes)}">
+                                    <div class="empty-icon"><i class="bi bi-inboxes"></i></div>
+                                    <div class="fw-bold">Sin resultados</div>
+                                    <div class="text-muted-soft small mt-1">Prueba otra búsqueda o tipo.</div>
+                                </div>
 
-                                            <!-- FRONT -->
-                                            <article class="tcg-face tcg-front">
-                                                <div class="tcg-top">
-                                                    <div>
-                                                        <div class="tcg-name" th:text="${#strings.capitalize(p.name)}">Pokemon</div>
-                                                        <div class="tcg-sub">
-                                                            Pokémon • <span class="tcg-id"
-                                                                            th:text="${'#' + #strings.format('%03d', p.id)}">#001</span>
+                                <div id="pokeGrid" class="row g-4" th:if="${pokes != null && !#lists.isEmpty(pokes)}">
+
+                                    <div class="col-12 col-md-6 col-xl-4"
+                                         th:each="p : ${pokes}"
+                                         th:with="pid=${#numbers.formatInteger(p.id, 3)}">
+
+                                        <div class="tcg-card" role="button" tabindex="0"
+                                             th:attr="data-id=${p.id}">
+                                            <div class="tcg-card-inner">
+
+                                                <article class="tcg-face tcg-front">
+                                                    <div class="tcg-top">
+                                                        <div>
+                                                            <div class="tcg-name" th:text="${#strings.capitalize(p.name)}">Pokemon</div>
+                                                            <div class="tcg-sub">
+                                                                Pokémon •
+                                                                <span class="tcg-id" th:text="${'#' + pid}">#001</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="tcg-id" th:text="${'#' + #strings.format('%03d', p.id)}">#001</div>
-                                                </div>
-
-                                                <div class="tcg-art"
-                                                     th:classappend="${p.types != null && !#lists.isEmpty(p.types)} ? (' tcg-art--' + p.types[0]) : ' tcg-art--normal'">
-                                                    <img class="tcg-art-img"
-                                                         th:src="${p.spriteUrl}"
-                                                         th:alt="${p.name}">
-                                                </div>
-
-                                                <div class="tcg-types">
-                                                    <span th:each="t : ${p.types}"
-                                                          class="type"
-                                                          th:classappend="' type-' + ${t}"
-                                                          th:text="${#strings.capitalize(t)}">
-                                                        Tipo
-                                                    </span>
-                                                </div>
-
-                                                <div class="tcg-actions">
-                                                    <!-- Si tu flip depende de JS, puedes dejar el botón pero necesitarás JS mínimo -->
-                                                    <button class="btn btn-neo btn-neo-outline btn-sm rounded-3"
-                                                            type="button">
-                                                        <i class="bi bi-arrow-repeat me-1"></i> Voltear
-                                                    </button>
-
-                                                    <a class="btn btn-neo btn-neo-primary btn-sm rounded-3"
-                                                       th:href="@{/details(id=${p.id})}">
-                                                        <i class="bi bi-box-arrow-up-right me-1"></i> Detalles
-                                                    </a>
-                                                </div>
-                                            </article>
-
-                                            <!-- BACK -->
-                                            <article class="tcg-face tcg-back">
-                                                <div class="tcg-back-head">
-                                                    <div>
-                                                        <div class="tcg-name" th:text="${#strings.capitalize(p.name)}">Pokemon</div>
-                                                        <div class="tcg-sub">
-                                                            Stats • <span class="tcg-id"
-                                                                          th:text="${'#' + #strings.format('%03d', p.id)}">#001</span>
-                                                        </div>
+                                                        <div class="tcg-id" th:text="${'#' + pid}">#001</div>
                                                     </div>
 
-                                                    <div class="tcg-back-badges">
+                                                    <div class="tcg-art"
+                                                         th:classappend="${p.types != null && !#lists.isEmpty(p.types)} ? (' tcg-art--' + p.types[0]) : ' tcg-art--normal'">
+                                                        <img class="tcg-art-img"
+                                                             th:src="${p.spriteUrl}"
+                                                             th:alt="${p.name}">
+                                                    </div>
+
+                                                    <div class="tcg-types">
                                                         <span th:each="t : ${p.types}"
                                                               class="type"
                                                               th:classappend="' type-' + ${t}"
@@ -135,20 +97,6 @@
                                                             Tipo
                                                         </span>
                                                     </div>
-                                                </div>
-
-                                                <div class="tcg-panel">
-                                                    <div class="tcg-section-title">Stats</div>
-                                                    <div class="tcg-meta">
-                                                        <div class="tcg-chip"><span>HP</span><b th:text="${p.hp}">0</b></div>
-                                                        <div class="tcg-chip"><span>ATK</span><b th:text="${p.atk}">0</b></div>
-                                                        <div class="tcg-chip"><span>DEF</span><b th:text="${p.def}">0</b></div>
-                                                        <div class="tcg-chip"><span>SP.ATK</span><b th:text="${p.spAtk}">0</b></div>
-                                                        <div class="tcg-chip"><span>SP.DEF</span><b th:text="${p.spDef}">0</b></div>
-                                                        <div class="tcg-chip"><span>SPD</span><b th:text="${p.speed}">0</b></div>
-                                                    </div>
-
-                                                    <div class="tcg-divider"></div>
 
                                                     <div class="tcg-actions">
                                                         <button class="btn btn-neo btn-neo-outline btn-sm rounded-3"
@@ -156,110 +104,154 @@
                                                             <i class="bi bi-arrow-repeat me-1"></i> Voltear
                                                         </button>
 
-                                                        <!-- Modal (sin JS no abre; si lo quieres, te doy el JS mínimo) -->
-                                                        <button class="btn btn-neo btn-neo-primary btn-sm rounded-3"
-                                                                type="button">
-                                                            <i class="bi bi-eye me-1"></i> Ver
-                                                        </button>
+                                                        <a class="btn btn-neo btn-neo-primary btn-sm rounded-3"
+                                                           th:href="@{/details(sear=${p.id})}">
+                                                            <i class="bi bi-box-arrow-up-right me-1"></i> Detalles
+                                                        </a>
                                                     </div>
-                                                </div>
-                                            </article>
+                                                </article>
 
+                                                <article class="tcg-face tcg-back">
+                                                    <div class="tcg-back-head">
+                                                        <div>
+                                                            <div class="tcg-name" th:text="${#strings.capitalize(p.name)}">Pokemon</div>
+                                                            <div class="tcg-sub">
+                                                                Stats •
+                                                                <span class="tcg-id" th:text="${'#' + pid}">#001</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="tcg-back-badges">
+                                                            <span th:each="t : ${p.types}"
+                                                                  class="type"
+                                                                  th:classappend="' type-' + ${t}"
+                                                                  th:text="${#strings.capitalize(t)}">
+                                                                Tipo
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tcg-panel">
+                                                        <div class="tcg-section-title">Stats</div>
+                                                        <div class="tcg-meta">
+                                                            <div class="tcg-chip"><span>HP</span><b th:text="${p.hp}">0</b></div>
+                                                            <div class="tcg-chip"><span>ATK</span><b th:text="${p.atk}">0</b></div>
+                                                            <div class="tcg-chip"><span>DEF</span><b th:text="${p.def}">0</b></div>
+                                                            <div class="tcg-chip"><span>SP.ATK</span><b th:text="${p.spAtk}">0</b></div>
+                                                            <div class="tcg-chip"><span>SP.DEF</span><b th:text="${p.spDef}">0</b></div>
+                                                            <div class="tcg-chip"><span>SPD</span><b th:text="${p.speed}">0</b></div>
+                                                        </div>
+
+                                                        <div class="tcg-divider"></div>
+
+                                                        <div class="tcg-actions">
+                                                            <button class="btn btn-neo btn-neo-outline btn-sm rounded-3"
+                                                                    type="button">
+                                                                <i class="bi bi-arrow-repeat me-1"></i> Voltear
+                                                            </button>
+
+                                                            <button class="btn btn-neo btn-neo-primary btn-sm rounded-3"
+                                                                    type="button">
+                                                                <i class="bi bi-eye me-1"></i> Ver
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </article>
+
+                                            </div>
                                         </div>
                                     </div>
+
+                                </div>
+
+                                <div class="mt-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                    <span id="pageMeta" class="small text-muted-soft"
+                                          th:if="${pokes != null && !#lists.isEmpty(pokes)}"
+                                          th:text="'Mostrando ' + (${offset}+1) + '-' + (${offset} + ${#lists.size(pokes)}) + ' de ' + ${count}">
+                                    </span>
+
+                                    <nav aria-label="pagination">
+                                        <ul class="pagination pagination-neo mb-0">
+
+                                            <li class="page-item" th:classappend="${!hasPrev} ? ' disabled' : ''">
+                                                <a id="prevPage" class="page-link"
+                                                   th:href="${hasPrev} ? @{/pokedex(sear=${sear}, type=${type}, limit=${limit}, offset=${offset - limit}, sort=${sort})} : '#'"
+                                                   href="#">
+                                                    Anterior
+                                                </a>
+                                            </li>
+
+                                            <li class="page-item">
+                                                <a id="homePage" class="page-link"
+                                                   th:href="@{/pokedex(sear=${sear}, type=${type}, limit=${limit}, offset=0, sort=${sort})}">
+                                                    Inicio
+                                                </a>
+                                            </li>
+
+                                            <li class="page-item" th:classappend="${!hasNext} ? ' disabled' : ''">
+                                                <a id="nextPage" class="page-link"
+                                                   th:href="${hasNext} ? @{/pokedex(sear=${sear}, type=${type}, limit=${limit}, offset=${offset + limit}, sort=${sort})} : '#'"
+                                                   href="#">
+                                                    Siguiente
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </nav>
                                 </div>
 
                             </div>
-
-                            <div class="mt-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
-                                <span id="pageMeta" class="small text-muted-soft"
-                                      th:if="${pokes != null && !#lists.isEmpty(pokes)}"
-                                      th:text="'Mostrando ' + (${offset}+1) + '-' + (${offset} + ${#lists.size(pokes)}) + ' de ' + ${count}">
-                                </span>
-
-                                <nav aria-label="pagination">
-                                    <ul class="pagination pagination-neo mb-0">
-
-                                        <li class="page-item" th:classappend="${!hasPrev} ? ' disabled' : ''">
-                                            <a id="prevPage" class="page-link"
-                                               th:href="${hasPrev} ? @{/pokedex(sear=${sear}, type=${type}, limit=${limit}, offset=${offset - limit}, sort=${sort})} : '#'"
-                                               href="#">
-                                                Anterior
-                                            </a>
-                                        </li>
-
-                                        <li class="page-item">
-                                            <a id="homePage" class="page-link"
-                                               th:href="@{/pokedex(sear=${sear}, type=${type}, limit=${limit}, offset=0, sort=${sort})}">
-                                                Inicio
-                                            </a>
-                                        </li>
-
-                                        <li class="page-item" th:classappend="${!hasNext} ? ' disabled' : ''">
-                                            <a id="nextPage" class="page-link"
-                                               th:href="${hasNext} ? @{/pokedex(sear=${sear}, type=${type}, limit=${limit}, offset=${offset + limit}, sort=${sort})} : '#'"
-                                               href="#">
-                                                Siguiente
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                </nav>
-                            </div>
-
                         </div>
                     </div>
                 </div>
+
             </div>
+        </form>
 
-        </div>
-    </form>
-
-    <!-- Modal (si quieres que funcione, necesitas JS mínimo para llenarlo y abrirlo) -->
-    <div class="modal fade" id="pokemonModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content modal-neo">
-                <div class="modal-header border-0">
-                    <div class="d-flex align-items-center gap-2">
-                        <span class="mini-ball" aria-hidden="true"></span>
-                        <div>
-                            <div class="fw-bold" id="modalTitle">Pokémon</div>
-                            <div class="small text-muted-soft" id="modalSubtitle">Detalle desde tu Service</div>
+        <div class="modal fade" id="pokemonModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content modal-neo">
+                    <div class="modal-header border-0">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="mini-ball" aria-hidden="true"></span>
+                            <div>
+                                <div class="fw-bold" id="modalTitle">Pokémon</div>
+                                <div class="small text-muted-soft" id="modalSubtitle">Detalle desde tu Service</div>
+                            </div>
                         </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-3">
-                        <div class="col-12 col-md-5">
-                            <div class="detail-card">
-                                <div class="detail-sprite">
-                                    <img id="modalSprite" alt="sprite" />
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-5">
+                                <div class="detail-card">
+                                    <div class="detail-sprite">
+                                        <img id="modalSprite" alt="sprite" />
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-2 mt-3" id="modalTypes"></div>
                                 </div>
-                                <div class="d-flex flex-wrap gap-2 mt-3" id="modalTypes"></div>
                             </div>
-                        </div>
-                        <div class="col-12 col-md-7">
-                            <div class="detail-card">
-                                <div class="fw-bold mb-2">Stats</div>
-                                <div class="d-grid gap-2" id="modalStats"></div>
+                            <div class="col-12 col-md-7">
+                                <div class="detail-card">
+                                    <div class="fw-bold mb-2">Stats</div>
+                                    <div class="d-grid gap-2" id="modalStats"></div>
 
-                                <hr class="hr-neo my-3">
+                                    <hr class="hr-neo my-3">
 
-                                <div class="fw-bold mb-2">Info</div>
-                                <div class="d-flex flex-wrap gap-2" id="modalInfo"></div>
+                                    <div class="fw-bold mb-2">Info</div>
+                                    <div class="d-flex flex-wrap gap-2" id="modalInfo"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer border-0">
-                    <button class="btn btn-neo btn-neo-outline rounded-3" data-bs-dismiss="modal" type="button">Cerrar</button>
+                    <div class="modal-footer border-0">
+                        <button class="btn btn-neo btn-neo-outline rounded-3" data-bs-dismiss="modal" type="button">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- <script src="/js/pokedex.js"></script> -->
+        <script th:src="@{/js/pokedex.js}"></script> 
 
-</section>
+    </section>
 </html>

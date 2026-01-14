@@ -8,19 +8,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ViewController {
 
-    private static final String urlBase = "http://localhost:8080";
-
-    @GetMapping("/pokedex")
-    public String pokedex(Model model, HttpSession session) {
-
+    @GetMapping("/pokedetail")
+    public String pokedetails(Model model, HttpSession session) {
+        
         String user = (String) session.getAttribute("loggedUsername");
         model.addAttribute("UsuarioLogueado", user);
-
-        return "pokedex";
-    }
-
-    @GetMapping("/details")
-    public String pokedetails() {
+        
         return "pokedetails";
+    }
+    
+    
+    @GetMapping("/usuario/registrar")
+    public String registroUser(Model model, HttpSession session) {
+        
+        String user = (String) session.getAttribute("loggedUsername");
+        model.addAttribute("UsuarioLogueado", user);
+        
+        return "registroUser";
     }
 }

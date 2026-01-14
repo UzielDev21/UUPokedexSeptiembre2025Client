@@ -88,13 +88,13 @@ public class PokedexController {
             }
 
         } catch (RestClientResponseException ex) {
-            
+
             model.addAttribute("pokes", List.of());
             model.addAttribute("count", 0);
             model.addAttribute("hasNext", false);
             model.addAttribute("hasPrev", false);
             model.addAttribute("errorMessage",
-                    "Error del Service (" + ex.getLocalizedMessage()+ "): " + ex.getStatusText());
+                    "Error del Service (" + ex.getLocalizedMessage() + "): " + ex.getStatusText());
         } catch (Exception ex) {
             model.addAttribute("pokes", List.of());
             model.addAttribute("count", 0);
@@ -110,11 +110,16 @@ public class PokedexController {
         model.addAttribute("offset", offset);
         model.addAttribute("sort", sort);
 
+        String user = (String) session.getAttribute("loggedUsername");
+        model.addAttribute("UsuarioLogueado", user);
+
         return "pokedex";
     }
 
     private String normalizeSort(String sort) {
-        if (sort == null) return "id_asc";
+        if (sort == null) {
+            return "id_asc";
+        }
         sort = sort.trim().toLowerCase();
         return ALLOWED_SORT.contains(sort) ? sort : "id_asc";
     }

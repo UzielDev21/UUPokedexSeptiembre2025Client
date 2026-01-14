@@ -226,7 +226,7 @@ public class LoginController {
 
         if (token == null) {
             redirectAttributes.addFlashAttribute("error", "No hay sesión activa");
-            return "redirect: /login";
+            return "redirect:/auth/login";
         }
 
         HttpHeaders headers = new HttpHeaders();
@@ -254,7 +254,7 @@ public class LoginController {
                     session.invalidate();
                     redirectAttributes.addFlashAttribute("msgLogout", "Sesión cerrada");
 
-                    return "redirect; /login";
+                    return "redirect:/auth/login";
                 }
             }
 
@@ -263,7 +263,7 @@ public class LoginController {
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("msgError", "Error logout; " + ex.getLocalizedMessage());
         }
-        return "redirect: /login";
+        return "redirect:/auth/login";
     }
 
     private Map<String, Object> decodeJwt(String jwt) {

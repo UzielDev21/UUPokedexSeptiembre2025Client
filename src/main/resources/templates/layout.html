@@ -62,8 +62,33 @@
                         </div>
                     </a>
 
-                    <!-- ACTIONS ALWAYS VISIBLE -->
-                    <div class="d-flex align-items-center gap-2 ms-auto order-lg-2">
+                    <div class="d-flex flex-column lh-1">
+                        <span class="poke-brand-title">UUPokedex</span>
+                        <span class="poke-brand-sub">Client</span>
+                    </div>
+                </a>
+
+                <div class="d-flex align-items-center gap-2 ms-auto order-lg-2">
+
+                    <button id="themeToggle" type="button"
+                        class="btn btn-sm rounded-3 poke-btn inline-flex items-center gap-2" aria-label="Cambiar tema">
+                        <span class="theme-day inline-flex items-center gap-2">
+                            <i class="bi bi-sun-fill"></i> Claro
+                        </span>
+                        <span class="theme-night inline-flex items-center gap-2">
+                            <i class="bi bi-moon-stars-fill"></i> Oscuro
+                        </span>
+                    </button>
+
+                    <div class="dropdown" th:if="${#authentication != null and #authentication.authenticated}">
+                        <button
+                            class="btn btn-sm rounded-3 poke-btn dropdown-toggle d-inline-flex align-items-center gap-2"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                            <span class="poke-mini-avatar" th:with="uname=${#authentication.name}"
+                                th:text="${#strings.toUpperCase(#strings.substring(uname,0,1))}">
+                                U
+                            </span>
 
                         <button id="themeToggle" type="button"
                                 class="btn btn-sm rounded-3 poke-btn inline-flex items-center gap-2" aria-label="Cambiar tema">
@@ -163,6 +188,34 @@
                         </ul>
                     </div>
 
+                    <a th:unless="${#authentication != null and #authentication.authenticated}" th:href="@{api/login}"
+                        class="btn btn-sm rounded-3 poke-btn">
+                        <i class="bi bi-door-open me-1"></i> Login
+                    </a>
+
+                    <button class="navbar-toggler poke-toggler order-lg-3" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse order-lg-1" id="mainNav">
+                    <ul class="navbar-nav me-auto mt-3 mt-lg-0 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link poke-link rounded-3 px-3 py-2" th:href="@{/}"
+                                th:classappend="${activePage}=='home' ? ' active' : ''">
+                                Home
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link poke-link rounded-3 px-3 py-2" th:href="@{/pokemons}"
+                                th:classappend="${activePage}=='pokemons' ? ' active' : ''">
+                                Pokémons
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </header>

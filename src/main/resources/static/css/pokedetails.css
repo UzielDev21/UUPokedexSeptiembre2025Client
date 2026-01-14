@@ -137,5 +137,243 @@ html.dark{
         rgba(0, 0, 0, .55);
 }
 
+/*Boton de retorno a pokedex*/
+.btn-back{
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text);
+}
+
+.btn-back i{
+    font-size: 1.2rem;
+    line-height: 1;
+    color: var(--good-red);
+}
+
+.btn-back:hover{
+    color: var(--good-red);
+    transform: translateX(-2px);
+}
+
+/*Nombre y id del pokemon*/
+.poke-header{
+    width: 100%;
+    margin-left: 5px;
+    padding: 0.25rem;
+}
+
+.poke-header .poke-nombre{
+    font-size: 1.6rem;
+    font-weight:bold;
+    color: var(--text);
+    letter-spacing: .2px;
+    margin-right: 20px;
+}
+
+.poke-header .poke-id{
+    font-size: .95rem;
+    font-weight: 500;
+    color: var(--text-soft);
+}
+
+/*Imagen*/
+.poke-image{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.poke-image img{
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    object-fit: contain;
+}
+
+/*Seccion de evoluciones*/
+.evolutions{
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+/* Título */
+.evolutions-title{
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    margin-left: 0.25rem
+}
+
+/* Lista */
+.evolutions-list{
+    display: flex;
+    justify-content: center;
+}
+
+/* Card */
+.evolution-card{
+    text-align: center;
+}
+
+/* Imagen circular */
+.evolution-img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--panel-bg);
+    border: 3px solid var(--good-yellow);
+    box-shadow: var(--poke-card-shadow);
+}
+
+.evolution-img img{
+    width: 90%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Nombre */
+.evolution-name{
+    margin-top: .75rem;
+    margin-bottom: .4rem;
+
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.evolution-name span{
+    color: var(--text-soft);
+    font-weight: 500;
+}
+
+/*Menu de tabs*/
+/* Contenedor de tabs */
+.poke-tabs{
+    width: 100%;
+    margin-top: 1rem;
+    border-bottom: 1px solid var(--border-softer);
+}
+
+/* Lista de tabs */
+.tab-list{
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Botón tab */
+.tab{
+    all: unset;
+    cursor: pointer;
+    padding: .5rem 1rem;
+    font-size: .875rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    border-bottom: 3px solid transparent;
+    transition: all .2s ease;
+}
+
+/* Tab activo */
+.tab.active{
+    color: var(--text);
+    border-bottom: 3px solid var(--good-yellow);
+}
+
+/* Hover */
+.tab:hover{
+    color: var(--text);
+    opacity: .85;
+}
+
+/*Historia*/
+.poke-historia{
+    margin-top: 0.8rem;
+}
+
+/* Título pequeño */
+.poke-historia-title{
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: .25rem;
+}
+
+/* Texto descriptivo */
+.poke-historia-text{
+    font-size: .95rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text);
+    margin: 0;
+}
+
+/*Tarjetas*/
+.cont-cards{
+    width: 60%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    margin-bottom: 4px;
+}
 
 
+
+stats-container {
+    width: 400px;
+    padding: 10px;
+}
+
+.c-label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: .25rem;
+}
+
+.c-stat {
+    display: grid;
+    grid-template-columns: 90px 40px 1fr;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.value {
+    font-size: 14px;
+    text-align: right;
+    margin-right: 8px;
+}
+
+.bar {
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.fill.green {
+    background-color: #6ac46a;
+}
+
+.fill.red {
+    background-color: #e57373;
+}

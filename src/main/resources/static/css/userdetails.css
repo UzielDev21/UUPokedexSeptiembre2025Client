@@ -102,7 +102,7 @@ html.dark {
     --btn-primary-border: rgba(217, 22, 45, .35);
     --btn-outline-bg: rgba(0, 0, 0, .20);
 
-     --tcg-bg: rgba(255, 255, 255, .06);
+    --tcg-bg: rgba(255, 255, 255, .06);
     --tcg-border: rgba(255, 255, 255, .12);
     --tcg-line: rgba(255, 255, 255, .12);
     --tcg-shadow: 0 18px 55px rgba(0, 0, 0, .50);
@@ -168,5 +168,126 @@ html.dark {
     margin-top: 2px;
     white-space: nowrap;
 }
+
+.favorites {
+    padding: 2rem;
+    background: var(--glass-bg);
+    box-shadow: var(--shadow-main);
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Header */
+.favorites-header {
+    margin-bottom: 1.2rem;
+}
+
+.favorites-header h2 {
+    font-size: 1.6rem;
+    color: var(--text);
+}
+
+.favorites-header p {
+    color: var(--text-soft);
+    font-size: .95rem;
+}
+
+
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.fav-card {
+    position: relative;
+    width: 10rem;
+    border-radius: 18px;
+    background: var(--glass-bg);
+    box-shadow: var(--shadow-main);
+    border: 1px solid var(--border-softer);
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.fav-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--glass-before);
+    opacity: .9;
+    pointer-events: none;
+}
+
+.fav-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 26px 70px rgba(11, 18, 32, .25);
+}
+
+/* ===== Star Button ===== */
+.fav-card-star {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--btn-bg);
+    color: var(--good-yellow);
+    font-size: 22px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.fav-card-star:hover {
+    transform: scale(1.1) rotate(8deg);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+}
+
+/* ===== Art ===== */
+.fav-card-art {
+    height: 140px;
+    display: grid;
+    place-items: center;
+    background: var(--tcg-art-bg);
+    border-bottom: 1px solid var(--border-softer);
+}
+
+.fav-card-art img {
+    width: 150px;
+    height: 150px;
+    image-rendering: pixelated;
+    transition: transform .25s ease;
+}
+
+.fav-card:hover .fav-card__art img {
+    transform: scale(1.08);
+}
+
+/* ===== Body ===== */
+.fav-card-body {
+    padding: 14px 16px 18px;
+    text-align: center;
+}
+
+.fav-card-name {
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.fav-card-types{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(1fr, 1fr));
+    gap: 0.25rem;
+}
+
+
+
 
 

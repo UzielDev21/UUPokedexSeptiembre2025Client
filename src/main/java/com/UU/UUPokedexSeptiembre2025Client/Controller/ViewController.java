@@ -10,7 +10,7 @@ public class ViewController {
 
     private static final String urlBase = "http://localhost:8080";
 
-    @GetMapping("/pokedex")
+    @GetMapping("/pokede")
     public String pokedex(Model model, HttpSession session) {
 
         String user = (String) session.getAttribute("loggedUsername");

@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ViewController {
   
-    @GetMapping("/pokedex")
-    public String pokedex() {
-        return "pokedex";
-    }
+//    @GetMapping("/pokedex")
+//    public String pokedex() {
+//        return "pokedex";
+//    }
   
      @GetMapping("/details")
     public String pokedetails() {

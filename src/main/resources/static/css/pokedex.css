@@ -1742,3 +1742,172 @@ html.dark .tcg-art::after {
         display: none;
     }
 }
+/* =========================
+   RELACIONES: Debilidad / Resiste (UI limpia)
+   ========================= */
+
+.tcg-rel {
+    display: grid;
+    gap: 10px;
+    align-items: start;
+}
+
+.tcg-rel-row {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 10px;
+    align-items: center;
+}
+
+@media (max-width: 420px) {
+    .tcg-rel-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        align-items: start;
+    }
+}
+
+.tcg-rel-label {
+    font-weight: 950;
+    font-size: 12px;
+    letter-spacing: .10em;
+    text-transform: uppercase;
+    color: var(--tcg-muted);
+
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px dashed var(--tcg-line);
+    background: rgba(255, 255, 255, .28);
+}
+
+html.dark .tcg-rel-label {
+    background: rgba(0, 0, 0, .12);
+}
+
+.tcg-rel-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+    min-height: 34px;
+    align-items: center;
+}
+
+/* Variante compacta para chips dentro de relaciones */
+.tcg-rel .type {
+    font-size: 11px;
+    padding: 5px 9px;
+}
+
+/* Estado vacío */
+.tcg-rel-empty {
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--tcg-muted);
+    border: 1px solid var(--tcg-line);
+    background: rgba(255, 255, 255, .25);
+    padding: 6px 10px;
+    border-radius: 999px;
+}
+
+html.dark .tcg-rel-empty {
+    background: rgba(0, 0, 0, .12);
+}
+
+/* Acción "Más" alineada y consistente */
+.tcg-rel-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: 999px;
+    padding: 6px 12px;
+
+    font-size: 12px;
+    font-weight: 950;
+    letter-spacing: .02em;
+
+    border: 1px solid var(--tcg-line);
+    background: rgba(255, 255, 255, .30);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+html.dark .tcg-rel-more {
+    background: rgba(0, 0, 0, .14);
+}
+
+.tcg-rel-more:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+/* =========================
+   ICONOS DE TIPO (header derecha)
+   ========================= */
+
+.tcg-type-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap; /* ✅ nunca en vertical */
+}
+
+.type-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--tcg-line);
+  background: rgba(255, 255, 255, .45);
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  box-shadow: 0 10px 22px rgba(0,0,0,.10);
+}
+
+html.dark .type-icon {
+  background: rgba(0, 0, 0, .18);
+  box-shadow: 0 10px 22px rgba(0,0,0,.30);
+}
+
+/* el dibujo usando mask con tus variables --icon-* */
+.type-icon::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: var(--icon-color, rgba(15, 23, 42, .70));
+
+  -webkit-mask-image: var(--icon-mask, none);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+
+  mask-image: var(--icon-mask, none);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+html.dark .type-icon::before {
+  background: var(--icon-color, rgba(234, 240, 255, .80));
+}
+
+/* mapeo tipo -> icono */
+.type-icon-normal   { --icon-mask: var(--icon-normal);   --icon-color: rgba(71, 85, 105, .85); }
+.type-icon-fire     { --icon-mask: var(--icon-fire);     --icon-color: rgba(220, 38, 38, .85); }
+.type-icon-water    { --icon-mask: var(--icon-water);    --icon-color: rgba(37, 99, 235, .85); }
+.type-icon-electric { --icon-mask: var(--icon-electric); --icon-color: rgba(245, 158, 11, .90); }
+.type-icon-grass    { --icon-mask: var(--icon-grass);    --icon-color: rgba(22, 163, 74, .85); }
+.type-icon-ice      { --icon-mask: var(--icon-ice);      --icon-color: rgba(2, 132, 199, .85); }
+.type-icon-fighting { --icon-mask: var(--icon-fighting); --icon-color: rgba(194, 65, 12, .85); }
+.type-icon-poison   { --icon-mask: var(--icon-poison);   --icon-color: rgba(126, 34, 206, .85); }
+.type-icon-ground   { --icon-mask: var(--icon-ground);   --icon-color: rgba(180, 83, 9, .85); }
+.type-icon-flying   { --icon-mask: var(--icon-flying);   --icon-color: rgba(37, 99, 235, .75); }
+.type-icon-psychic  { --icon-mask: var(--icon-psychic);  --icon-color: rgba(219, 39, 119, .85); }
+.type-icon-bug      { --icon-mask: var(--icon-bug);      --icon-color: rgba(101, 163, 13, .85); }
+.type-icon-rock     { --icon-mask: var(--icon-rock);     --icon-color: rgba(87, 83, 78, .85); }
+.type-icon-ghost    { --icon-mask: var(--icon-ghost);    --icon-color: rgba(79, 70, 229, .85); }
+.type-icon-dragon   { --icon-mask: var(--icon-dragon);   --icon-color: rgba(37, 99, 235, .85); }
+.type-icon-dark     { --icon-mask: var(--icon-dark);     --icon-color: rgba(15, 23, 42, .90); }
+.type-icon-steel    { --icon-mask: var(--icon-steel);    --icon-color: rgba(71, 85, 105, .85); }
+.type-icon-fairy    { --icon-mask: var(--icon-fairy);    --icon-color: rgba(236, 72, 153, .85); }

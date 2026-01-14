@@ -19,7 +19,6 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- aplica el tema ANTES de pintar la UI (evita flash) -->
     <script>
             (function () {
                 const saved = localStorage.getItem("uu_theme"); // "day" | "night"
@@ -35,14 +34,12 @@
         <nav class="navbar navbar-expand-lg sticky-top poke-navbar">
             <div class="container">
 
-                <!-- LEFT -->
-                <a class="navbar-brand d-flex align-items-center gap-3" th:href="@{/}">
+                <a class="navbar-brand d-flex align-items-center gap-3" th:href="@{/pokedex}">
                     <div class="poke-ui-left">
                         <div class="poke-avatar" aria-hidden="true">
                             <span class="poke-avatar-letter"
                                 th:with="uname=${#authentication != null ? #authentication.name : 'U'}"
-                                th:text="${#strings.toUpperCase(#strings.substring(uname,0,1))}">
-                                U
+                                th:text="${#strings.toUpperCase(#strings.substring(uname,0,1))}">                                U
                             </span>
                         </div>
 
@@ -59,16 +56,15 @@
                     </div>
                 </a>
 
-                <!-- ACTIONS ALWAYS VISIBLE -->
                 <div class="d-flex align-items-center gap-2 ms-auto order-lg-2">
 
                     <button id="themeToggle" type="button"
                         class="btn btn-sm rounded-3 poke-btn inline-flex items-center gap-2" aria-label="Cambiar tema">
                         <span class="theme-day inline-flex items-center gap-2">
-                            <i class="bi bi-sun-fill"></i> Día
+                            <i class="bi bi-sun-fill"></i> Claro
                         </span>
                         <span class="theme-night inline-flex items-center gap-2">
-                            <i class="bi bi-moon-stars-fill"></i> Noche
+                            <i class="bi bi-moon-stars-fill"></i> Oscuro
                         </span>
                     </button>
 
@@ -129,7 +125,7 @@
                         </ul>
                     </div>
 
-                    <a th:unless="${#authentication != null and #authentication.authenticated}" th:href="@{/login}"
+                    <a th:unless="${#authentication != null and #authentication.authenticated}" th:href="@{api/login}"
                         class="btn btn-sm rounded-3 poke-btn">
                         <i class="bi bi-door-open me-1"></i> Login
                     </a>
@@ -141,7 +137,6 @@
                     </button>
                 </div>
 
-                <!-- COLLAPSE LINKS -->
                 <div class="collapse navbar-collapse order-lg-1" id="mainNav">
                     <ul class="navbar-nav me-auto mt-3 mt-lg-0 gap-1">
                         <li class="nav-item">

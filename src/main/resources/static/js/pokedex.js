@@ -1,40 +1,39 @@
-// /static/js/pokedex.js
 (() => {
-    const API = "https://pokeapi.co/api/v2";
+    "use strict";
 
-    // DOM
-    const form = document.getElementById("pokedexForm");
+    const POKEAPI_BASE_URL = "https://pokeapi.co/api/v2";
 
-    const typeInput = document.getElementById("typeInput");
-    const viewInput = document.getElementById("viewInput");
-    const offsetInput = document.getElementById("offsetInput");
+    const pokedexForm = document.getElementById("pokedexForm");
 
-    const qMain = document.getElementById("qInputMain");
-    const qPalette = document.getElementById("qInputPalette");
+    const hiddenTypeInput = document.getElementById("typeInput");
+    const hiddenViewInput = document.getElementById("viewInput");
+    const hiddenOffsetInput = document.getElementById("offsetInput");
 
-    const sortSelect = document.getElementById("sortSelect");
+    const searchInputMain = document.getElementById("qInputMain");
+    const searchInputPalette = document.getElementById("qInputPalette");
+
+    const sortSelectMain = document.getElementById("sortSelect");
     const sortSelectPalette = document.getElementById("sortSelectPalette");
     const limitSelect = document.getElementById("limitSelect");
 
-    const clearBtn = document.getElementById("clearBtn");
+    const clearButton = document.getElementById("clearBtn");
 
-    const gridEl = document.getElementById("pokeGrid");
-    const listEl = document.getElementById("pokeList");
+    const gridContainer = document.getElementById("pokeGrid");
+    const listContainer = document.getElementById("pokeList");
 
-    const loadingEl = document.getElementById("loadingState");
-    const errorEl = document.getElementById("errorState");
-    const emptyEl = document.getElementById("emptyState");
+    const loadingState = document.getElementById("loadingState");
+    const errorState = document.getElementById("errorState");
+    const emptyState = document.getElementById("emptyState");
 
     const countBadge = document.getElementById("countBadge");
     const metaLine = document.getElementById("metaLine");
-    const pageMetaEl = document.getElementById("pageMeta");
+    const pageMeta = document.getElementById("pageMeta");
 
-    const prevA = document.getElementById("prevPage");
-    const nextA = document.getElementById("nextPage");
-    const homeA = document.getElementById("homePage");
+    const prevPageLink = document.getElementById("prevPage");
+    const nextPageLink = document.getElementById("nextPage");
+    const homePageLink = document.getElementById("homePage");
 
-    // Modal (legacy)
-    const modalEl = document.getElementById("pokemonModal");
+    const pokemonModalElement = document.getElementById("pokemonModal");
     const modalTitle = document.getElementById("modalTitle");
     const modalSubtitle = document.getElementById("modalSubtitle");
     const modalSprite = document.getElementById("modalSprite");
@@ -42,47 +41,92 @@
     const modalStats = document.getElementById("modalStats");
     const modalInfo = document.getElementById("modalInfo");
 
-    let bsModal = null;
+    let bootstrapModalInstance = null;
     try {
-        if (window.bootstrap && modalEl) bsModal = new bootstrap.Modal(modalEl);
-    } catch (_) { }
+        if (window.bootstrap && pokemonModalElement) {
+            bootstrapModalInstance = new bootstrap.Modal(pokemonModalElement);
+        }
+    } catch (_) {
+    }
 
-    // Abort / Cache
-    let aborter = null;
+    let activeAbortController = null;
+    let debounceTimerId = null;
 
-    const detailsCache = new Map();
+    const pokemonDetailCache = new Map();
     const pageCache = new Map();
-    const typeCache = new Map();
+    const typeDetailCache = new Map();
 
-    const MAX_DETAIL_CACHE = 300;
+    const MAX_POKEMON_DETAIL_CACHE = 300;
     const MAX_PAGE_CACHE = 80;
-    const MAX_TYPE_CACHE = 80;
+    const MAX_TYPE_DETAIL_CACHE = 80;
 
-    let debounceTimer = null;
-    let lastResult = null; // { state, pokes, count, hasNext, hasPrev }
+    let lastLoadedResult = null;
 
-    // ===== Utils
-    const escapeHtml = (s) =>
-        String(s).replace(/[&<>"']/g, (m) =>
-        ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#039;",
-        }[m])
-        );
+    function escapeHtml(text) {
+        return String(text).replace(/[&<>"']/g, (match) => {
+            const map = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;",
+            };
+            return map[match];
+        });
+    }
 
-    const clampInt = (v, fallback, min, max) => {
-        const n = parseInt(v, 10);
-        if (Number.isNaN(n)) return fallback;
-        return Math.max(min, Math.min(max, n));
-    };
+    function clampInteger(value, fallback, min, max) {
+        const parsed = parseInt(value, 10);
+        if (Number.isNaN(parsed))
+            return fallback;
+        return Math.max(min, Math.min(max, parsed));
+    }
 
-    const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
+    function capitalize(text) {
+        const s = String(text || "");
+        return s ? s[0].toUpperCase() + s.slice(1) : "";
+    }
 
-    function typeLabelES(t) {
-        const map = {
+    function toLower(text) {
+        return String(text || "").trim().toLowerCase();
+    }
+
+    function show(element) {
+        if (element)
+            element.hidden = false;
+    }
+
+    function hide(element) {
+        if (element)
+            element.hidden = true;
+    }
+
+    function setLoading(isLoading) {
+        if (isLoading) {
+            show(loadingState);
+            hide(errorState);
+            hide(emptyState);
+        } else {
+            hide(loadingState);
+        }
+    }
+
+    function setError(message) {
+        if (!errorState)
+            return;
+        errorState.innerHTML = `
+      <div class="d-flex align-items-start gap-2">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <div>
+          <div class="fw-bold">Error</div>
+          <div class="small">${escapeHtml(message)}</div>
+        </div>
+      </div>`;
+        show(errorState);
+    }
+
+    function typeLabelSpanish(typeLowercase) {
+        const dictionary = {
             normal: "Normal",
             fire: "Fuego",
             water: "Agua",
@@ -102,344 +146,346 @@
             steel: "Acero",
             fairy: "Hada",
         };
-        return map[t] || cap(t);
+        return dictionary[typeLowercase] || capitalize(typeLowercase);
     }
 
-    function show(el) {
-        if (el) el.hidden = false;
-    }
-    function hide(el) {
-        if (el) el.hidden = true;
-    }
-
-    function setLoading(on) {
-        if (on) {
-            show(loadingEl);
-            hide(errorEl);
-            hide(emptyEl);
-        } else {
-            hide(loadingEl);
+    function setCacheBounded(cacheMap, key, value, maxSize) {
+        if (cacheMap.size >= maxSize && !cacheMap.has(key)) {
+            const firstKey = cacheMap.keys().next().value;
+            cacheMap.delete(firstKey);
         }
+        cacheMap.set(key, value);
     }
 
-    function setError(msg) {
-        if (!errorEl) return;
-        errorEl.innerHTML = `
-      <div class="d-flex align-items-start gap-2">
-        <i class="bi bi-exclamation-triangle-fill"></i>
-        <div>
-          <div class="fw-bold">Error</div>
-          <div class="small">${escapeHtml(msg)}</div>
-        </div>
-      </div>`;
-        show(errorEl);
-    }
-
-    function getUrlState() {
-        const u = new URL(window.location.href);
+    function readStateFromUrl() {
+        const url = new URL(window.location.href);
         return {
-            q: (u.searchParams.get("q") || "").trim().toLowerCase(),
-            type: (u.searchParams.get("type") || "").trim().toLowerCase(),
-            view: (u.searchParams.get("view") || "grid").trim().toLowerCase(),
-            sort: (u.searchParams.get("sort") || "id_asc").trim().toLowerCase(),
-            limit: clampInt(u.searchParams.get("limit"), 12, 1, 48),
-            offset: clampInt(u.searchParams.get("offset"), 0, 0, 999999),
+            query: toLower(url.searchParams.get("q") || ""),
+            type: toLower(url.searchParams.get("type") || ""),
+            view: toLower(url.searchParams.get("view") || "grid"),
+            sort: toLower(url.searchParams.get("sort") || "id_asc"),
+            limit: clampInteger(url.searchParams.get("limit"), 12, 1, 48),
+            offset: clampInteger(url.searchParams.get("offset"), 0, 0, 999999),
         };
     }
 
-    function setUrlState(s, { replace = true } = {}) {
-        const u = new URL(window.location.href);
-        u.searchParams.set("q", s.q || "");
-        u.searchParams.set("type", s.type || "");
-        u.searchParams.set("view", s.view || "grid");
-        u.searchParams.set("sort", s.sort || "id_asc");
-        u.searchParams.set("limit", String(s.limit ?? 12));
-        u.searchParams.set("offset", String(s.offset ?? 0));
-
-        if (replace) history.replaceState({}, "", u);
-        else history.pushState({}, "", u);
+    function writeStateToUrl(state, { replace = true } = {}) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("q", state.query || "");
+        url.searchParams.set("type", state.type || "");
+        url.searchParams.set("view", state.view || "grid");
+        url.searchParams.set("sort", state.sort || "id_asc");
+        url.searchParams.set("limit", String(state.limit ?? 12));
+        url.searchParams.set("offset", String(state.offset ?? 0));
+        if (replace)
+            history.replaceState({}, "", url);
+        else
+            history.pushState({}, "", url);
     }
 
-    function getDomState() {
+    function readStateFromDom() {
         return {
-            q: (qMain?.value || qPalette?.value || "").trim().toLowerCase(),
-            type: (typeInput?.value || "").trim().toLowerCase(),
-            view: (viewInput?.value || "grid").trim().toLowerCase(),
-            sort: (sortSelect?.value || sortSelectPalette?.value || "id_asc").trim().toLowerCase(),
-            limit: clampInt(limitSelect?.value, 12, 1, 48),
-            offset: clampInt(offsetInput?.value, 0, 0, 999999),
+            query: toLower(searchInputMain?.value || searchInputPalette?.value || ""),
+            type: toLower(hiddenTypeInput?.value || ""),
+            view: toLower(hiddenViewInput?.value || "grid"),
+            sort: toLower(sortSelectMain?.value || sortSelectPalette?.value || "id_asc"),
+            limit: clampInteger(limitSelect?.value, 12, 1, 48),
+            offset: clampInteger(hiddenOffsetInput?.value, 0, 0, 999999),
         };
     }
 
-    function syncDomFromState(s) {
-        if (typeInput) typeInput.value = s.type || "";
-        if (viewInput) viewInput.value = s.view || "grid";
-        if (offsetInput) offsetInput.value = String(s.offset ?? 0);
+    function syncDomFromState(state) {
+        if (hiddenTypeInput)
+            hiddenTypeInput.value = state.type || "";
+        if (hiddenViewInput)
+            hiddenViewInput.value = state.view || "grid";
+        if (hiddenOffsetInput)
+            hiddenOffsetInput.value = String(state.offset ?? 0);
 
-        if (qMain) qMain.value = s.q || "";
-        if (qPalette) qPalette.value = s.q || "";
+        if (searchInputMain)
+            searchInputMain.value = state.query || "";
+        if (searchInputPalette)
+            searchInputPalette.value = state.query || "";
 
-        if (sortSelect) sortSelect.value = s.sort || "id_asc";
-        if (sortSelectPalette) sortSelectPalette.value = s.sort || "id_asc";
-        if (limitSelect) limitSelect.value = String(s.limit ?? 12);
+        if (sortSelectMain)
+            sortSelectMain.value = state.sort || "id_asc";
+        if (sortSelectPalette)
+            sortSelectPalette.value = state.sort || "id_asc";
+        if (limitSelect)
+            limitSelect.value = String(state.limit ?? 12);
 
         if (metaLine) {
             metaLine.textContent =
-                `limit=${s.limit} • offset=${s.offset}` +
-                (s.type ? ` • type=${s.type}` : "") +
-                (s.q ? ` • q=${s.q}` : "");
+                    `limit=${state.limit} • offset=${state.offset}` +
+                    (state.type ? ` • type=${state.type}` : "") +
+                    (state.query ? ` • q=${state.query}` : "");
         }
     }
 
-    function sameDataKey(a, b) {
-        if (!a || !b) return false;
+    function hasSameDataKey(stateA, stateB) {
+        if (!stateA || !stateB)
+            return false;
         return (
-            (a.q || "") === (b.q || "") &&
-            (a.type || "") === (b.type || "") &&
-            (a.limit ?? 12) === (b.limit ?? 12) &&
-            (a.offset ?? 0) === (b.offset ?? 0)
-        );
+                (stateA.query || "") === (stateB.query || "") &&
+                (stateA.type || "") === (stateB.type || "") &&
+                (stateA.limit ?? 12) === (stateB.limit ?? 12) &&
+                (stateA.offset ?? 0) === (stateB.offset ?? 0)
+                );
     }
 
-    function cacheSetBounded(map, key, value, max) {
-        if (map.size >= max && !map.has(key)) {
-            const firstKey = map.keys().next().value;
-            map.delete(firstKey);
-        }
-        map.set(key, value);
-    }
-
-    // ===== Fetch helpers
     async function fetchJson(url, signal) {
-        const r = await fetch(url, { signal, headers: { Accept: "application/json" } });
-        if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
-        return r.json();
+        const response = await fetch(url, {signal, headers: {Accept: "application/json"}});
+        if (!response.ok)
+            throw new Error(`${response.status} ${response.statusText}`);
+        return response.json();
     }
 
-    async function mapLimit(items, limit, fn) {
-        const out = new Array(items.length);
-        let i = 0;
-        const workers = new Array(Math.min(limit, items.length)).fill(0).map(async () => {
-            while (i < items.length) {
-                const idx = i++;
-                out[idx] = await fn(items[idx], idx);
+    async function mapWithConcurrencyLimit(items, concurrencyLimit, asyncMapper) {
+        const results = new Array(items.length);
+        let sharedIndex = 0;
+        const workers = new Array(Math.min(concurrencyLimit, items.length)).fill(0).map(async () => {
+            while (sharedIndex < items.length) {
+                const currentIndex = sharedIndex++;
+                results[currentIndex] = await asyncMapper(items[currentIndex], currentIndex);
             }
         });
         await Promise.all(workers);
-        return out;
+        return results;
     }
 
-    async function getPokemonDetail(key, signal) {
-        const k = String(key).toLowerCase();
-        if (detailsCache.has(k)) return detailsCache.get(k);
-        const d = await fetchJson(`${API}/pokemon/${encodeURIComponent(k)}`, signal);
-        cacheSetBounded(detailsCache, k, d, MAX_DETAIL_CACHE);
-        return d;
+    async function getPokemonDetail(pokemonKeyOrName, signal) {
+        const cacheKey = String(pokemonKeyOrName).toLowerCase();
+        if (pokemonDetailCache.has(cacheKey))
+            return pokemonDetailCache.get(cacheKey);
+
+        const detail = await fetchJson(
+                `${POKEAPI_BASE_URL}/pokemon/${encodeURIComponent(cacheKey)}`,
+                signal
+                );
+
+        setCacheBounded(pokemonDetailCache, cacheKey, detail, MAX_POKEMON_DETAIL_CACHE);
+        return detail;
     }
 
     async function getTypeDetail(typeName, signal) {
-        const k = String(typeName).toLowerCase();
-        if (typeCache.has(k)) return typeCache.get(k);
-        const d = await fetchJson(`${API}/type/${encodeURIComponent(k)}`, signal);
-        cacheSetBounded(typeCache, k, d, MAX_TYPE_CACHE);
-        return d;
+        const cacheKey = String(typeName).toLowerCase();
+        if (typeDetailCache.has(cacheKey))
+            return typeDetailCache.get(cacheKey);
+
+        const detail = await fetchJson(
+                `${POKEAPI_BASE_URL}/type/${encodeURIComponent(cacheKey)}`,
+                signal
+                );
+
+        setCacheBounded(typeDetailCache, cacheKey, detail, MAX_TYPE_DETAIL_CACHE);
+        return detail;
     }
 
-    function toVM(detail) {
-        const id = detail.id;
-        const name = detail.name;
+    function toPokemonViewModel(pokemonDetail) {
+        const pokemonId = pokemonDetail.id;
+        const pokemonName = pokemonDetail.name;
 
-        const types = (detail.types || []).map((x) => x.type?.name).filter(Boolean);
-        const stats = Object.fromEntries((detail.stats || []).map((s) => [s.stat?.name, s.base_stat]));
+        const typesLowercase = (pokemonDetail.types || [])
+                .map((slot) => slot.type?.name)
+                .filter(Boolean)
+                .map((t) => String(t).toLowerCase());
 
-        const sprite =
-            detail.sprites?.other?.["official-artwork"]?.front_default ||
-            detail.sprites?.front_default ||
-            `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+        const statsMap = Object.fromEntries(
+                (pokemonDetail.stats || []).map((statSlot) => [statSlot.stat?.name, statSlot.base_stat])
+                );
+
+        const spriteUrl =
+                pokemonDetail.sprites?.other?.["official-artwork"]?.front_default ||
+                pokemonDetail.sprites?.front_default ||
+                `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
 
         return {
-            id,
-            name,
-            types,
-            hp: stats.hp ?? null,
-            atk: stats.attack ?? null,
-            def: stats.defense ?? null,
-            spAtk: stats["special-attack"] ?? null,
-            spDef: stats["special-defense"] ?? null,
-            speed: stats.speed ?? null,
-            spriteUrl: sprite,
+            id: pokemonId,
+            name: pokemonName,
+            types: typesLowercase,
+            hp: statsMap.hp ?? null,
+            atk: statsMap.attack ?? null,
+            def: statsMap.defense ?? null,
+            spAtk: statsMap["special-attack"] ?? null,
+            spDef: statsMap["special-defense"] ?? null,
+            speed: statsMap.speed ?? null,
+            spriteUrl,
         };
     }
 
-    // ===== Loaders
-    async function loadList(state, signal) {
-        const key = `list|limit=${state.limit}|offset=${state.offset}`;
-        if (pageCache.has(key)) return pageCache.get(key);
+    async function loadPokemonPageList(state, signal) {
+        const cacheKey = `list|limit=${state.limit}|offset=${state.offset}`;
+        if (pageCache.has(cacheKey))
+            return pageCache.get(cacheKey);
 
-        const page = await fetchJson(`${API}/pokemon?limit=${state.limit}&offset=${state.offset}`, signal);
-        const names = (page.results || []).map((r) => r.name);
+        const page = await fetchJson(
+                `${POKEAPI_BASE_URL}/pokemon?limit=${state.limit}&offset=${state.offset}`,
+                signal
+                );
 
-        const details = await mapLimit(names, 8, (n) => getPokemonDetail(n, signal));
-        const res = {
-            pokes: details.map(toVM),
+        const pokemonNames = (page.results || []).map((r) => r.name);
+
+        const detailList = await mapWithConcurrencyLimit(pokemonNames, 8, (name) =>
+            getPokemonDetail(name, signal)
+        );
+
+        const result = {
+            pokemons: detailList.map(toPokemonViewModel),
             count: page.count ?? null,
             hasNext: Boolean(page.next),
             hasPrev: Boolean(page.previous),
         };
 
-        cacheSetBounded(pageCache, key, res, MAX_PAGE_CACHE);
-        return res;
+        setCacheBounded(pageCache, cacheKey, result, MAX_PAGE_CACHE);
+        return result;
     }
 
-    async function loadSearch(state, signal) {
-        const d = await getPokemonDetail(state.q, signal);
-        return { pokes: [toVM(d)], count: 1, hasNext: false, hasPrev: false };
+    async function loadPokemonBySearch(state, signal) {
+        const detail = await getPokemonDetail(state.query, signal);
+        return {pokemons: [toPokemonViewModel(detail)], count: 1, hasNext: false, hasPrev: false};
     }
 
-    async function loadType(state, signal) {
-        const key = `type|${state.type}|limit=${state.limit}|offset=${state.offset}`;
-        if (pageCache.has(key)) return pageCache.get(key);
+    async function loadPokemonByType(state, signal) {
+        const cacheKey = `type|${state.type}|limit=${state.limit}|offset=${state.offset}`;
+        if (pageCache.has(cacheKey))
+            return pageCache.get(cacheKey);
 
-        const t = await fetchJson(`${API}/type/${encodeURIComponent(state.type)}`, signal);
-        const all = (t.pokemon || []).map((x) => x.pokemon?.name).filter(Boolean);
+        const typeDetail = await fetchJson(
+                `${POKEAPI_BASE_URL}/type/${encodeURIComponent(state.type)}`,
+                signal
+                );
 
-        const slice = all.slice(state.offset, state.offset + state.limit);
-        const details = await mapLimit(slice, 8, (n) => getPokemonDetail(n, signal));
+        const allPokemonNames = (typeDetail.pokemon || [])
+                .map((entry) => entry.pokemon?.name)
+                .filter(Boolean);
 
-        const count = all.length;
-        const res = {
-            pokes: details.map(toVM),
-            count,
+        const slice = allPokemonNames.slice(state.offset, state.offset + state.limit);
+
+        const detailList = await mapWithConcurrencyLimit(slice, 8, (name) =>
+            getPokemonDetail(name, signal)
+        );
+
+        const totalCount = allPokemonNames.length;
+
+        const result = {
+            pokemons: detailList.map(toPokemonViewModel),
+            count: totalCount,
             hasPrev: state.offset > 0,
-            hasNext: state.offset + state.limit < count,
+            hasNext: state.offset + state.limit < totalCount,
         };
 
-        cacheSetBounded(pageCache, key, res, MAX_PAGE_CACHE);
-        return res;
+        setCacheBounded(pageCache, cacheKey, result, MAX_PAGE_CACHE);
+        return result;
     }
 
-    function sortPokes(pokes, sort) {
-        const arr = [...pokes];
-        switch (sort) {
+    function sortPokemons(pokemons, sortKey) {
+        const copy = [...pokemons];
+        switch (sortKey) {
             case "id_desc":
-                return arr.sort((a, b) => (b.id || 0) - (a.id || 0));
+                return copy.sort((a, b) => (b.id || 0) - (a.id || 0));
             case "name_asc":
-                return arr.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+                return copy.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
             case "name_desc":
-                return arr.sort((a, b) => (b.name || "").localeCompare(a.name || ""));
+                return copy.sort((a, b) => (b.name || "").localeCompare(a.name || ""));
             case "id_asc":
             default:
-                return arr.sort((a, b) => (a.id || 0) - (b.id || 0));
+                return copy.sort((a, b) => (a.id || 0) - (b.id || 0));
         }
     }
 
-    // ===== Render
-    function render(state, pokes, meta) {
-        if (gridEl) gridEl.innerHTML = "";
-        if (listEl) listEl.innerHTML = "";
-
-        const sorted = sortPokes(pokes, state.sort);
-        const total = meta.count ?? null;
-
-        if (countBadge) countBadge.textContent = String(sorted.length);
-        if (metaLine) {
-            metaLine.textContent =
-                `limit=${state.limit} • offset=${state.offset}` +
-                (state.type ? ` • type=${state.type}` : "") +
-                (state.q ? ` • q=${state.q}` : "");
-        }
-
-        if (!sorted.length) {
-            show(emptyEl);
-            return;
-        }
-        hide(emptyEl);
-
-        const view = state.view || "grid";
-        if (view === "list") {
-            if (gridEl) hide(gridEl);
-            if (listEl) show(listEl);
-            sorted.forEach((p) => listEl?.insertAdjacentHTML("beforeend", listRowHTML(p)));
-        } else {
-            if (gridEl) show(gridEl);
-            if (listEl) hide(listEl);
-            sorted.forEach((p) => gridEl?.insertAdjacentHTML("beforeend", cardHTML(p)));
-        }
-
-        const from = state.offset + 1;
-        const to = state.offset + sorted.length;
-        if (pageMetaEl) {
-            pageMetaEl.textContent = total ? `Mostrando ${from}-${to} de ${total}` : `Mostrando ${from}-${to}`;
-        }
+    function buildTypeChipsHtml(typesLowercase) {
+        return (typesLowercase || [])
+                .map((typeNameLowercase) => {
+                    const safeType = escapeHtml(String(typeNameLowercase).toLowerCase());
+                    return `<span class="type type-${safeType}">${escapeHtml(typeLabelSpanish(safeType))}</span>`;
+                })
+                .join("");
     }
 
-    // ===== GRID: Carta (flip + detalles) + fondo por tipo
-    function cardHTML(p) {
-        const id3 = String(p.id).padStart(3, "0");
-        const detailHref = `/pokedetail?id=${p.id}`;
+    function buildTypeIconsHtml(typesLowercase) {
+        return (typesLowercase || [])
+                .slice(0, 2)
+                .map((typeNameLowercase) => {
+                    const typeLower = String(typeNameLowercase).toLowerCase();
+                    const label = typeLabelSpanish(typeLower);
+                    return `
+          <span class="type-icon type-icon-${escapeHtml(typeLower)}"
+                title="${escapeHtml(label)}"
+                aria-label="${escapeHtml(label)}"></span>`;
+                })
+                .join("");
+    }
 
-        const types = (p.types || [])
-            .map((t) => `<span class="type type-${escapeHtml(t)}">${escapeHtml(typeLabelES(t))}</span>`)
-            .join("");
+    function buildCardHtml(pokemon) {
+        const paddedId = String(pokemon.id).padStart(3, "0");
+        const detailsHref = `/pokedetail?id=${pokemon.id}`;
 
-        const primaryType = (p.types?.[0] || "normal").toLowerCase();
-        const artClass = `tcg-art tcg-art--${escapeHtml(primaryType)}`;
+        const primaryTypeLowercase = String(pokemon.types?.[0] || "normal").toLowerCase();
+        const artClass = `tcg-art tcg-art--${escapeHtml(primaryTypeLowercase)}`;
+
+        const typeChipsHtml = buildTypeChipsHtml(pokemon.types);
+        const typeIconsHtml = buildTypeIconsHtml(pokemon.types);
 
         return `
       <div class="col-12 col-md-6 col-xl-4">
-        <div class="tcg-card" data-id="${p.id}" data-detail-href="${escapeHtml(detailHref)}" role="button" tabindex="0"
-             aria-label="Carta de ${escapeHtml(p.name)}">
+        <div class="tcg-card"
+             data-id="${pokemon.id}"
+             data-detail-href="${escapeHtml(detailsHref)}"
+             role="button"
+             tabindex="0"
+             aria-label="Carta de ${escapeHtml(pokemon.name)}">
+
           <div class="tcg-card-inner">
 
-            <!-- FRONT -->
             <article class="tcg-face tcg-front">
               <div class="tcg-top">
                 <div>
-                  <div class="tcg-name">${escapeHtml(cap(p.name))}</div>
-                  <div class="tcg-sub">Pokémon • <span class="tcg-id">#${id3}</span></div>
+                  <div class="tcg-name">${escapeHtml(capitalize(pokemon.name))}</div>
+                  <div class="tcg-sub">Pokémon • <span class="tcg-id">#${paddedId}</span></div>
                 </div>
-                <div class="tcg-id">#${id3}</div>
+                <div class="tcg-id">#${paddedId}</div>
               </div>
 
               <div class="${artClass}">
-                <img class="tcg-art-img" src="${escapeHtml(p.spriteUrl)}" alt="${escapeHtml(p.name)}">
+                <img class="tcg-art-img" src="${escapeHtml(pokemon.spriteUrl)}" alt="${escapeHtml(pokemon.name)}">
               </div>
 
-              <div class="tcg-types">${types}</div>
+              <div class="tcg-types">${typeChipsHtml}</div>
 
               <div class="tcg-actions">
                 <button class="btn btn-neo btn-neo-outline btn-sm rounded-3" type="button" data-flip>
                   <i class="bi bi-arrow-repeat me-1"></i> Voltear
                 </button>
 
-                <a class="btn btn-neo btn-neo-primary btn-sm rounded-3" href="${detailHref}">
+                <a class="btn btn-neo btn-neo-primary btn-sm rounded-3" href="${escapeHtml(detailsHref)}">
                   <i class="bi bi-box-arrow-up-right me-1"></i> Detalles
                 </a>
               </div>
             </article>
 
-            <!-- BACK -->
             <article class="tcg-face tcg-back">
               <div class="tcg-back-head">
                 <div>
-                  <div class="tcg-name">${escapeHtml(cap(p.name))}</div>
-                  <div class="tcg-sub">Stats + relaciones • <span class="tcg-id">#${id3}</span></div>
+                  <div class="tcg-name">${escapeHtml(capitalize(pokemon.name))}</div>
+                  <div class="tcg-sub">Stats + relaciones • <span class="tcg-id">#${paddedId}</span></div>
                 </div>
-                <div class="tcg-back-badges">${types}</div>
+                <div class="tcg-type-icons">${typeIconsHtml}</div>
               </div>
 
               <div class="tcg-panel">
                 <div class="tcg-section-title">Stats</div>
+
                 <div class="tcg-meta">
-                  <div class="tcg-chip"><span>HP</span><b>${escapeHtml(String(p.hp ?? "—"))}</b></div>
-                  <div class="tcg-chip"><span>ATK</span><b>${escapeHtml(String(p.atk ?? "—"))}</b></div>
-                  <div class="tcg-chip"><span>DEF</span><b>${escapeHtml(String(p.def ?? "—"))}</b></div>
-                  <div class="tcg-chip"><span>SPD</span><b>${escapeHtml(String(p.speed ?? "—"))}</b></div>
+                  <div class="tcg-chip"><span>HP</span><b>${escapeHtml(String(pokemon.hp ?? "—"))}</b></div>
+                  <div class="tcg-chip"><span>ATK</span><b>${escapeHtml(String(pokemon.atk ?? "—"))}</b></div>
+                  <div class="tcg-chip"><span>DEF</span><b>${escapeHtml(String(pokemon.def ?? "—"))}</b></div>
+                  <div class="tcg-chip"><span>SPD</span><b>${escapeHtml(String(pokemon.speed ?? "—"))}</b></div>
                 </div>
 
                 <div class="tcg-divider"></div>
 
                 <div class="tcg-section-title">Debilidad / Resistencia</div>
+
                 <div class="tcg-rel" data-slot="relations">
                   <span class="tcg-tag tcg-tag-dashed">Cargando…</span>
                 </div>
@@ -452,7 +498,7 @@
                   <i class="bi bi-arrow-left-right me-1"></i> Volver
                 </button>
 
-                <a class="btn btn-neo btn-neo-primary btn-sm rounded-3" href="${detailHref}">
+                <a class="btn btn-neo btn-neo-primary btn-sm rounded-3" href="${escapeHtml(detailsHref)}">
                   <i class="bi bi-box-arrow-up-right me-1"></i> Detalles
                 </a>
               </div>
@@ -464,30 +510,27 @@
     `;
     }
 
-    // ===== LIST view (legacy)
-    function listRowHTML(p) {
-        const id3 = String(p.id).padStart(3, "0");
-        const types = (p.types || [])
-            .map((t) => `<span class="type type-${escapeHtml(t)}">${escapeHtml(typeLabelES(t))}</span>`)
-            .join("");
+    function buildListRowHtml(pokemon) {
+        const paddedId = String(pokemon.id).padStart(3, "0");
+        const typeChipsHtml = buildTypeChipsHtml(pokemon.types);
 
         return `
       <div class="list-row">
         <div class="d-flex align-items-center gap-3">
           <div class="list-sprite">
-            <img class="poke-sprite" src="${escapeHtml(p.spriteUrl)}" alt="${escapeHtml(p.name)}">
+            <img class="poke-sprite" src="${escapeHtml(pokemon.spriteUrl)}" alt="${escapeHtml(pokemon.name)}">
           </div>
 
           <div class="flex-grow-1">
             <div class="d-flex align-items-center gap-2 flex-wrap">
-              <span class="poke-id">#${id3}</span>
-              <span class="fw-bold">${escapeHtml(cap(p.name))}</span>
-              <div class="d-flex flex-wrap gap-2 ms-0 ms-md-2">${types}</div>
+              <span class="poke-id">#${paddedId}</span>
+              <span class="fw-bold">${escapeHtml(capitalize(pokemon.name))}</span>
+              <div class="d-flex flex-wrap gap-2 ms-0 ms-md-2">${typeChipsHtml}</div>
             </div>
           </div>
 
           <div class="d-flex gap-2">
-            <button class="btn btn-neo btn-neo-primary btn-sm rounded-3" type="button" data-open="${p.id}">
+            <button class="btn btn-neo btn-neo-primary btn-sm rounded-3" type="button" data-open="${pokemon.id}">
               <i class="bi bi-eye"></i>
             </button>
           </div>
@@ -496,377 +539,470 @@
     `;
     }
 
-    // ===== Back-fill: relations (SOLO 1 debilidad y 1 resistencia)
-    async function buildRelations(pokemonId, signal) {
-        const d = await getPokemonDetail(pokemonId, signal);
-        const primaryType = d.types?.[0]?.type?.name || null;
+    function renderView(state, pokemons, meta) {
+        if (gridContainer)
+            gridContainer.innerHTML = "";
+        if (listContainer)
+            listContainer.innerHTML = "";
 
-        let rel = { weak: [], resist: [] };
-        if (primaryType) {
-            const td = await getTypeDetail(primaryType, signal);
-            const dr = td.damage_relations || {};
-            rel = {
-                weak: (dr.double_damage_from || []).map((x) => x.name).filter(Boolean),
-                resist: (dr.half_damage_from || []).map((x) => x.name).filter(Boolean),
+        const sortedPokemons = sortPokemons(pokemons, state.sort);
+        const totalCount = meta.count ?? null;
+
+        if (countBadge)
+            countBadge.textContent = String(sortedPokemons.length);
+
+        if (metaLine) {
+            metaLine.textContent =
+                    `limit=${state.limit} • offset=${state.offset}` +
+                    (state.type ? ` • type=${state.type}` : "") +
+                    (state.query ? ` • q=${state.query}` : "");
+        }
+
+        if (!sortedPokemons.length) {
+            show(emptyState);
+            return;
+        }
+        hide(emptyState);
+
+        const viewMode = state.view || "grid";
+
+        if (viewMode === "list") {
+            if (gridContainer)
+                hide(gridContainer);
+            if (listContainer)
+                show(listContainer);
+            sortedPokemons.forEach((pokemon) => {
+                listContainer?.insertAdjacentHTML("beforeend", buildListRowHtml(pokemon));
+            });
+        } else {
+            if (gridContainer)
+                show(gridContainer);
+            if (listContainer)
+                hide(listContainer);
+            sortedPokemons.forEach((pokemon) => {
+                gridContainer?.insertAdjacentHTML("beforeend", buildCardHtml(pokemon));
+            });
+        }
+
+        const from = state.offset + 1;
+        const to = state.offset + sortedPokemons.length;
+
+        if (pageMeta) {
+            pageMeta.textContent = totalCount ? `Mostrando ${from}-${to} de ${totalCount}` : `Mostrando ${from}-${to}`;
+        }
+    }
+
+    async function buildRelationsForPokemon(pokemonId, signal) {
+        const pokemonDetail = await getPokemonDetail(pokemonId, signal);
+        const primaryTypeLowercase = pokemonDetail.types?.[0]?.type?.name
+                ? String(pokemonDetail.types[0].type.name).toLowerCase()
+                : null;
+
+        let relations = {weak: [], resist: []};
+
+        if (primaryTypeLowercase) {
+            const typeDetail = await getTypeDetail(primaryTypeLowercase, signal);
+            const damageRelations = typeDetail.damage_relations || {};
+
+            relations = {
+                weak: (damageRelations.double_damage_from || []).map((x) => String(x.name).toLowerCase()).filter(Boolean),
+                resist: (damageRelations.half_damage_from || []).map((x) => String(x.name).toLowerCase()).filter(Boolean),
             };
         }
 
-        return { rel };
+        return relations;
     }
 
-    function renderRelationsIntoCard(card, data) {
-        const relEl = card.querySelector('[data-slot="relations"]');
-        if (!relEl) return;
+    function renderRelationsIntoCard(cardElement, relations) {
+        const relationsContainer = cardElement.querySelector('[data-slot="relations"]');
+        if (!relationsContainer)
+            return;
 
-        const href = card.getAttribute("data-detail-href") || "#";
+        const weaknessTypes = (relations?.weak || []).map((t) => String(t).toLowerCase());
+        const resistanceTypes = (relations?.resist || []).map((t) => String(t).toLowerCase());
 
-        const weakAll = data.rel?.weak || [];
-        const resistAll = data.rel?.resist || [];
+        const weaknessPreview = weaknessTypes.slice(0, 1);
+        const resistancePreview = resistanceTypes.slice(0, 1);
 
-        const weak = weakAll.slice(0, 1);
-        const resist = resistAll.slice(0, 1);
+        const buildChip = (typeLower) =>
+                `<span class="type type-${escapeHtml(typeLower)}">${escapeHtml(typeLabelSpanish(typeLower))}</span>`;
 
-        const overflow = weakAll.length > 1 || resistAll.length > 1;
+        const buildChipsOrDash = (previewList) => {
+            if (!previewList.length)
+                return `<span class="tcg-rel-empty">—</span>`;
+            return previewList.map(buildChip).join("");
+        };
 
-        const chips = [];
+        relationsContainer.innerHTML = `
+      <div class="tcg-rel">
+        <div class="tcg-rel-row">
+          <div class="tcg-rel-label">Debilidad</div>
+          <div class="tcg-rel-chips">${buildChipsOrDash(weaknessPreview)}</div>
+          <span></span>
+        </div>
 
-        chips.push(`<span class="tcg-tag tcg-tag-dashed">Debilidad</span>`);
-        chips.push(
-            weakAll.length
-                ? weak
-                    .map((t) => `<span class="type type-${escapeHtml(t)}">${escapeHtml(typeLabelES(t))}</span>`)
-                    .join("")
-                : `<span class="tcg-tag">—</span>`
-        );
-
-        chips.push(`<span class="tcg-tag tcg-tag-dashed">Resiste</span>`);
-        chips.push(
-            resistAll.length
-                ? resist
-                    .map((t) => `<span class="type type-${escapeHtml(t)}">${escapeHtml(typeLabelES(t))}</span>`)
-                    .join("")
-                : `<span class="tcg-tag">—</span>`
-        );
-
-        if (overflow) {
-            chips.push(`
-        <a class="tcg-more" href="${escapeHtml(href)}" title="Ver más en Detalles">
-          <i class="bi bi-plus-lg"></i> Más
-        </a>
-      `);
-        }
-
-        relEl.innerHTML = chips.join("");
+        <div class="tcg-rel-row">
+          <div class="tcg-rel-label">Resiste</div>
+          <div class="tcg-rel-chips">${buildChipsOrDash(resistancePreview)}</div>
+          <span></span>
+        </div>
+      </div>
+    `;
     }
 
-    async function ensureBackLoaded(card, signal) {
-        if (!card || card.dataset.backLoaded === "1") return;
-        const id = card.getAttribute("data-id");
-        if (!id) return;
+    async function ensureCardBackRelationsLoaded(cardElement, signal) {
+        if (!cardElement || cardElement.dataset.backLoaded === "1")
+            return;
 
-        card.dataset.backLoaded = "loading";
+        const pokemonId = cardElement.getAttribute("data-id");
+        if (!pokemonId)
+            return;
+
+        cardElement.dataset.backLoaded = "loading";
+
         try {
-            const data = await buildRelations(id, signal);
-            renderRelationsIntoCard(card, data);
-            card.dataset.backLoaded = "1";
+            const relations = await buildRelationsForPokemon(pokemonId, signal);
+            renderRelationsIntoCard(cardElement, relations);
+            cardElement.dataset.backLoaded = "1";
         } catch (_) {
-            const relEl = card.querySelector('[data-slot="relations"]');
-            if (relEl) relEl.innerHTML = `<span class="tcg-tag tcg-tag-dashed">Error</span>`;
-            card.dataset.backLoaded = "0";
+            const relationsContainer = cardElement.querySelector('[data-slot="relations"]');
+            if (relationsContainer)
+                relationsContainer.innerHTML = `<span class="tcg-tag tcg-tag-dashed">Error</span>`;
+            cardElement.dataset.backLoaded = "0";
         }
     }
 
-    // ✅ FLIP: vuelve a funcionar (click en botón flip O en la carta), pero NO en links
     function wireDelegatedFlip() {
-        const root = gridEl || document;
+        const eventRoot = gridContainer || document;
 
-        const shouldIgnoreTarget = (target) => {
-            if (!target) return true;
-            if (target.closest("a")) return true; // deja navegar Detalles
-            if (target.closest("input, select, textarea, label")) return true;
+        function shouldIgnoreFlipTarget(target) {
+            if (!target)
+                return true;
+            if (target.closest("a"))
+                return true;
+            if (target.closest("input, select, textarea, label"))
+                return true;
             return false;
-        };
+        }
 
-        const toggle = async (card) => {
-            if (!card) return;
-            const willFlipToBack = !card.classList.contains("is-flipped");
-            card.classList.toggle("is-flipped");
-            if (willFlipToBack) await ensureBackLoaded(card, aborter?.signal);
-        };
+        async function toggleCardFlip(cardElement) {
+            if (!cardElement)
+                return;
 
-        root.addEventListener("click", async (e) => {
-            const card = e.target.closest(".tcg-card");
-            if (!card) return;
+            const willFlipToBack = !cardElement.classList.contains("is-flipped");
+            cardElement.classList.toggle("is-flipped");
 
-            // si clickeas en un link o input, no flip
-            if (shouldIgnoreTarget(e.target)) return;
+            if (willFlipToBack) {
+                await ensureCardBackRelationsLoaded(cardElement, activeAbortController?.signal);
+            }
+        }
 
-            // flip si: botón [data-flip] o click en cualquier parte de la carta
-            const flipBtn = e.target.closest("[data-flip]");
-            if (flipBtn || e.target.closest(".tcg-face") || e.target === card) {
-                e.preventDefault();
-                await toggle(card);
+        eventRoot.addEventListener("click", async (event) => {
+            const cardElement = event.target.closest(".tcg-card");
+            if (!cardElement)
+                return;
+
+            if (shouldIgnoreFlipTarget(event.target))
+                return;
+
+            const clickedFlipButton = event.target.closest("[data-flip]");
+            if (clickedFlipButton || event.target.closest(".tcg-face") || event.target === cardElement) {
+                event.preventDefault();
+                await toggleCardFlip(cardElement);
             }
         });
 
-        root.addEventListener("keydown", async (e) => {
-            const card = e.target.closest(".tcg-card");
-            if (!card) return;
+        eventRoot.addEventListener("keydown", async (event) => {
+            const cardElement = event.target.closest(".tcg-card");
+            if (!cardElement)
+                return;
 
-            if (e.key !== "Enter" && e.key !== " ") return;
+            if (event.key !== "Enter" && event.key !== " ")
+                return;
+            if (event.target.closest("a, button, input, select, textarea"))
+                return;
 
-            // si estás parado en un link o un botón, no forzamos flip por tecla
-            if (e.target.closest("a, button, input, select, textarea")) return;
-
-            e.preventDefault();
-            await toggle(card);
+            event.preventDefault();
+            await toggleCardFlip(cardElement);
         });
     }
 
-    // Delegación: abrir modal (LIST view)
-    function wireDelegatedOpen() {
-        const handler = async (e) => {
-            const btn = e.target.closest("[data-open]");
-            if (!btn) return;
+    function wireDelegatedOpenModal() {
+        async function handleOpen(event) {
+            const openButton = event.target.closest("[data-open]");
+            if (!openButton)
+                return;
 
-            const id = btn.getAttribute("data-open");
-            if (!id) return;
+            const pokemonId = openButton.getAttribute("data-open");
+            if (!pokemonId)
+                return;
 
             try {
-                const d = await getPokemonDetail(id, aborter?.signal);
-                openModal(toVM(d));
+                const detail = await getPokemonDetail(pokemonId, activeAbortController?.signal);
+                openModalWithPokemon(toPokemonViewModel(detail));
             } catch (_) {
                 alert("No se pudo cargar el detalle.");
             }
-        };
+        }
 
-        gridEl?.addEventListener("click", handler);
-        listEl?.addEventListener("click", handler);
+        gridContainer?.addEventListener("click", handleOpen);
+        listContainer?.addEventListener("click", handleOpen);
     }
 
-    function openModal(p) {
-        if (!modalEl) return;
+    function openModalWithPokemon(pokemon) {
+        if (!pokemonModalElement)
+            return;
 
-        if (modalTitle) modalTitle.textContent = `${cap(p.name)}  #${String(p.id).padStart(3, "0")}`;
-        if (modalSubtitle) modalSubtitle.textContent = `Detalle desde PokeAPI`;
+        if (modalTitle)
+            modalTitle.textContent = `${capitalize(pokemon.name)}  #${String(pokemon.id).padStart(3, "0")}`;
+        if (modalSubtitle)
+            modalSubtitle.textContent = "Detalle desde PokeAPI";
 
         if (modalSprite) {
-            modalSprite.src = p.spriteUrl;
-            modalSprite.alt = p.name;
+            modalSprite.src = pokemon.spriteUrl;
+            modalSprite.alt = pokemon.name;
         }
 
-        if (modalTypes) {
-            modalTypes.innerHTML = (p.types || [])
-                .map((t) => `<span class="type type-${escapeHtml(t)}">${escapeHtml(typeLabelES(t))}</span>`)
-                .join("");
-        }
+        if (modalTypes)
+            modalTypes.innerHTML = buildTypeChipsHtml(pokemon.types);
 
-        const statRows = [
-            ["HP", p.hp],
-            ["ATK", p.atk],
-            ["DEF", p.def],
-            ["SpATK", p.spAtk],
-            ["SpDEF", p.spDef],
-            ["SPEED", p.speed],
+        const statsRows = [
+            ["HP", pokemon.hp],
+            ["ATK", pokemon.atk],
+            ["DEF", pokemon.def],
+            ["SpATK", pokemon.spAtk],
+            ["SpDEF", pokemon.spDef],
+            ["SPEED", pokemon.speed],
         ];
 
         if (modalStats) {
-            modalStats.innerHTML = statRows
-                .map(
-                    ([k, v]) => `
+            modalStats.innerHTML = statsRows
+                    .map(
+                            ([label, value]) => `
           <div class="stat">
-            <span>${escapeHtml(k)}</span>
-            <b>${v ?? "-"}</b>
+            <span>${escapeHtml(label)}</span>
+            <b>${value ?? "-"}</b>
           </div>
         `
-                )
-                .join("");
+                    )
+                    .join("");
         }
 
-        if (modalInfo) modalInfo.innerHTML = "";
-        if (bsModal) bsModal.show();
+        if (modalInfo)
+            modalInfo.innerHTML = "";
+        if (bootstrapModalInstance)
+            bootstrapModalInstance.show();
     }
 
-    // ===== Main load
-    async function load() {
-        if (aborter) aborter.abort();
-        aborter = new AbortController();
+    function wirePagination(state, hasPrev, hasNext) {
+        if (prevPageLink?.parentElement)
+            prevPageLink.parentElement.classList.toggle("disabled", !hasPrev);
+        if (nextPageLink?.parentElement)
+            nextPageLink.parentElement.classList.toggle("disabled", !hasNext);
 
-        const state = getUrlState();
+        if (prevPageLink) {
+            prevPageLink.onclick = (event) => {
+                event.preventDefault();
+                if (!hasPrev)
+                    return;
+                const nextState = {...state, offset: Math.max(0, state.offset - state.limit)};
+                writeStateToUrl(nextState, {replace: false});
+                loadAndRender();
+            };
+        }
+
+        if (nextPageLink) {
+            nextPageLink.onclick = (event) => {
+                event.preventDefault();
+                if (!hasNext)
+                    return;
+                const nextState = {...state, offset: state.offset + state.limit};
+                writeStateToUrl(nextState, {replace: false});
+                loadAndRender();
+            };
+        }
+
+        if (homePageLink) {
+            homePageLink.onclick = (event) => {
+                event.preventDefault();
+                const nextState = {...state, offset: 0};
+                writeStateToUrl(nextState, {replace: false});
+                loadAndRender();
+            };
+        }
+    }
+
+    async function loadAndRender() {
+        if (activeAbortController)
+            activeAbortController.abort();
+        activeAbortController = new AbortController();
+
+        const state = readStateFromUrl();
         syncDomFromState(state);
 
         setLoading(true);
-        hide(errorEl);
-        hide(emptyEl);
+        hide(errorState);
+        hide(emptyState);
 
         try {
-            let res;
+            let result;
 
-            if (state.q) {
+            if (state.query) {
                 state.offset = 0;
-                setUrlState(state, { replace: true });
+                writeStateToUrl(state, {replace: true});
                 syncDomFromState(state);
-                res = await loadSearch(state, aborter.signal);
+                result = await loadPokemonBySearch(state, activeAbortController.signal);
             } else if (state.type) {
-                res = await loadType(state, aborter.signal);
+                result = await loadPokemonByType(state, activeAbortController.signal);
             } else {
-                res = await loadList(state, aborter.signal);
+                result = await loadPokemonPageList(state, activeAbortController.signal);
             }
 
             setLoading(false);
 
-            lastResult = {
-                state: { ...state },
-                pokes: res.pokes || [],
-                count: res.count ?? null,
-                hasNext: Boolean(res.hasNext),
-                hasPrev: Boolean(res.hasPrev),
+            lastLoadedResult = {
+                state: {...state},
+                pokemons: result.pokemons || [],
+                count: result.count ?? null,
+                hasNext: Boolean(result.hasNext),
+                hasPrev: Boolean(result.hasPrev),
             };
 
-            render(state, lastResult.pokes, { count: lastResult.count });
+            renderView(state, lastLoadedResult.pokemons, {count: lastLoadedResult.count});
 
-            const hasPrev = !state.q && (res.hasPrev ?? state.offset > 0);
-            const hasNext = !state.q && Boolean(res.hasNext);
+            const canGoPrev = !state.query && (result.hasPrev ?? state.offset > 0);
+            const canGoNext = !state.query && Boolean(result.hasNext);
 
-            if (prevA?.parentElement) prevA.parentElement.classList.toggle("disabled", !hasPrev);
-            if (nextA?.parentElement) nextA.parentElement.classList.toggle("disabled", !hasNext);
-
-            if (prevA) {
-                prevA.onclick = (e) => {
-                    e.preventDefault();
-                    if (!hasPrev) return;
-                    const next = { ...state, offset: Math.max(0, state.offset - state.limit) };
-                    setUrlState(next, { replace: false });
-                    load();
-                };
-            }
-
-            if (nextA) {
-                nextA.onclick = (e) => {
-                    e.preventDefault();
-                    if (!hasNext) return;
-                    const next = { ...state, offset: state.offset + state.limit };
-                    setUrlState(next, { replace: false });
-                    load();
-                };
-            }
-
-            if (homeA) {
-                homeA.onclick = (e) => {
-                    e.preventDefault();
-                    const next = { ...state, offset: 0 };
-                    setUrlState(next, { replace: false });
-                    load();
-                };
-            }
-        } catch (err) {
-            if (err?.name === "AbortError") return;
+            wirePagination(state, canGoPrev, canGoNext);
+        } catch (error) {
+            if (error?.name === "AbortError")
+                return;
             setLoading(false);
-            setError(err?.message || String(err));
-            show(emptyEl);
+            setError(error?.message || String(error));
+            show(emptyState);
         }
     }
 
-    function applyFromDom({ push = false } = {}) {
-        const s = getDomState();
-        setUrlState(s, { replace: !push });
-        load();
+    function applyStateFromDom( { pushHistory = false } = {}) {
+        const state = readStateFromDom();
+        writeStateToUrl(state, {replace: !pushHistory});
+        loadAndRender();
     }
 
-    // ===== Events
-    if (form) {
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            applyFromDom({ push: true });
-        });
-    }
+    function wireSearchInput(inputElement) {
+        if (!inputElement)
+            return;
 
-    function wireSearch(input) {
-        if (!input) return;
+        inputElement.addEventListener("input", () => {
+            clearTimeout(debounceTimerId);
+            debounceTimerId = setTimeout(() => {
+                const newQuery = inputElement.value;
 
-        input.addEventListener("input", () => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-                const v = input.value;
+                if (searchInputMain && searchInputMain !== inputElement)
+                    searchInputMain.value = newQuery;
+                if (searchInputPalette && searchInputPalette !== inputElement)
+                    searchInputPalette.value = newQuery;
 
-                if (qMain && qMain !== input) qMain.value = v;
-                if (qPalette && qPalette !== input) qPalette.value = v;
+                if (hiddenTypeInput)
+                    hiddenTypeInput.value = "";
+                if (hiddenOffsetInput)
+                    hiddenOffsetInput.value = "0";
 
-                if (typeInput) typeInput.value = "";
-                if (offsetInput) offsetInput.value = "0";
+                const state = readStateFromDom();
+                state.offset = 0;
+                state.type = "";
 
-                const s = getDomState();
-                s.offset = 0;
-                s.type = "";
-                setUrlState(s, { replace: true });
-                load();
+                writeStateToUrl(state, {replace: true});
+                loadAndRender();
             }, 350);
         });
     }
-    wireSearch(qMain);
-    wireSearch(qPalette);
 
-    function wireSort(sel) {
-        if (!sel) return;
+    function wireSortSelect(selectElement) {
+        if (!selectElement)
+            return;
 
-        sel.addEventListener("change", () => {
-            const v = sel.value;
-            if (sortSelect && sortSelect !== sel) sortSelect.value = v;
-            if (sortSelectPalette && sortSelectPalette !== sel) sortSelectPalette.value = v;
+        selectElement.addEventListener("change", () => {
+            const selectedSort = selectElement.value;
 
-            const s = getDomState();
-            s.sort = v;
+            if (sortSelectMain && sortSelectMain !== selectElement)
+                sortSelectMain.value = selectedSort;
+            if (sortSelectPalette && sortSelectPalette !== selectElement)
+                sortSelectPalette.value = selectedSort;
 
-            setUrlState(s, { replace: false });
+            const state = readStateFromDom();
+            state.sort = selectedSort;
 
-            if (lastResult && sameDataKey(s, lastResult.state)) {
-                lastResult.state = { ...lastResult.state, view: s.view, sort: s.sort };
-                syncDomFromState(s);
-                render(s, lastResult.pokes, { count: lastResult.count });
+            writeStateToUrl(state, {replace: false});
+
+            if (lastLoadedResult && hasSameDataKey(state, lastLoadedResult.state)) {
+                lastLoadedResult.state = {...lastLoadedResult.state, view: state.view, sort: state.sort};
+                syncDomFromState(state);
+                renderView(state, lastLoadedResult.pokemons, {count: lastLoadedResult.count});
                 return;
             }
 
-            load();
+            loadAndRender();
         });
     }
-    wireSort(sortSelect);
-    wireSort(sortSelectPalette);
 
-    if (limitSelect) {
+    function wireLimitSelect() {
+        if (!limitSelect)
+            return;
+
         limitSelect.addEventListener("change", () => {
-            if (offsetInput) offsetInput.value = "0";
-            const s = getDomState();
-            s.offset = 0;
-
-            setUrlState(s, { replace: false });
-            load();
+            if (hiddenOffsetInput)
+                hiddenOffsetInput.value = "0";
+            const state = readStateFromDom();
+            state.offset = 0;
+            writeStateToUrl(state, {replace: false});
+            loadAndRender();
         });
     }
 
-    if (clearBtn) {
-        clearBtn.addEventListener("click", () => {
-            const reset = { q: "", type: "", view: "grid", sort: "id_asc", limit: 12, offset: 0 };
-            setUrlState(reset, { replace: false });
-            syncDomFromState(reset);
+    function wireClearButton() {
+        if (!clearButton)
+            return;
 
-            lastResult = null;
-            load();
+        clearButton.addEventListener("click", () => {
+            const resetState = {query: "", type: "", view: "grid", sort: "id_asc", limit: 12, offset: 0};
+            writeStateToUrl(resetState, {replace: false});
+            syncDomFromState(resetState);
+            lastLoadedResult = null;
+            loadAndRender();
         });
     }
 
-    window.addEventListener("popstate", () => load());
-
-    // Init
-    (function init() {
-        wireDelegatedOpen();
+    function init() {
+        wireDelegatedOpenModal();
         wireDelegatedFlip();
 
-        const url = new URL(window.location.href);
-        if (!url.search) {
-            setUrlState({ q: "", type: "", view: "grid", sort: "id_asc", limit: 12, offset: 0 }, { replace: true });
+        wireSearchInput(searchInputMain);
+        wireSearchInput(searchInputPalette);
+
+        wireSortSelect(sortSelectMain);
+        wireSortSelect(sortSelectPalette);
+
+        wireLimitSelect();
+        wireClearButton();
+
+        if (pokedexForm) {
+            pokedexForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+                applyStateFromDom({pushHistory: true});
+            });
         }
 
-        syncDomFromState(getUrlState());
-        load();
-    })();
+        window.addEventListener("popstate", () => loadAndRender());
+
+        const currentUrl = new URL(window.location.href);
+        if (!currentUrl.search) {
+            writeStateToUrl({query: "", type: "", view: "grid", sort: "id_asc", limit: 12, offset: 0}, {replace: true});
+        }
+
+        syncDomFromState(readStateFromUrl());
+        loadAndRender();
+    }
+
+    init();
 })();

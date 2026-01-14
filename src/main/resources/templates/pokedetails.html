@@ -2,41 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org" 
       th:replace="~{layout :: layout('Detalles', 'Detalles', true, ~{::section})}">
 
-    <section class="border pokedex-theme">
+    <section class="pokedex-theme">
         <!-- Contenedor total -->
         <div class="row">
             <!-- Pokemon foto -->
-            <div class="col">
-                <button><i class="bi bi-arrow-left"></i> Pokedex</button>
-                <div class="d-flex align-items-center justify-content-around">
-                    <div class="poke-name">Charmander</div>
+            <div class="col-md-6">
+                <button class="btn-back">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Pokedex</span>
+                </button>
+                <div class="d-flex align-items-center poke-header">
+                    <div class="poke-nombre">Charmander</div>
                     <div class="poke-id">#004</div>
                 </div>
                 <div class="poke-types">
                     <span class="type type-fire">Fuego</span>
                 </div>
-                <div class="background-fire">
-                    <img style="width: 250px; height: 250px;"  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="alt"/>
+                <div class="poke-image">
+                    <img 
+                        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
+                        alt="Charmander"
+                        />
                 </div>
-                <div>
-                    <p>Evoluciones</p>
-                    <div class="container d-flex justify-content-center mt-5">
-                        <div class="text-center">
-                            <div class="rounded-circle border border-warning border-3 d-flex 
-                                 align-items-center justify-content-center mx-auto"
-                                 style="width: 80px; height: 80px;">
+                <div class="evolutions">
+                    <p class="evolutions-title">Evoluciones</p>
+                    <div class="evolutions-list">
+                        <div class="evolution-card">
+                            <div class="evolution-img">
                                 <img
                                     src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
                                     alt="Charmander"
-                                    class="img-fluid"
-                                    style="max-width: 90px;"
-                                    >
+                                    />
                             </div>
-                            <h6 class="mt-3 mb-1 fw-semibold">
-                                Charmander <span class="text-muted">#004</span>
+                            <h6 class="evolution-name">
+                                Charmander <span>#004</span>
                             </h6>
-                            <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
-                                Fire
+                            <span class="type type-fire">
+                                Fuego
                             </span>
                         </div>
                     </div>
@@ -44,65 +46,111 @@
             </div>
 
             <!-- Pokemon info -->
-            <div class="col">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info" type="button" role="tab" aria-controls="nav-info" aria-selected="true">Info</button>
-                        <button class="nav-link" id="nav-moves-tab" data-bs-toggle="tab" data-bs-target="#nav-moves" type="button" role="tab" aria-controls="nav-moves" aria-selected="false">Movimientos</button>
-                        <button class="nav-link" id="nav-graps-tab" data-bs-toggle="tab" data-bs-target="#nav-graps" type="button" role="tab" aria-controls="nav-graps" aria-selected="false">Graficos</button>
+            <div class="col-md-6">
+                <nav class="poke-tabs">
+                    <div class="nav tab-list" id="nav-tab" role="tablist">
+                        <button class="tab active" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info" type="button" role="tab" aria-controls="nav-info" aria-selected="true">Info</button>
+                        <button class="tab" id="nav-moves-tab" data-bs-toggle="tab" data-bs-target="#nav-moves" type="button" role="tab" aria-controls="nav-moves" aria-selected="false">Movimientos</button>
+                        <button class="tab" id="nav-graps-tab" data-bs-toggle="tab" data-bs-target="#nav-graps" type="button" role="tab" aria-controls="nav-graps" aria-selected="false">Graficos</button>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab" tabindex="0">
-                        <span class="class">Debilidades</span>
-                        <div class="poke-types">
-                            <span class="type type-fire">Fuego</span>
-                            <span class="type type-water">Agua</span>
-                            <span class="type type-poison">Veneno</span>
+                    <div class="tab-pane fade show active p-2" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab" tabindex="0">
+                        <div class="mt-1">
+                            <span class="fw-bold">Debilidades</span>
+                            <div class="poke-types">
+                                <span class="type type-fire">Fuego</span>
+                                <span class="type type-water">Agua</span>
+                                <span class="type type-poison">Veneno</span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="fw-bold">Historia</span>
-                            <p>orem Ipsum is simply dummy text of the printing and typesetting 
+
+                        <div class="poke-historia">
+                            <span class="poke-historia-title">Historia</span>
+                            <p class="poke-historia-text">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting 
                                 industry. Lorem Ipsum has been the industry's standard dummy 
                                 text ever since the 1500s, when an unknown printer took a galley
-                                of type and scrambled it to make a type specimen book. 
+                                of type and scrambled it to make a type specimen book.
                             </p>
                         </div>
 
-                        <div class="row g-3">
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <p class="card-text fw-bold">Altura</p>
-                                        <p class="card-text">0.6m</p>
-                                    </div>
+
+                        <div class="cont-cards">
+                            <div class="card">
+                                <div class="card-body p-1 text-center">
+                                    <p class="card-title fw-bold">Altura</p>
+                                    <p class="card-text">0.6m</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body p-1 text-center">
+                                    <p class="card-title fw-bold">Categoría</p>
+                                    <p class="card-text">Lagarto</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body p-1 text-center">
+                                    <p class="card-title fw-bold">Peso</p>
+                                    <p class="card-text">8.5kg</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body p-1 text-center">
+                                    <p class="card-title fw-bold">Habilidades</p>
+                                    <p class="card-text">Blaze</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-container">
+                            <h2 class="c-label">Stats</h2>
+
+                            <div class="c-stat">
+                                <span class="label">HP</span>
+                                <span class="value">45</span>
+                                <div class="bar">
+                                    <div class="fill red" style="width: 45%;"></div>
                                 </div>
                             </div>
 
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <p class="card-text fw-bold">Categoría</p>
-                                        <p class="card-text">Lagarto</p>
-                                    </div>
+                            <div class="c-stat">
+                                <span class="label">Attack</span>
+                                <span class="value">60</span>
+                                <div class="bar">
+                                    <div class="fill green" style="width: 60%;"></div>
                                 </div>
                             </div>
 
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <p class="card-text fw-bold">Peso</p>
-                                        <p class="card-text">8.5kg</p>
-                                    </div>
+                            <div class="c-stat">
+                                <span class="label">Defense</span>
+                                <span class="value">48</span>
+                                <div class="bar">
+                                    <div class="fill red" style="width: 48%;"></div>
                                 </div>
                             </div>
 
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <p class="card-text fw-bold">Habilidades</p>
-                                        <p class="card-text">Blaze</p>
-                                    </div>
+                            <div class="c-stat">
+                                <span class="label">Sp. Attack</span>
+                                <span class="value">66</span>
+                                <div class="bar">
+                                    <div class="fill green" style="width: 66%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="c-stat">
+                                <span class="label">Sp. Defense</span>
+                                <span class="value">66</span>
+                                <div class="bar">
+                                    <div class="fill green" style="width: 66%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="c-stat">
+                                <span class="label">Speed</span>
+                                <span class="value">45</span>
+                                <div class="bar">
+                                    <div class="fill red" style="width: 45%;"></div>
                                 </div>
                             </div>
                         </div>
@@ -112,5 +160,6 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 </html>

@@ -1910,4 +1910,4 @@ html.dark .type-icon::before {
 .type-icon-dragon   { --icon-mask: var(--icon-dragon);   --icon-color: rgba(37, 99, 235, .85); }
 .type-icon-dark     { --icon-mask: var(--icon-dark);     --icon-color: rgba(15, 23, 42, .90); }
 .type-icon-steel    { --icon-mask: var(--icon-steel);    --icon-color: rgba(71, 85, 105, .85); }
-.type-icon-fairy    { --icon-mask: var(--icon-fairy);    --icon-color: rgba(236, 72, 153, .85); }
+.type-icon-fairy    { --icon-mask: var(--icon-fairy);    --icon-color: rgba(236, 72, 153, .85);}

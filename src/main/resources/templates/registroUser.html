@@ -1,26 +1,298 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout('RegistroUser', 'registroUser', false, ~{::section})}">
+      th:replace="~{layout :: layout('Registro Entrenador Pokémon Go', 'registroUser', false, ~{::section})}">
 
-    <section class="pdx-register-bg">
+    <section class="pgo-register-container">
 
-        <div class="pdx-register-card container">
-            <div class="col-12 text-center mb-1 mt-3 tituloRegister" id="tituloRegister">Registro Entrenador pokemon</div>
+        <form method="POST" th:action="@{/usuario/registrar}" class="pgo-register-card" id="registroForm" enctype="multipart/form-data">
+            
+            <!-- Botón Cancelar con enlace a login -->
+            <div class="pgo-header-buttons">
+                <a th:href="@{/pokedex}" class="pgo-btn-cancel">
+                    <button type="button" class="btn pgo-btn-outline">
+                        <i class="bi bi-arrow-left-circle"></i> Cancelar
+                    </button>
+                </a>
+                
+                <!-- Logo Pokémon Go -->
+                <div class="pgo-logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/640px-International_Pok%C3%A9mon_logo.svg.png" 
+                         alt="Pokémon Logo" class="pgo-pokemon-logo">
+                </div>
+            </div>
+            
+            <!-- Título principal -->
+            <div class="pgo-title-section">
+                <div class="pgo-title-container">
+                    <h1 class="pgo-main-title">
+                        <i class="bi bi-person-plus-fill"></i>
+                        Nuevo Entrenador Pokémon
+                    </h1>
+                    <div class="pgo-title-decoration">
+                        <div class="pgo-ball-decoration">
+                            <div class="pgo-mini-ball"></div>
+                            <div class="pgo-mini-ball"></div>
+                            <div class="pgo-mini-ball"></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="pgo-subtitle">Únete a la aventura y conviértete en un Maestro Pokémon</p>
+            </div>
 
-            <div class="table-responsive">
-                <form>
-
-                    <table>
-                        <thead class="col-12">
+            <!-- Contenedor principal del formulario -->
+            <div class="pgo-form-container">
+                
+                <!-- Sección izquierda: Foto de perfil -->
+                <div class="pgo-profile-section">
+                    <div class="pgo-profile-card">
+                        <div class="pgo-profile-header">
+                            <i class="bi bi-camera-fill"></i>
+                            <h3>Foto de Entrenador</h3>
+                        </div>
+                        
+                        <div class="pgo-image-preview-container">
+                            <div class="pgo-image-frame">
+                                <img id="ImgPreview" class="pgo-profile-image"
+                                     src="https://icon-library.com/images/default-user-icon/default-user-icon-18.jpg"
+                                     alt="Vista previa de la imagen">
+                                <div class="pgo-image-overlay">
+                                    <i class="bi bi-plus-circle"></i>
+                                </div>
+                            </div>
                             
-                            <tr></tr>
+                            <div class="pgo-upload-instructions">
+                                <p><i class="bi bi-info-circle"></i> Tu foto aparecerá en tu perfil de entrenador</p>
+                            </div>
                             
-                        </thead>
-                    </table>
-                    
-                </form>
-            </div> 
+                            <div class="pgo-file-input-container">
+                                <label for="imagenFile" class="pgo-file-label">
+                                    <i class="bi bi-cloud-arrow-up"></i>
+                                    Subir Foto
+                                </label>
+                                <input type="file" class="pgo-file-input" name="imagenFile" id="imagenFile" accept="image/*">
+                            </div>
+                        </div>
+                        
+                        <div class="pgo-profile-footer">
+                            <div class="pgo-tip-box">
+                                <i class="bi bi-lightbulb"></i>
+                                <span>Tip: Usa una foto que te identifique como entrenador</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        </div>
+                <!-- Sección derecha: Formulario -->
+                <div class="pgo-form-section">
+                    <div class="pgo-form-card">
+                        
+                        <!-- Información Personal -->
+                        <div class="pgo-form-group">
+                            <div class="pgo-section-header">
+                                <div class="pgo-section-icon">
+                                    <i class="bi bi-person-badge"></i>
+                                </div>
+                                <h3>Información Personal</h3>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="nombre" class="pgo-form-label">
+                                        <i class="bi bi-person"></i> Nombre
+                                    </label>
+                                    <input class="pgo-form-control" type="text" id="nombre" name="nombre" 
+                                           placeholder="Ej: Ash" required>
+                                    <div class="pgo-field-hint">Tu nombre de pila</div>
+                                </div>
 
+                                <div class="col-md-4">
+                                    <label for="apellidoPaterno" class="pgo-form-label">
+                                        <i class="bi bi-person"></i> Apellido Paterno
+                                    </label>
+                                    <input class="pgo-form-control" type="text" id="apellidoPaterno" name="apellidoPaterno" 
+                                           placeholder="Ej: Ketchum" required>
+                                    <div class="pgo-field-hint">Tu primer apellido</div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="apellidoMaterno" class="pgo-form-label">
+                                        <i class="bi bi-person"></i> Apellido Materno
+                                    </label>
+                                    <input class="pgo-form-control" type="text" id="apellidoMaterno" name="apellidoMaterno" 
+                                           placeholder="Opcional">
+                                    <div class="pgo-field-hint">Tu segundo apellido</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credenciales -->
+                        <div class="pgo-form-group">
+                            <div class="pgo-section-header">
+                                <div class="pgo-section-icon">
+                                    <i class="bi bi-shield-lock"></i>
+                                </div>
+                                <h3>Credenciales de Acceso</h3>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="email" class="pgo-form-label">
+                                        <i class="bi bi-envelope"></i> Email
+                                    </label>
+                                    <input class="pgo-form-control" type="email" id="email" name="email" 
+                                           placeholder="entrenador@pokemon.com" required>
+                                    <div class="pgo-field-hint">Usa un email válido</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="password" class="pgo-form-label">
+                                        <i class="bi bi-key"></i> Contraseña
+                                    </label>
+                                    <div class="pgo-password-container">
+                                        <input class="pgo-form-control" type="password" id="password" name="password" 
+                                               placeholder="••••••••" required>
+                                        <button type="button" class="pgo-password-toggle" onclick="togglePassword()">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="pgo-field-hint">Mínimo 6 caracteres</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información Adicional -->
+                        <div class="pgo-form-group">
+                            <div class="pgo-section-header">
+                                <div class="pgo-section-icon">
+                                    <i class="bi bi-gender-ambiguous"></i>
+                                </div>
+                                <h3>Información Adicional</h3>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="pgo-form-label d-block">
+                                        <i class="bi bi-gender-male"></i> Sexo
+                                    </label>
+                                    <div class="pgo-radio-group">
+                                        <div class="pgo-radio-option">
+                                            <input type="radio" id="sexoM" name="sexo" value="M" class="pgo-radio-input" required>
+                                            <label for="sexoM" class="pgo-radio-label">
+                                                <span class="pgo-radio-custom"></span>
+                                                <span class="pgo-radio-text">Masculino</span>
+                                            </label>
+                                        </div>
+                                        <div class="pgo-radio-option">
+                                            <input type="radio" id="sexoF" name="sexo" value="F" class="pgo-radio-input">
+                                            <label for="sexoF" class="pgo-radio-label">
+                                                <span class="pgo-radio-custom"></span>
+                                                <span class="pgo-radio-text">Femenino</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="username" class="pgo-form-label">
+                                        <i class="bi bi-at"></i> Nombre de Usuario
+                                    </label>
+                                    <input class="pgo-form-control" type="text" id="username" name="username" 
+                                           placeholder="Ej: AshKetchum95" required>
+                                    <div class="pgo-field-hint">Tu nombre único en la Pokédex</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Selección de Rol -->
+                        <div class="pgo-form-group">
+                            <div class="pgo-section-header">
+                                <div class="pgo-section-icon">
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h3>Tipo de Entrenador</h3>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="idRol" class="pgo-form-label">
+                                        <i class="bi bi-award"></i> Rol
+                                    </label>
+                                    <select class="pgo-form-select" id="idRol" name="idRol" required>
+                                        <option value="0"  selected>Selecciona tu tipo de entrenador</option>
+                                    </select>
+                                    <div class="pgo-field-hint">Define tu nivel de experiencia</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de acción -->
+                        <div class="pgo-action-buttons">
+                            <button type="reset" class="pgo-btn-reset">
+                                <i class="bi bi-arrow-clockwise"></i> Limpiar
+                            </button>
+                            <button type="submit" class="pgo-btn-submit">
+                                <i class="bi bi-pokeball"></i> Registrarse
+                            </button>
+                        </div>
+
+                        <!-- Enlace a inicio de sesión -->
+                        <div class="pgo-login-link">
+                            <p>¿Ya tienes una cuenta? 
+                                <a th:href="@{/auth/login}" class="pgo-link">
+                                    <i class="bi bi-box-arrow-in-right"></i> Inicia sesión aquí
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer con elementos Pokémon -->
+            <div class="pgo-footer">
+                <div class="pgo-footer-decoration">
+                    <div class="pgo-pokeball"></div>
+                    <div class="pgo-footer-text">
+                        <i class="bi bi-shield-check"></i> Tu información está segura con nosotros
+                    </div>
+                </div>
+            </div>
+        </form>
     </section>
+
+    <script>
+        // Preview de imagen
+        document.getElementById('imagenFile').addEventListener('change', function(e) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById('ImgPreview').src = reader.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        });
+
+        // Mostrar/ocultar contraseña
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleButton = document.querySelector('.pgo-password-toggle i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.classList.remove('bi-eye');
+                toggleButton.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.classList.remove('bi-eye-slash');
+                toggleButton.classList.add('bi-eye');
+            }
+        }
+
+        // Validación básica del formulario
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            if (password.length < 6) {
+                e.preventDefault();
+                alert('La contraseña debe tener al menos 6 caracteres');
+                return false;
+            }
+            return true;
+        });
+    </script>
 </html>

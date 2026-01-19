@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title th:text="${title} ?: 'Error'">Error</title>
+
+        <style>
+            :root{
+                --bg: #0b1220;
+                --border: rgba(255,255,255,.10);
+                --text: rgba(255,255,255,.92);
+                --muted: rgba(255,255,255,.65);
+                --muted2: rgba(255,255,255,.45);
+                --danger: #ff4d5e;
+                --danger2: #ff2b44;
+                --shadow: 0 20px 70px rgba(0,0,0,.55);
+                --radius: 22px;
+            }
+
+            *{
+                box-sizing: border-box;
+            }
+
+            body{
+                margin:0;
+                min-height:100vh;
+                font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+                background:
+                    radial-gradient(1200px 700px at 50% -10%, rgba(125,211,252,.15), transparent 60%),
+                    radial-gradient(900px 600px at 10% 110%, rgba(255,77,94,.14), transparent 55%),
+                    var(--bg);
+                color: var(--text);
+            }
+
+            .overlay{
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.62);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding: 22px;
+            }
+
+            .card{
+                width: min(430px, 100%);
+                border-radius: var(--radius);
+                background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+                border: 1px solid var(--border);
+                box-shadow: var(--shadow);
+                overflow: hidden;
+                position: relative;
+            }
+
+            .card::before{
+                content:"";
+                position:absolute;
+                inset:-1px;
+                background:
+                    radial-gradient(500px 180px at 50% 0%, rgba(255,77,94,.22), transparent 70%),
+                    radial-gradient(380px 160px at 20% 30%, rgba(59,130,246,.16), transparent 70%);
+                pointer-events:none;
+                opacity:.85;
+            }
+
+            .card-inner{
+                position: relative;
+                padding: 22px 22px 18px;
+                background: rgba(10, 14, 26, .45);
+            }
+
+            .header{
+                text-align:center;
+                padding-top: 6px;
+            }
+
+            .icon{
+                width: 62px;
+                height: 62px;
+                margin: 0 auto 14px;
+                border-radius: 999px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background: rgba(255,77,94,.12);
+                border: 1px solid rgba(255,77,94,.35);
+                box-shadow: 0 10px 30px rgba(255,77,94,.12);
+            }
+
+            .kicker{
+                font-size: 12px;
+                letter-spacing: .18em;
+                text-transform: uppercase;
+                color: rgba(255,77,94,.85);
+                margin: 0 0 10px;
+            }
+
+            h1{
+                font-size: 20px;
+                line-height: 1.25;
+                margin: 0 0 10px;
+                font-weight: 720;
+            }
+
+            .desc{
+                margin: 0 auto 14px;
+                max-width: 38ch;
+                font-size: 14px;
+                color: var(--muted);
+                line-height: 1.5;
+            }
+
+            .badge{
+                display:inline-flex;
+                gap: 8px;
+                align-items:center;
+                padding: 7px 10px;
+                border-radius: 999px;
+                border: 1px solid rgba(255,255,255,.10);
+                background: rgba(255,255,255,.06);
+                font-size: 12px;
+                color: rgba(255,255,255,.78);
+                margin-bottom: 12px;
+            }
+
+            .dot{
+                width: 8px;
+                height: 8px;
+                border-radius: 999px;
+                background: var(--danger);
+                box-shadow: 0 0 0 4px rgba(255,77,94,.12);
+            }
+
+            .panel{
+                margin-top: 12px;
+                padding: 14px 14px;
+                border-radius: 16px;
+                border: 1px solid rgba(255,255,255,.10);
+                background: rgba(0,0,0,.20);
+                color: rgba(255,255,255,.72);
+                font-size: 13px;
+                line-height: 1.55;
+            }
+
+            .panel strong{
+                color: rgba(255,255,255,.88);
+                font-weight: 650;
+            }
+
+            .footer{
+                padding: 14px 22px 20px;
+                display:flex;
+                flex-direction: column;
+                gap: 10px;
+                background: rgba(10, 14, 26, .55);
+                border-top: 1px solid rgba(255,255,255,.06);
+            }
+
+            .btn{
+                display:block;
+                width:100%;
+                padding: 12px 14px;
+                border-radius: 14px;
+                text-align:center;
+                text-decoration:none;
+                font-weight: 720;
+                letter-spacing: .02em;
+                border: 1px solid transparent;
+                transition: transform .08s ease, filter .12s ease, background .12s ease, border-color .12s ease;
+                user-select:none;
+            }
+
+            .btn:active{
+                transform: scale(.99);
+            }
+
+            .btn-primary{
+                background: linear-gradient(90deg, #ffffff, #f2f2f2);
+                color: #0b1220;
+                box-shadow: 0 10px 25px rgba(255,255,255,.10);
+            }
+            .btn-primary:hover{
+                filter: brightness(.98);
+            }
+
+            .btn-secondary{
+                background: rgba(255,255,255,.06);
+                border-color: rgba(255,255,255,.16);
+                color: rgba(255,255,255,.88);
+            }
+            .btn-secondary:hover{
+                background: rgba(255,255,255,.09);
+                border-color: rgba(255,255,255,.22);
+            }
+
+            .btn-danger{
+                background: linear-gradient(90deg, var(--danger2), var(--danger));
+                color: white;
+                box-shadow: 0 12px 26px rgba(255,43,68,.22);
+            }
+            .btn-danger:hover{
+                filter: brightness(1.03);
+            }
+
+            .links{
+                text-align:center;
+                padding-top: 4px;
+                font-size: 12px;
+                color: var(--muted2);
+            }
+
+            .links a{
+                color: rgba(255,255,255,.62);
+                text-decoration: underline;
+                text-underline-offset: 4px;
+            }
+            .links a:hover{
+                color: rgba(255,255,255,.80);
+            }
+
+            @media (max-width: 380px){
+                .card-inner{
+                    padding: 18px 16px 14px;
+                }
+                .footer{
+                    padding: 12px 16px 16px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="overlay" role="dialog" aria-modal="true" aria-label="Error">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="header">
+
+                        <div class="icon" aria-hidden="true">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 9v5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M12 17h.01" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M10.3 4.4 2.4 18.2A2 2 0 0 0 4.1 21h15.8a2 2 0 0 0 1.7-2.8L13.7 4.4a2 2 0 0 0-3.4 0Z"
+                                  stroke="white" stroke-opacity=".85" stroke-width="1.6" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+
+                        <p class="kicker">Warning Notice</p>
+
+                        <h1 th:text="${title} ?: 'Error'">Error</h1>
+
+                        <p class="desc" th:text="${description} ?: 'Ocurrió un error.'">
+                            Ocurrió un error.
+                        </p>
+
+                        <div class="badge">
+                            <span class="dot"></span>
+                            <span>Código:</span>
+                            <span th:text="${status} ?: 500">500</span>
+                        </div>
+
+                    </div>
+
+                    <div class="panel">
+                        <p style="margin:0">
+                            <strong>Qué pasó:</strong>
+                            <span th:text="${description} ?: 'Ocurrió un problema.'">Ocurrió un problema.</span>
+                        </p>
+
+                        <p th:if="${(status ?: 500) == 401}" style="margin:10px 0 0; color: rgba(251,191,36,.85);">
+                            Tu sesión expiró o no estás autenticado.
+                        </p>
+                        <p th:if="${(status ?: 500) == 403}" style="margin:10px 0 0; color: rgba(251,191,36,.85);">
+                            No tienes permisos para ver esto.
+                        </p>
+                        <p th:if="${(status ?: 500) == 404}" style="margin:10px 0 0; color: rgba(251,191,36,.85);">
+                            La página o recurso no existe.
+                        </p>
+                        <p th:if="${(status ?: 500) == 503}" style="margin:10px 0 0; color: rgba(251,191,36,.85);">
+                            El servicio no está disponible. Intenta más tarde.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="footer">
+
+                    <!-- Botón principal: cambia texto según el error -->
+                    <a class="btn btn-primary"
+                       th:href="${(status ?: 500) == 503} ? @{/pokedex} : @{/auth/login}">
+                        <span th:text="${(status ?: 500) == 503} ? 'RETRY' : 'Entendido'">Entiendo</span>
+                    </a>
+
+                    <!-- Si es 401, mostrar login -->
+                    <a class="btn btn-danger"
+                       th:if="${(status ?: 500) == 401}"
+                       th:href="@{/auth/login}">
+                        Iniciar Sesion
+                    </a>
+
+                    <!-- Si NO es 401, mostrar volver -->
+                    <a class="btn btn-secondary"
+                       th:if="${(status ?: 500) != 401}"
+                       th:href="@{/pokedex}">
+                        VOLVER
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

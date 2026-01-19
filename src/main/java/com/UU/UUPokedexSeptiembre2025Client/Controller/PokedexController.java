@@ -9,8 +9,10 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
@@ -71,49 +73,72 @@ public class PokedexController {
                     PokedexResponseDTO.class
             );
 
-            if (resp.getStatusCode().is2xxSuccessful() && resp.getBody() != null) {
-                PokedexResponseDTO data = resp.getBody();
-
-                model.addAttribute("pokes", data.pokes());
-                model.addAttribute("count", data.count());
-                model.addAttribute("hasNext", data.hasNext());
-                model.addAttribute("hasPrev", data.hasPrev());
-
-            } else {
-                model.addAttribute("pokes", List.of());
-                model.addAttribute("count", 0);
-                model.addAttribute("hasNext", false);
-                model.addAttribute("hasPrev", false);
-                model.addAttribute("errorMessage", "El Service respondió sin datos.");
+            // OK pero sin body => error del gateway
+            if (resp.getBody() == null) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_GATEWAY,
+                        "El Service respondió sin datos."
+                );
             }
 
+            // OK
+            PokedexResponseDTO data = resp.getBody();
+            model.addAttribute("pokes", data.pokes());
+            model.addAttribute("count", data.count());
+            model.addAttribute("hasNext", data.hasNext());
+            model.addAttribute("hasPrev", data.hasPrev());
+
+            // filtros/params para mantener el estado en la vista
+            model.addAttribute("sear", sear);
+            model.addAttribute("type", type);
+            model.addAttribute("limit", limit);
+            model.addAttribute("offset", offset);
+            model.addAttribute("sort", sort);
+
+            String user = (String) session.getAttribute("loggedUsername");
+            model.addAttribute("UsuarioLogueado", user);
+
+            return "pokedex";
+
         } catch (RestClientResponseException ex) {
+            // ✅ BACK devolvió status HTTP real (401/403/404/500/etc)
+            HttpStatusCode statusCode = ex.getStatusCode();
+            int code = statusCode.value();
 
-            model.addAttribute("pokes", List.of());
-            model.addAttribute("count", 0);
-            model.addAttribute("hasNext", false);
-            model.addAttribute("hasPrev", false);
-            model.addAttribute("errorMessage",
-                    "Error del Service (" + ex.getLocalizedMessage() + "): " + ex.getStatusText());
+            if (code == 401) {
+                // token inválido/expirado => limpiar sesión
+                session.removeAttribute("jwtToken");
+                session.removeAttribute("loggedUsername");
+            }
+
+            // Opcional: si el backend manda mensaje en el body
+            String backendMsg = ex.getResponseBodyAsString();
+            String reason = "Error del Service: " + ex.getStatusText();
+            if (backendMsg != null && !backendMsg.isBlank()) {
+                reason += " - " + backendMsg;
+            }
+
+            throw new ResponseStatusException(statusCode, reason, ex);
+
+        } catch (ResourceAccessException ex) {
+            // ✅ No conectó al BACK (timeout, connection refused, etc)
+            throw new ResponseStatusException(
+                    HttpStatus.SERVICE_UNAVAILABLE,
+                    "No se pudo consultar el Service (¿está encendido el backend?).",
+                    ex
+            );
+
+        } catch (ResponseStatusException ex) {
+            // ✅ si ya lanzamos un ResponseStatusException arriba, no lo conviertas a 503
+            throw ex;
+
         } catch (Exception ex) {
-            model.addAttribute("pokes", List.of());
-            model.addAttribute("count", 0);
-            model.addAttribute("hasNext", false);
-            model.addAttribute("hasPrev", false);
-            model.addAttribute("errorMessage",
-                    "No se pudo consultar el Service: " + ex.getMessage());
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error inesperado en el cliente.",
+                    ex
+            );
         }
-
-        model.addAttribute("sear", sear);
-        model.addAttribute("type", type);
-        model.addAttribute("limit", limit);
-        model.addAttribute("offset", offset);
-        model.addAttribute("sort", sort);
-
-        String user = (String) session.getAttribute("loggedUsername");
-        model.addAttribute("UsuarioLogueado", user);
-
-        return "pokedex";
     }
 
     private String normalizeSort(String sort) {

@@ -10,12 +10,11 @@
               th:action="@{/pokedex}"
               method="get">
 
-            <input type="hidden" name="type" id="typeInput" th:value="${type}">
+            <!-- Hidden necesarios -->
             <input type="hidden" name="view" id="viewInput" th:value="${view != null ? view : 'grid'}">
             <input type="hidden" name="offset" id="offsetInput" th:value="${offset}">
             <input type="hidden" name="limit" th:value="${limit}">
             <input type="hidden" name="sort" th:value="${sort}">
-            <input type="hidden" name="sear" th:value="${sear}">
 
             <div class="floating-panel rocket-glass">
 
@@ -33,6 +32,7 @@
                 <div class="row g-3">
                     <div class="col-12">
                         <div class="panel-card">
+
                             <div class="panel-head d-flex align-items-center justify-content-between flex-wrap gap-2">
                                 <div class="d-flex align-items-center gap-2">
                                     <i class="bi bi-grid"></i>
@@ -47,12 +47,80 @@
 
                             <div class="panel-body">
 
+                                <!-- Filtros -->
+                                <div class="pt-0">
+                                    <div class="row g-2 align-items-end mb-3">
+
+                                        <div class="col-12 col-md-3">
+                                            <label class="form-label small text-muted-soft mb-1" for="idInput">ID</label>
+                                            <input class="form-control form-control-sm"
+                                                   id="idInput"
+                                                   type="number"
+                                                   name="id"
+                                                   min="1"
+                                                   inputmode="numeric"
+                                                   placeholder="25"
+                                                   th:value="${id}">
+                                        </div>
+
+                                        <div class="col-12 col-md-4">
+                                            <label class="form-label small text-muted-soft mb-1" for="nameInput">Nombre</label>
+                                            <input class="form-control form-control-sm"
+                                                   id="nameInput"
+                                                   type="text"
+                                                   name="name"
+                                                   placeholder="pikachu"
+                                                   th:value="${name}">
+                                        </div>
+
+                                        <div class="col-12 col-md-3">
+                                            <label class="form-label small text-muted-soft mb-1" for="typeSelect">Tipo</label>
+                                            <select class="form-select form-select-sm" name="type" id="typeSelect">
+                                                <option value="" th:selected="${type == null || type.isBlank()}">Todos</option>
+                                                <option value="normal" th:selected="${type == 'normal'}">Normal</option>
+                                                <option value="fire" th:selected="${type == 'fire'}">Fire</option>
+                                                <option value="water" th:selected="${type == 'water'}">Water</option>
+                                                <option value="electric" th:selected="${type == 'electric'}">Electric</option>
+                                                <option value="grass" th:selected="${type == 'grass'}">Grass</option>
+                                                <option value="ice" th:selected="${type == 'ice'}">Ice</option>
+                                                <option value="fighting" th:selected="${type == 'fighting'}">Fighting</option>
+                                                <option value="poison" th:selected="${type == 'poison'}">Poison</option>
+                                                <option value="ground" th:selected="${type == 'ground'}">Ground</option>
+                                                <option value="flying" th:selected="${type == 'flying'}">Flying</option>
+                                                <option value="psychic" th:selected="${type == 'psychic'}">Psychic</option>
+                                                <option value="bug" th:selected="${type == 'bug'}">Bug</option>
+                                                <option value="rock" th:selected="${type == 'rock'}">Rock</option>
+                                                <option value="ghost" th:selected="${type == 'ghost'}">Ghost</option>
+                                                <option value="dragon" th:selected="${type == 'dragon'}">Dragon</option>
+                                                <option value="dark" th:selected="${type == 'dark'}">Dark</option>
+                                                <option value="steel" th:selected="${type == 'steel'}">Steel</option>
+                                                <option value="fairy" th:selected="${type == 'fairy'}">Fairy</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12 col-md-2 d-grid gap-2">
+                                            <button class="btn btn-neo btn-neo-primary btn-sm rounded-3"
+                                                    type="submit"
+                                                    id="filterBtn">
+                                                Filtrar
+                                            </button>
+                                            <a class="btn btn-neo btn-neo-outline btn-sm rounded-3"
+                                               th:href="@{/pokedex}">
+                                                Limpiar
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- Estado de error -->
                                 <div id="errorState"
                                      class="alert alert-danger border-0 bg-danger/10 text-white"
                                      th:if="${errorMessage != null}"
                                      th:text="${errorMessage}">
                                 </div>
 
+                                <!-- Estado vacío -->
                                 <div id="emptyState" class="empty-state"
                                      th:if="${pokes == null || #lists.isEmpty(pokes)}">
                                     <div class="empty-icon"><i class="bi bi-inboxes"></i></div>
@@ -60,20 +128,28 @@
                                     <div class="text-muted-soft small mt-1">Prueba otra búsqueda o tipo.</div>
                                 </div>
 
-                                <div id="pokeGrid" class="row g-4" th:if="${pokes != null && !#lists.isEmpty(pokes)}">
+                                <!-- Grid -->
+                                <div id="pokeGrid" class="row g-4"
+                                     th:if="${pokes != null && !#lists.isEmpty(pokes)}">
 
                                     <div class="col-12 col-md-6 col-xl-4"
                                          th:each="p : ${pokes}"
                                          th:with="pid=${#numbers.formatInteger(p.id, 3)}">
 
-                                        <div class="tcg-card" role="button" tabindex="0"
+                                        <div class="tcg-card js-flip-card"
+                                             role="button"
+                                             tabindex="0"
                                              th:attr="data-id=${p.id}">
                                             <div class="tcg-card-inner">
 
+                                                <!-- Front -->
                                                 <article class="tcg-face tcg-front">
                                                     <div class="tcg-top">
                                                         <div>
-                                                            <div class="tcg-name" th:text="${#strings.capitalize(p.name)}">Pokemon</div>
+                                                            <div class="tcg-name"
+                                                                 th:text="${#strings.capitalize(p.name)}">
+                                                                Pokemon
+                                                            </div>
                                                             <div class="tcg-sub">
                                                                 Pokémon •
                                                                 <span class="tcg-id" th:text="${'#' + pid}">#001</span>
@@ -99,22 +175,26 @@
                                                     </div>
 
                                                     <div class="tcg-actions">
-                                                        <button class="btn btn-neo btn-neo-outline btn-sm rounded-3"
+                                                        <button class="btn btn-neo btn-neo-outline btn-sm rounded-3 js-flip-btn"
                                                                 type="button">
                                                             <i class="bi bi-arrow-repeat me-1"></i> Voltear
                                                         </button>
 
                                                         <a class="btn btn-neo btn-neo-primary btn-sm rounded-3"
-                                                           th:href="@{/pokedetail}">
+                                                           th:href="@{/pokedetail(id=${p.id})}">
                                                             <i class="bi bi-box-arrow-up-right me-1"></i> Detalles
                                                         </a>
                                                     </div>
                                                 </article>
 
+                                                <!-- Back -->
                                                 <article class="tcg-face tcg-back">
                                                     <div class="tcg-back-head">
                                                         <div>
-                                                            <div class="tcg-name" th:text="${#strings.capitalize(p.name)}">Pokemon</div>
+                                                            <div class="tcg-name"
+                                                                 th:text="${#strings.capitalize(p.name)}">
+                                                                Pokemon
+                                                            </div>
                                                             <div class="tcg-sub">
                                                                 Stats •
                                                                 <span class="tcg-id" th:text="${'#' + pid}">#001</span>
@@ -145,15 +225,15 @@
                                                         <div class="tcg-divider"></div>
 
                                                         <div class="tcg-actions">
-                                                            <button class="btn btn-neo btn-neo-outline btn-sm rounded-3"
+                                                            <button class="btn btn-neo btn-neo-outline btn-sm rounded-3 js-flip-btn"
                                                                     type="button">
                                                                 <i class="bi bi-arrow-repeat me-1"></i> Voltear
                                                             </button>
 
-                                                            <button class="btn btn-neo btn-neo-primary btn-sm rounded-3"
-                                                                    type="button">
+                                                            <a class="btn btn-neo btn-neo-primary btn-sm rounded-3"
+                                                               th:href="@{/pokedetail(id=${p.id})}">
                                                                 <i class="bi bi-eye me-1"></i> Ver
-                                                            </button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </article>
@@ -164,6 +244,7 @@
 
                                 </div>
 
+                                <!-- Meta + Paginación -->
                                 <div class="mt-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
                                     <span id="pageMeta" class="small text-muted-soft"
                                           th:if="${pokes != null && !#lists.isEmpty(pokes)}"
@@ -175,7 +256,7 @@
 
                                             <li class="page-item" th:classappend="${!hasPrev} ? ' disabled' : ''">
                                                 <a id="prevPage" class="page-link"
-                                                   th:href="${hasPrev} ? @{/pokedex(sear=${sear}, type=${type}, limit=${limit}, offset=${offset - limit}, sort=${sort})} : '#'"
+                                                   th:href="${hasPrev} ? @{/pokedex(id=${id}, name=${name}, type=${type}, limit=${limit}, offset=${offset - limit}, sort=${sort})} : '#'"
                                                    href="#">
                                                     Anterior
                                                 </a>
@@ -183,14 +264,14 @@
 
                                             <li class="page-item">
                                                 <a id="homePage" class="page-link"
-                                                   th:href="@{/pokedex(sear=${sear}, type=${type}, limit=${limit}, offset=0, sort=${sort})}">
+                                                   th:href="@{/pokedex(id=${id}, name=${name}, type=${type}, limit=${limit}, offset=0, sort=${sort})}">
                                                     Inicio
                                                 </a>
                                             </li>
 
                                             <li class="page-item" th:classappend="${!hasNext} ? ' disabled' : ''">
                                                 <a id="nextPage" class="page-link"
-                                                   th:href="${hasNext} ? @{/pokedex(sear=${sear}, type=${type}, limit=${limit}, offset=${offset + limit}, sort=${sort})} : '#'"
+                                                   th:href="${hasNext} ? @{/pokedex(id=${id}, name=${name}, type=${type}, limit=${limit}, offset=${offset + limit}, sort=${sort})} : '#'"
                                                    href="#">
                                                     Siguiente
                                                 </a>
@@ -208,6 +289,7 @@
             </div>
         </form>
 
+        <!-- Modal (lo dejo intacto por si lo usas después) -->
         <div class="modal fade" id="pokemonModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content modal-neo">

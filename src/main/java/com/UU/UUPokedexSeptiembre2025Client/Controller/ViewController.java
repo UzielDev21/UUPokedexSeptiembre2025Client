@@ -10,20 +10,10 @@ public class ViewController {
 
     @GetMapping("/pokedetail")
     public String pokedetails(Model model, HttpSession session) {
-        
+
         String user = (String) session.getAttribute("loggedUsername");
         model.addAttribute("UsuarioLogueado", user);
-        
+
         return "pokedetails";
-    }
-    
-    
-    @GetMapping("/usuario/registrar")
-    public String registroUser(Model model, HttpSession session) {
-        
-        String user = (String) session.getAttribute("loggedUsername");
-        model.addAttribute("UsuarioLogueado", user);
-        
-        return "registroUser";
     }
 }

@@ -120,7 +120,7 @@ public class LoginController {
                 // =========================
                 if ("Profesor".equalsIgnoreCase(rol)
                         || "Entrenador".equalsIgnoreCase(rol)) {
-                    return "redirect:/pokedex";
+                    return "redirect:/loading/show?redirectTo=/pokedex";
                 }
 
                 // Rol no permitido

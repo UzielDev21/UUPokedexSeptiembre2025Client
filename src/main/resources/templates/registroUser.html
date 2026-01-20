@@ -3,8 +3,8 @@
 
     <section class="pgo-register-container">
 
-        <form method="POST" th:action="@{/usuario/registrar}" class="pgo-register-card" id="registroForm" enctype="multipart/form-data">
-            
+        <form method="POST" th:object="${Usuario}" th:action="@{/registrar}" class="pgo-register-card" id="registroForm" enctype="multipart/form-data">
+
             <!-- Botón Cancelar con enlace a login -->
             <div class="pgo-header-buttons">
                 <a th:href="@{/pokedex}" class="pgo-btn-cancel">
@@ -12,14 +12,14 @@
                         <i class="bi bi-arrow-left-circle"></i> Cancelar
                     </button>
                 </a>
-                
+
                 <!-- Logo Pokémon Go -->
                 <div class="pgo-logo-container">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/640px-International_Pok%C3%A9mon_logo.svg.png" 
                          alt="Pokémon Logo" class="pgo-pokemon-logo">
                 </div>
             </div>
-            
+
             <!-- Título principal -->
             <div class="pgo-title-section">
                 <div class="pgo-title-container">
@@ -40,7 +40,7 @@
 
             <!-- Contenedor principal del formulario -->
             <div class="pgo-form-container">
-                
+
                 <!-- Sección izquierda: Foto de perfil -->
                 <div class="pgo-profile-section">
                     <div class="pgo-profile-card">
@@ -48,7 +48,7 @@
                             <i class="bi bi-camera-fill"></i>
                             <h3>Foto de Entrenador</h3>
                         </div>
-                        
+
                         <div class="pgo-image-preview-container">
                             <div class="pgo-image-frame">
                                 <img id="ImgPreview" class="pgo-profile-image"
@@ -58,11 +58,11 @@
                                     <i class="bi bi-plus-circle"></i>
                                 </div>
                             </div>
-                            
+
                             <div class="pgo-upload-instructions">
                                 <p><i class="bi bi-info-circle"></i> Tu foto aparecerá en tu perfil de entrenador</p>
                             </div>
-                            
+
                             <div class="pgo-file-input-container">
                                 <label for="imagenFile" class="pgo-file-label">
                                     <i class="bi bi-cloud-arrow-up"></i>
@@ -71,7 +71,7 @@
                                 <input type="file" class="pgo-file-input" name="imagenFile" id="imagenFile" accept="image/*">
                             </div>
                         </div>
-                        
+
                         <div class="pgo-profile-footer">
                             <div class="pgo-tip-box">
                                 <i class="bi bi-lightbulb"></i>
@@ -84,7 +84,7 @@
                 <!-- Sección derecha: Formulario -->
                 <div class="pgo-form-section">
                     <div class="pgo-form-card">
-                        
+
                         <!-- Información Personal -->
                         <div class="pgo-form-group">
                             <div class="pgo-section-header">
@@ -93,14 +93,14 @@
                                 </div>
                                 <h3>Información Personal</h3>
                             </div>
-                            
+
                             <div class="row g-3">
                                 <div class="col-md-4">
                                     <label for="nombre" class="pgo-form-label">
                                         <i class="bi bi-person"></i> Nombre
                                     </label>
                                     <input class="pgo-form-control" type="text" id="nombre" name="nombre" 
-                                           placeholder="Ej: Ash" required>
+                                           placeholder="Ej: Ash" th:field="*{nombre}" required>
                                     <div class="pgo-field-hint">Tu nombre de pila</div>
                                 </div>
 
@@ -109,7 +109,7 @@
                                         <i class="bi bi-person"></i> Apellido Paterno
                                     </label>
                                     <input class="pgo-form-control" type="text" id="apellidoPaterno" name="apellidoPaterno" 
-                                           placeholder="Ej: Ketchum" required>
+                                           placeholder="Ej: Ketchum" th:field="*{apellidoPaterno}" required>
                                     <div class="pgo-field-hint">Tu primer apellido</div>
                                 </div>
 
@@ -118,7 +118,7 @@
                                         <i class="bi bi-person"></i> Apellido Materno
                                     </label>
                                     <input class="pgo-form-control" type="text" id="apellidoMaterno" name="apellidoMaterno" 
-                                           placeholder="Opcional">
+                                           placeholder="Opcional" th:field="*{apellidoMaterno}">
                                     <div class="pgo-field-hint">Tu segundo apellido</div>
                                 </div>
                             </div>
@@ -132,14 +132,14 @@
                                 </div>
                                 <h3>Credenciales de Acceso</h3>
                             </div>
-                            
+
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="email" class="pgo-form-label">
                                         <i class="bi bi-envelope"></i> Email
                                     </label>
                                     <input class="pgo-form-control" type="email" id="email" name="email" 
-                                           placeholder="entrenador@pokemon.com" required>
+                                           placeholder="entrenador@pokemon.com" th:field="*{email}" required>
                                     <div class="pgo-field-hint">Usa un email válido</div>
                                 </div>
 
@@ -149,7 +149,7 @@
                                     </label>
                                     <div class="pgo-password-container">
                                         <input class="pgo-form-control" type="password" id="password" name="password" 
-                                               placeholder="••••••••" required>
+                                               placeholder="••••••••" th:field="*{password_Hash}" required>
                                         <button type="button" class="pgo-password-toggle" onclick="togglePassword()">
                                             <i class="bi bi-eye"></i>
                                         </button>
@@ -167,7 +167,7 @@
                                 </div>
                                 <h3>Información Adicional</h3>
                             </div>
-                            
+
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="pgo-form-label d-block">
@@ -175,14 +175,14 @@
                                     </label>
                                     <div class="pgo-radio-group">
                                         <div class="pgo-radio-option">
-                                            <input type="radio" id="sexoM" name="sexo" value="M" class="pgo-radio-input" required>
+                                            <input type="radio" id="sexoM" name="sexo" value="M " class="pgo-radio-input" th:field="*{sexo}" required>
                                             <label for="sexoM" class="pgo-radio-label">
                                                 <span class="pgo-radio-custom"></span>
                                                 <span class="pgo-radio-text">Masculino</span>
                                             </label>
                                         </div>
                                         <div class="pgo-radio-option">
-                                            <input type="radio" id="sexoF" name="sexo" value="F" class="pgo-radio-input">
+                                            <input type="radio" id="sexoF" name="sexo" value="F " class="pgo-radio-input" th:field="*{sexo}">
                                             <label for="sexoF" class="pgo-radio-label">
                                                 <span class="pgo-radio-custom"></span>
                                                 <span class="pgo-radio-text">Femenino</span>
@@ -196,7 +196,7 @@
                                         <i class="bi bi-at"></i> Nombre de Usuario
                                     </label>
                                     <input class="pgo-form-control" type="text" id="username" name="username" 
-                                           placeholder="Ej: AshKetchum95" required>
+                                           placeholder="Ej: AshKetchum95" th:field="userName" required>
                                     <div class="pgo-field-hint">Tu nombre único en la Pokédex</div>
                                 </div>
                             </div>
@@ -210,13 +210,13 @@
                                 </div>
                                 <h3>Tipo de Entrenador</h3>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="idRol" class="pgo-form-label">
                                         <i class="bi bi-award"></i> Rol
                                     </label>
-                                    <select class="pgo-form-select" id="idRol" name="idRol" required>
+                                    <select class="pgo-form-select" id="role_Id" name="role_Id" required>
                                         <option value="0"  selected>Selecciona tu tipo de entrenador</option>
                                     </select>
                                     <div class="pgo-field-hint">Define tu nivel de experiencia</div>
@@ -260,9 +260,9 @@
 
     <script>
         // Preview de imagen
-        document.getElementById('imagenFile').addEventListener('change', function(e) {
+        document.getElementById('imagenFile').addEventListener('change', function (e) {
             const reader = new FileReader();
-            reader.onload = function() {
+            reader.onload = function () {
                 document.getElementById('ImgPreview').src = reader.result;
             }
             reader.readAsDataURL(e.target.files[0]);
@@ -272,7 +272,7 @@
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const toggleButton = document.querySelector('.pgo-password-toggle i');
-            
+
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 toggleButton.classList.remove('bi-eye');
@@ -284,8 +284,31 @@
             }
         }
 
+
+//        $(document).ready(function () {
+//            $("#role_Id").change(function () {
+//
+//                const token = /*[[${session.jwtToken}]]*/ null;
+//
+//                $.ajax({
+//                    type: 'GET',
+//                    url: "http://localhost:8080/roles/" + $("#role_Id").val(),
+//                    dataType: "json",
+//                    success: function (data, textStatus, jqXHR) {
+//
+//                        $.each(data.objects, function (i, estado) {
+//                            $("#role_Id").append("<option value = " + rol.role_Id + ">" + rol.role_Name + "</option>");
+//                        });
+//                    },
+//                    error: function (jqXHR, textStatus, errorThrown) {
+//                        alert("No hay información :c ");
+//                    }
+//                });
+//            });
+//        });
+
         // Validación básica del formulario
-        document.getElementById('registroForm').addEventListener('submit', function(e) {
+        document.getElementById('registroForm').addEventListener('submit', function (e) {
             const password = document.getElementById('password').value;
             if (password.length < 6) {
                 e.preventDefault();

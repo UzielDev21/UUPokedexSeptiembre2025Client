@@ -2,6 +2,7 @@ package com.UU.UUPokedexSeptiembre2025Client.Controller;
 
 import com.UU.UUPokedexSeptiembre2025Client.ML.Result;
 import com.UU.UUPokedexSeptiembre2025Client.ML.Roles;
+import com.UU.UUPokedexSeptiembre2025Client.ML.Usuarios;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -43,12 +44,15 @@ public class UsuarioController {
     @GetMapping("/registrar")
     public String registroUser(Model model, HttpSession session) {
 
-        //Aqui extraigo el token para el usuario loggeado
-        String token = (String) session.getAttribute("jwtToken");
+        Usuarios usuario = new Usuarios();
+        model.addAttribute("Usuario", usuario);
 
         //carga el usuario para renderizarlo en el layout
         String user = (String) session.getAttribute("loggedUsername");
         model.addAttribute("UsuarioLogueado", user);
+
+        //Aqui extraigo el token para el usuario loggeado
+        String token = (String) session.getAttribute("jwtToken");
 
         if (token != null && !token.isEmpty()) {
 

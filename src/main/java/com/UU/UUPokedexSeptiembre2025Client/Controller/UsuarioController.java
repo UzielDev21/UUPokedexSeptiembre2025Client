@@ -43,44 +43,43 @@ public class UsuarioController {
     @GetMapping("/registrar")
     public String registroUser(Model model, HttpSession session) {
 
+        //Aqui extraigo el token para el usuario loggeado
         String token = (String) session.getAttribute("jwtToken");
 
-        /*
-        aqui es donde se revisa la autorización del token
-        no se restringe ya que todos tiene acceso a esta vista
-        unicamente el usuario INVITADO, no se le renderizara
-        el DDL en el formulario
-         */
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + token);
-        HttpEntity<?> entity = new HttpEntity<>(headers);
+        //carga el usuario para renderizarlo en el layout
+        String user = (String) session.getAttribute("loggedUsername");
+        model.addAttribute("UsuarioLogueado", user);
 
-        /*
-        aqui se hace la serialización para el consumo de la API
-         */
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Result<Roles>> responseEntityRoles = restTemplate.exchange(
-                urlBase,
-                HttpMethod.GET,
-                entity,
-                new ParameterizedTypeReference<Result<Roles>>() {
-        });
+        if (token != null && !token.isEmpty()) {
 
-        if (responseEntityRoles.getStatusCode().value() == 200) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + token);
+            HttpEntity<?> entity = new HttpEntity<>(headers);
 
-            Result resultRol = responseEntityRoles.getBody();
-            model.addAttribute("Roles", resultRol.objects);
+            RestTemplate restTemplate = new RestTemplate();
 
-            /*
-                * Esta parte es la que renderiza el username del usuario loggeado
-             */
-            String user = (String) session.getAttribute("loggedUsername");
-            model.addAttribute("UsuarioLogueado", user);
+            try {
+                ResponseEntity<Result<Roles>> responseEntityRoles = restTemplate.exchange(
+                        urlBase + "/roles",
+                        HttpMethod.GET,
+                        entity,
+                        new ParameterizedTypeReference<Result<Roles>>() {
+                });
 
-        } else {
-            return "error";
+                if (responseEntityRoles.getStatusCode().value() == 200) {
+
+                    Result resultRol = responseEntityRoles.getBody();
+                    model.addAttribute("Roles", resultRol.objects);
+
+                } else {
+                    return "error";
+                }
+
+            } catch (Exception ex) {
+                System.out.println("Usuario sin authorización" + ex.getLocalizedMessage());
+
+            }
         }
-
         return "registroUser";
     }
 

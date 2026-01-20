@@ -36,7 +36,7 @@
         var(--pgo-light-blue) 0%,
         var(--pgo-blue) 50%,
         var(--pgo-dark) 100%);
-    padding: 20px;
+    padding: 10px;
     position: relative;
     overflow: hidden;
 }
@@ -223,7 +223,7 @@
 .pgo-profile-section {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     border-radius: 20px;
-    padding: 25px;
+    padding: 40px;
     border: 3px solid var(--pgo-light-blue);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
@@ -237,7 +237,7 @@
 .pgo-profile-header {
     text-align: center;
     margin-bottom: 25px;
-    padding-bottom: 15px;
+    padding-bottom: 5px;
     border-bottom: 2px solid var(--pgo-light-blue);
 }
 
@@ -504,7 +504,7 @@
 ========================================================= */
 .pgo-radio-group {
     display: flex;
-    gap: 30px;
+    gap: 15px;
     margin-top: 10px;
 }
 
@@ -522,9 +522,9 @@
 .pgo-radio-label {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 5px;
     cursor: pointer;
-    padding: 12px 20px;
+    padding: 7px;
     background: var(--pgo-light-gray);
     border-radius: 12px;
     transition: all 0.3s ease;
@@ -576,7 +576,7 @@
    SELECT PERSONALIZADO
 ========================================================= */
 .pgo-form-select {
-    width: 100%;
+    width: 125%;
     padding: 5px 14px;
     border: 2px solid #ddd;
     border-radius: 12px;
@@ -605,10 +605,8 @@
 .pgo-action-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: 20px;
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 2px solid var(--pgo-light-gray);
+    gap: 30px;
+    margin-right: 40px;
 }
 
 .pgo-btn-reset {

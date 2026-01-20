@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pokédex Cargando...</title>
+
+        <!-- Tipografía Pokémon -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+
+        <!-- CSS personalizado -->
+        <link rel="stylesheet" href="/css/loading.css">
+    </head>
+    <body>
+        <!-- Efectos de fondo -->
+        <div class="background-effects">
+            <div class="floating-pokeball"></div>
+            <div class="floating-pokeball"></div>
+            <div class="floating-pokeball"></div>
+            <div class="floating-pokeball"></div>
+        </div>
+
+        <div class="pokemon-loading-container">
+            <!-- Logo Pokémon -->
+            <div class="pokemon-logo-container">
+                <div class="pokemon-logo">
+                    <span class="pokemon-text">POKÉMON</span>
+                </div>
+            </div>
+
+            <!-- Pokéball animada -->
+            <div class="pokeball-container">
+                <div class="pokeball">
+                    <div class="pokeball-top"></div>
+                    <div class="pokeball-bottom"></div>
+                    <div class="pokeball-center"></div>
+                </div>
+            </div>
+
+            <!-- Barra de progreso -->
+            <div class="loading-progress-container">
+                <div class="loading-text">
+                    <i class="bi bi-download"></i> <span id="loadingText">Inicializando Pokédex...</span>
+                </div>
+                <div class="loading-message" id="loadingMessage">
+                    Cargando datos de Pokémon...
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="progress-info">
+                    <span id="progressPercent">0%</span>
+                    <span id="progressStatus">Iniciando...</span>
+                </div>
+            </div>
+
+            <!-- Datos de la Pokédex -->
+            <div class="pokedex-data">
+                <div class="data-item">
+                    <div class="data-value" id="pokemonCount">000</div>
+                    <div class="data-label">Pokémon Cargados</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value" id="gymCount">000</div>
+                    <div class="data-label">Gimnasios Activos</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value" id="loadSpeed">0.0s</div>
+                    <div class="data-label">Velocidad de Carga</div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="loading-footer">
+                <p>© 2024 Pokémon. © 1995–2024 Nintendo/Creatures Inc./GAME FREAK inc.</p>
+                <p>¡Prepárate para la aventura!</p>
+            </div>
+        </div>
+
+        <!-- JavaScript -->
+        <script src="/js/loading.js"></script>
+    </body>
+</html>
